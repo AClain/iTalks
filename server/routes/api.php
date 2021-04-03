@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ResourceController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => 'admin'/*, 'middleware' => 'auth:sanctum'*/], function () {
-    // All secure url's
+    // All secure url's | // Routes users (admin)
     Route::get('users', [AdminUserController::class, 'list'])->name('getAllUser');
     Route::post('users', [AdminUserController::class, 'store'])->name('createUser');
     Route::get('user/id/{id}', [AdminUserController::class, 'get'])->name('getUserById');
@@ -25,6 +26,10 @@ Route::group(['prefix' => 'admin'/*, 'middleware' => 'auth:sanctum'*/], function
     Route::post("user/{username}/avatar", [AdminUserController::class, 'updateAvatar'])->name('updateUserAvatar');
     Route::delete("user/{username}", [AdminUserController::class, 'delete'])->name('deleteUser');
     Route::delete("user/{username}/avatar", [AdminUserController::class, 'deleteAvatarOuter'])->name('deleteUserAvatar');
+
+    // Routes Status
+    Route::get('status', [AdminStatusController::class, 'index'])->name('getAllStatus');
+
 });
 
 Route::get('image/placeholder/{image_name}', [ResourceController::class, 'get']);
