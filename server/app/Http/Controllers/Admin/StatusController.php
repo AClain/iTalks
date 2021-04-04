@@ -51,6 +51,20 @@ class StatusController extends Controller
                 'errors' => $validator->errors()
             ], 400);
         }
+
+        $status = new Status();
+        $status->name = \trim(\request('name'));
+        $save = $status->save();
+
+        if ($save) {
+            return \response()->json([
+                'message' => 'Status successfully created!'
+            ], 201);
+        } else {
+            return \response()->json([
+                'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
+            ], 500);
+        }
     }
 //
     /**
