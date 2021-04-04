@@ -147,6 +147,19 @@ class StatusController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $status = Status::where('id', $id)->first();
+
+        $delete = $status->delete();
+
+        if ($delete) {
+            return \response()->json([
+                'message' => 'Status supprimé avec succès!'
+            ], 201);
+        } else {
+            return \response()->json([
+                'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
+            ], 500);
+        }
+
     }
 }
