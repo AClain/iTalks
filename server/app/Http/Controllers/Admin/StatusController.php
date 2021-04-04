@@ -98,7 +98,45 @@ class StatusController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:20'
+        ]);
+
+        if ($validator->fails()) {
+            return \response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $status = Status::find($request->id);
+
+        $customExistsName = Status::where('name', \request('name'))->first();
+
+        if (\request('name') !== $status->name && $customExistsName) {
+            return \response()->json([
+                'errors' => [
+                    'name' => 'La valeur du champ status est déjà utilisée.'
+                ]
+            ], 400);
+        }
+
+        $status->name = \request('name') ? \request('name') : $status->name;
+        $update = $status->save();
+
+        if ($update) {
+            $status->name = Status::find($status->id);
+
+            unset($status->id);
+
+            return \response()->json([
+                'message' => 'Status mis à jour avec succès!',
+                'status' => $status->name
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
+            ], 500);
+        }
     }
 
     /**

@@ -30,6 +30,7 @@ Route::group(['prefix' => 'admin'/*, 'middleware' => 'auth:sanctum'*/], function
     // Routes Status
     Route::get('status', [AdminStatusController::class, 'index'])->name('getAllStatus');
     Route::post('status', [AdminStatusController::class, 'store'])->name('createStatus');
+    Route::put('status/{id}', [AdminStatusController::class, 'update'])->name('updateStatus');
 
 });
 
