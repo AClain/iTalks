@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Exception;
-
-use App\Models\Resource;
-use App\Models\Role;
-use App\Models\Status;
-use App\Models\User;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\Validator;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\Status;
+use App\Models\Resource;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
-
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -95,8 +93,8 @@ class UserController extends Controller
     public function update($username, Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'min:3|max:25',
-            'email' => 'email',
+            'username' => 'nullable|min:3|max:25',
+            'email' => 'nullable|email',
             'role' => 'exists:roles,name',
             'status' => 'exists:statuses,name',
         ]);
@@ -201,6 +199,12 @@ class UserController extends Controller
     public function delete($username)
     {
         $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Utilisateur non trouvé.'
+            ], 404);
+        }
 
         $avatar_delete = $this->deleteAvatarInner($user);
 
