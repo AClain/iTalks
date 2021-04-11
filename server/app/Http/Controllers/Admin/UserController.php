@@ -17,6 +17,12 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    /**
+     * Store a user
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -24,7 +30,7 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'role' => 'required|exists:roles,name',
             'status' => 'required|exists:statuses,name',
-            'password' => 'required|min:3|max:30',
+            'password' => 'required|min:8|max:30',
         ]);
 
         if ($validator->fails()) {
@@ -63,13 +69,18 @@ class UserController extends Controller
             return response()->json([
                 'message' => 'Utilisateur enregistré avec succès!'
             ], 201);
-        } else {
-            return response()->json([
-                'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
-            ], 500);
         }
+
+        return response()->json([
+            'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
+        ], 500);
     }
 
+    /**
+     * List all users
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function list()
     {
         // Pagination
@@ -90,7 +101,14 @@ class UserController extends Controller
         ], 201);
     }
 
-    public function update($username, Request $request)
+    /**
+     * Update the user with the given username
+     *
+     * @param Request $request
+     * @param string $username
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $username)
     {
         $validator = Validator::make($request->all(), [
             'username' => 'nullable|min:3|max:25',
@@ -154,9 +172,15 @@ class UserController extends Controller
         }
     }
 
-    public function get(Request $request, $username)
+    /**
+     * Returns the user with the given id
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function get($id)
     {
-        $user = User::where('username', $username)->first();
+        $user = User::where('username', $id)->first();
 
         if ($user) {
             $user->role = Role::find($user->role_id);
@@ -173,7 +197,13 @@ class UserController extends Controller
         }
     }
 
-    public function getByUsername(Request $request, $username)
+    /**
+     * Returns the user with the given username
+     *
+     * @param string $username
+     * @return \Illuminate\Http\Response
+     */
+    public function getByUsername($username)
     {
         $user = User::where('username', $username)->first();
 
@@ -196,6 +226,12 @@ class UserController extends Controller
         ], 404);
     }
 
+    /**
+     * Delte the user with the given username
+     *
+     * @param string $username
+     * @return \Illuminate\Http\Response
+     */
     public function delete($username)
     {
         $user = User::where('username', $username)->first();
@@ -227,6 +263,13 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Stores the avatar for a given user
+     *
+     * @param [type] $file
+     * @param User $user
+     * @return \Illuminate\Http\Response
+     */
     private function storeAvatar($file, $user)
     {
         $file_extention = $file->getClientOriginalExtension();
@@ -253,6 +296,13 @@ class UserController extends Controller
         $user->save();
     }
 
+    /**
+     * Update the avatar for the user with the given username
+     *
+     * @param Request $request
+     * @param string $username
+     * @return \Illuminate\Http\Response
+     */
     public function updateAvatar(Request $request, $username)
     {
         $user = User::where('username', $username)->first();
@@ -288,6 +338,12 @@ class UserController extends Controller
         ], 500);
     }
 
+    /**
+     * Delete the avatar for the user with the given username
+     *
+     * @param string $username
+     * @return \Illuminate\Http\Response
+     */
     public function deleteAvatarOuter($username)
     {
         $user = User::where('username', $username)->first();
@@ -323,6 +379,12 @@ class UserController extends Controller
         ], 500);
     }
 
+    /**
+     * Delete the avatar file for the given user
+     *
+     * @param User $user
+     * @return boolean
+     */
     private function deleteAvatarInner($user)
     {
         $user_avatar_resource = Resource::where('id', $user->avatar_resource_id)->first();

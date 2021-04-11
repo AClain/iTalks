@@ -178,5 +178,6 @@ return [
         'time'                  => 'heure',
         'available'             => 'disponible',
         'size'                  => 'taille',
+        'idenfier'              => 'identifiant'
     ],
 ];

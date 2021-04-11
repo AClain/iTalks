@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Status;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+
+use App\Models\Status;
 
 class StatusController extends Controller
 {
@@ -129,7 +131,6 @@ class StatusController extends Controller
             'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
         ], 500);
     }
-
 
     /**
      * Remove the specified resource from storage.

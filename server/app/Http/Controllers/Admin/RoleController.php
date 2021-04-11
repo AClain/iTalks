@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+
 use App\Models\Role;
 use App\Models\Status;
-use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {

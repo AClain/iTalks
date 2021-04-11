@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Badge;
+use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
-use App\Models\Resource;
-use App\Models\Status;
 use Illuminate\Support\Facades\Validator;
+
+use App\Models\Badge;
+use App\Models\Status;
+use App\Models\Resource;
 
 class BadgeController extends Controller
 {
