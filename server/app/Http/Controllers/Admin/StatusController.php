@@ -6,6 +6,7 @@ use App\Models\Status;
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class StatusController extends Controller
 {
@@ -41,9 +42,31 @@ class StatusController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:20'
+        ]);
 
+        if ($validator->fails()) {
+            return \response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $status = new Status();
+        $status->name = \trim(\request('name'));
+        $save = $status->save();
+
+        if ($save) {
+            return \response()->json([
+                'message' => 'Status successfully created!'
+            ], 201);
+        } else {
+            return \response()->json([
+                'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
+            ], 500);
+        }
+    }
+//
     /**
      * Display the specified resource.
      *
