@@ -1,0 +1,42 @@
+:root {
+  --info: #5c95ff;
+  --succes: #35ce8d;
+  --waring: #ffcb77;
+  --danger: #c52233;
+
+  --link: #a4ebf3;
+
+  --purple: #6930c3;
+
+  --small-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
+  --medium-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+}
+
+.light {
+  --bg: #f1f1f1;
+  --text: #222831;
+  --title: rgba(0, 0, 0, 0.7);
+  --title-reverse: rgba(255, 255, 255, 0.7);
+  background-color: #f1f1f1;
+  color: #222831;
+
+  transition: all 0.2s ease-in;
+}
+
+.dark {
+  --bg: #222831;
+  --text: #f1f1f1;
+  --title: rgba(255, 255, 255, 0.7);
+  --title-reverse: rgba(0, 0, 0, 0.7);
+  background-color: #222831;
+  color: #f1f1f1;
+
+  transition: all 0.2s ease-in;
+}
+
+html,
+body {
+  height: 100%;
+}

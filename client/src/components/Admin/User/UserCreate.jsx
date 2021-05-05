@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from "react";
-import { GlobalAlertContext } from "../../Global/GlobalAlertContext";
+import { GlobalContext } from "../../../providers/GlobalContext";
 
 import { useHistory } from "react-router-dom";
 
@@ -21,7 +21,7 @@ import UserCreateForm from "./forms/UserCreateForm";
 
 export default function UserCreate() {
   // Context
-  const { alert, setAlert } = useContext(GlobalAlertContext);
+  const { alert, setAlert } = useContext(GlobalContext);
 
   // History
   const history = useHistory();

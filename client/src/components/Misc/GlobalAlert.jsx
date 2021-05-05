@@ -1,13 +1,13 @@
 import { useContext, useEffect } from "react";
-import { GlobalAlertContext } from "../Global/GlobalAlertContext";
+import { GlobalContext } from "../../providers/GlobalContext";
 
 import { Flex } from "@chakra-ui/layout";
 import { Alert, AlertIcon, CloseButton } from "@chakra-ui/react";
 
 import "./styles/global_alert.css";
 
-export default function GlobalAlert(props) {
-  const { alert, setAlert } = useContext(GlobalAlertContext);
+const GlobalAlert = (props) => {
+  const { alert, setAlert } = useContext(GlobalContext);
 
   useEffect(() => {
     let event = setTimeout(() => {
@@ -44,4 +44,6 @@ export default function GlobalAlert(props) {
       </Alert>
     </Flex>
   ) : null;
-}
+};
+
+export default GlobalAlert;

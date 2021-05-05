@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { GlobalAlertContext } from "../../Global/GlobalAlertContext";
+import { GlobalContext } from "../../../providers/GlobalContext";
 import { Helmet } from "react-helmet-async";
 import AdminRequest from "../../../api/AdminRequests";
 
@@ -20,7 +20,7 @@ import CustomModal from "../../Misc/CustomModal";
 
 export default function Users() {
   // Context
-  const { alert, setAlert } = useContext(GlobalAlertContext);
+  const { alert, setAlert } = useContext(GlobalContext);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 

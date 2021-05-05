@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 
-import { GlobalAlertContext } from "../../Global/GlobalAlertContext";
+import { GlobalContext } from "../../../providers/GlobalContext";
 
 import { useParams } from "react-router-dom";
 
@@ -34,7 +34,7 @@ export default function UserEdit() {
   let { username } = useParams();
 
   // Context
-  const { alert, setAlert } = useContext(GlobalAlertContext);
+  const { alert, setAlert } = useContext(GlobalContext);
 
   // States
   const [usesUsername, setUsesUsername] = useState(true);

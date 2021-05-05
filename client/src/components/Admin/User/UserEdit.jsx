@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useContext } from "react";
 
-import { GlobalAlertContext } from "../../Global/GlobalAlertContext";
+import { GlobalContext } from "../../../providers/GlobalContext";
 
 import { useParams, useHistory } from "react-router-dom";
 
@@ -36,7 +36,7 @@ export default function UserEdit() {
   let history = useHistory();
 
   // Context
-  const { alert, setAlert } = useContext(GlobalAlertContext);
+  const { alert, setAlert } = useContext(GlobalContext);
 
   // Refs
   const inputRef = useRef();

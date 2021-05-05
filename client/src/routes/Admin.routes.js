@@ -9,7 +9,7 @@ import User from "../components/Admin/User/User";
 import UserEdit from "../components/Admin/User/UserEdit";
 import NotFoundAdmin from "../components/Admin/NotFoundAdmin";
 
-export default function AdminRoutes() {
+const AdminRoutes = () => {
   let { url } = useRouteMatch();
 
   return (
@@ -36,4 +36,6 @@ export default function AdminRoutes() {
       </Route>
     </Switch>
   );
-}
+};
+
+export default AdminRoutes;

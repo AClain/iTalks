@@ -1,61 +1,29 @@
-import { useState } from "react";
-import { Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Sidebar from "../components/Global/Sidebar";
 
 import Home from "../components/Global/Home";
-import Search from "../components/Search/Search";
-import Notifications from "../components/Notifications/Notifications";
-import Saved from "../components/Saved/Saved";
 
-import Profil from "../components/Profil/Profil";
-import Messages from "../components/Messages/Messages";
-import Settings from "../components/Settings/Settings";
-
-import AdminRoutes from "./AdminRoutes";
 import NotFound from "../components/Misc/NotFound";
-import { GlobalAlertContext } from "../components/Global/GlobalAlertContext";
+
 import GlobalAlert from "../components/Misc/GlobalAlert";
+import SwitchTheme from "../components/Misc/SwitchTheme";
+
+import AdminRoutes from "./Admin.routes";
+import LoggedInRoutes from "./LoggedIn.routes";
+import LoggedOutRoutes from "./LoggedOut.routes";
 
 export default function Routes() {
-  const [alert, setAlert] = useState({
-    message: "Succes!",
-    status: "success",
-    shouldDisplay: false,
-  });
-
   return (
-    <GlobalAlertContext.Provider value={{ alert, setAlert }}>
+    <Router>
       <Switch>
         <Route exact path="/">
           <Sidebar />
           <Home />
         </Route>
-        <Route exact path="/search">
-          <Sidebar />
-          <Search />
-        </Route>
-        <Route exact path="/notifications">
-          <Sidebar />
-          <Notifications />
-        </Route>
-        <Route exact path="/saved">
-          <Sidebar />
-          <Saved />
-        </Route>
 
-        <Route exact path="/profil">
-          <Sidebar />
-          <Profil />
-        </Route>
-        <Route exact path="/messages">
-          <Sidebar />
-          <Messages />
-        </Route>
-        <Route exact path="/settings">
-          <Sidebar />
-          <Settings />
-        </Route>
+        <LoggedOutRoutes />
+        <LoggedInRoutes />
 
         <Route path="/admin">
           <AdminRoutes />
@@ -66,6 +34,7 @@ export default function Routes() {
         </Route>
       </Switch>
       <GlobalAlert />
-    </GlobalAlertContext.Provider>
+      <SwitchTheme />
+    </Router>
   );
 }
