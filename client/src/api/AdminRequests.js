@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class AdminRequest {
-  #base_url = "http://localhost:18080/api/admin";
+  #base_url = "http://localhost:8000/api/admin";
 
   getAllUsers() {
     return new Promise((resolve, reject) => {

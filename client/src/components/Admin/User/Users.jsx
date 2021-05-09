@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet-async";
 import AdminRequest from "../../../api/AdminRequests";
 
 import { Box, Stack, HStack, Flex } from "@chakra-ui/react";
-import { Heading, Text } from "@chakra-ui/layout";
+import { Heading, Text, Badge } from "@chakra-ui/layout";
 import { Select, Button } from "@chakra-ui/react";
 import { Table, Tbody } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/react";
@@ -119,13 +119,14 @@ export default function Users() {
         confirmText="Supprimer"
         confirmColor="red"
       />
-      <Heading as="h2" m="35px 0px">
+      <Heading as="h2" m="35px 0px" color="var(--text)">
         Administration
       </Heading>
       <Box
         width="90%"
-        boxShadow="0px 0px 5px rgba(0, 0, 0, 0.25)"
-        bgColor="rgba(57, 62, 70, 0.5)"
+        boxShadow="var(--medium-box-shadow)"
+        bgColor="var(--bg-no-opacity)"
+        color="var(--text)"
         borderRadius="5px"
         p="15px"
       >
@@ -136,9 +137,9 @@ export default function Users() {
                 Gérer les
               </Text>
               <Select
-                color="#222831"
-                borderColor="main.light"
-                bgColor="main.light"
+                color="var(--text)"
+                borderColor="var(--bg)"
+                bgColor="var(--bg)"
                 defaultChecked="users"
                 w="250px"
               >
@@ -150,10 +151,11 @@ export default function Users() {
             <LinkTo to="/admin/user/create" underline={false}>
               <Button
                 textAlign="right"
-                borderColor="main.purple"
-                color="main.light"
+                borderColor="var(--info)"
+                color="var(--info)"
                 _hover={{
-                  bgColor: "main.purple",
+                  bgColor: "var(--info)",
+                  color: "var(--light)",
                 }}
                 variant="outline"
               >
@@ -163,11 +165,7 @@ export default function Users() {
           </Flex>
         </HStack>
         <Stack overflowX="auto" overflowY="hidden" justifyContent="center">
-          <Table
-            variant="striped"
-            colorScheme="main.purple"
-            bgColor="main.light"
-          >
+          <Table bgColor="var(--bg-no-opacity)">
             <THeadCustom
               titles={[
                 "#",
@@ -196,13 +194,19 @@ export default function Users() {
           {loading ? (
             <Flex justifyContent="center">
               <Spinner
-                color="main.light"
+                color="var(--text)"
                 size="xl"
                 label="Chargement"
                 thickness="5px"
               />
             </Flex>
-          ) : null}
+          ) : users.length > 0 ? null : (
+            <Flex justifyContent="center">
+              <Text fontSize="2xl" fontFamily="Roboto Thin" fontStyle="italic">
+                Aucun utilisateur enregistré.
+              </Text>
+            </Flex>
+          )}
         </Stack>
       </Box>
     </TopContainer>

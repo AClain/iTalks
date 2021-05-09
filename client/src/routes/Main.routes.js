@@ -22,12 +22,12 @@ export default function Routes() {
           <Home />
         </Route>
 
-        <LoggedOutRoutes />
-        <LoggedInRoutes />
-
         <Route path="/admin">
           <AdminRoutes />
         </Route>
+
+        <LoggedOutRoutes />
+        <LoggedInRoutes />
 
         <Route path="*">
           <NotFound />

@@ -287,7 +287,7 @@ export default function UserEdit() {
             Chargement des informations ...
           </Text>
           <Spinner
-            color="main.light"
+            color="var(--text)"
             size="xl"
             label="Chargement"
             thickness="5px"
@@ -330,7 +330,7 @@ export default function UserEdit() {
               />
 
               <Button
-                color="main.light"
+                color="var(--text)"
                 _hover={{
                   backgroundColor: "main.purple",
                   borderColor: "main.purple",

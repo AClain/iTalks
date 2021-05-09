@@ -8,7 +8,7 @@ import LinkTo from "../Misc/LinkTo";
 export default function NotFound() {
   return (
     <Flex
-      color="main.light"
+      color="var(--text)"
       h="100vh"
       alignItems="center"
       justifyContent="center"

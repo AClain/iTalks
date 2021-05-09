@@ -157,10 +157,10 @@ export default function UserCreate() {
             <UserCreateForm errors={errors} register={register} watch={watch} />
 
             <Button
-              color="main.light"
+              color="var(--text)"
               _hover={{
-                backgroundColor: "main.purple",
-                borderColor: "main.purple",
+                backgroundColor: "var(--purple)",
+                borderColor: "var(--purple)",
               }}
               variant="outline"
               type="submit"
@@ -181,7 +181,7 @@ export default function UserCreate() {
               <Flex
                 w="150px"
                 h="150px"
-                bgColor={usesUsername ? "main.purple" : "transparent"}
+                bgColor={usesUsername ? "var(--purple)" : "transparent"}
                 borderRadius="50%"
                 alignItems="center"
                 justifyContent="center"

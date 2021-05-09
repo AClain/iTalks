@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Exception;
-
 use App\Models\Resource;
 use App\Models\Role;
 use App\Models\Status;

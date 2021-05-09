@@ -60,7 +60,7 @@ export default function UserCreateForm(props) {
           <InputGroup>
             <InputLeftAddon
               color="main.dark"
-              borderColor="main.light"
+              borderColor="var(--text)"
               children="@"
             />
             <Input
@@ -170,8 +170,8 @@ export default function UserCreateForm(props) {
           <Select
             size="sm"
             color="#222831"
-            borderColor="main.light"
-            bgColor="main.light"
+            borderColor="var(--text)"
+            bgColor="var(--text)"
             name="role"
             ref={props.register({ required: true })}
             defaultValue="basic"
@@ -197,8 +197,8 @@ export default function UserCreateForm(props) {
           <Select
             size="sm"
             color="#222831"
-            borderColor="main.light"
-            bgColor="main.light"
+            borderColor="var(--text)"
+            bgColor="var(--text)"
             name="status"
             ref={props.register({ required: true })}
             defaultValue="active"

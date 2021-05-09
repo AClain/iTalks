@@ -6,7 +6,7 @@ export default function THeadCustom(props) {
       <Tr>
         {props.titles.map((title, i) => (
           <Th
-            color="main.light"
+            color="var(--text)"
             textAlign="center"
             whiteSpace="nowrap"
             fontSize={15}

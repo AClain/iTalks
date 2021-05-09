@@ -60,7 +60,7 @@ export default function UserEditForm(props) {
           <InputGroup>
             <InputLeftAddon
               color="main.dark"
-              borderColor="main.light"
+              borderColor="var(--text)"
               children="@"
             />
             <Input
@@ -169,8 +169,8 @@ export default function UserEditForm(props) {
           <Select
             size="sm"
             color="#222831"
-            borderColor="main.light"
-            bgColor="main.light"
+            borderColor="var(--text)"
+            bgColor="var(--text)"
             name="role"
             ref={props.register({ required: true })}
             defaultValue={props.user.role ? props.user.role.name : "basic"}
@@ -196,8 +196,8 @@ export default function UserEditForm(props) {
           <Select
             size="sm"
             color="#222831"
-            borderColor="main.light"
-            bgColor="main.light"
+            borderColor="var(--text)"
+            bgColor="var(--text)"
             name="status"
             ref={props.register({ required: true })}
             defaultValue={props.user.status ? props.user.status.name : "active"}

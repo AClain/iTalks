@@ -8,9 +8,10 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Validator;
 
+use App\Models\Role;
 use App\Models\Status;
 
-class StatusController extends Controller
+class RoleController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,31 +20,31 @@ class StatusController extends Controller
      */
     public function index()
     {
-        $statuses = Status::all();
+        $roles = Role::all();
 
         return response()->json([
-            'status' => $statuses,
+            'roles' => $roles,
         ], 201);
     }
 
     /**
-     * Return the status for the given id
+     * Return the role for the given id
      *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function get($id)
     {
-        $status = Status::find($id);
+        $role = Role::find($id);
 
-        if (!$status) {
+        if (!$role) {
             return response()->json([
-                'message' => 'Le statut n\'a pas été trouvé.',
+                'message' => 'Le role n\'a pas été trouvé.',
             ], 404);
         }
 
         return response()->json([
-            'status' => $status,
+            'role' => $role,
         ], 201);
     }
 
@@ -56,7 +57,8 @@ class StatusController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:3|max:20|unique:statuses,name'
+            'name' => 'required|min:3|max:20|unique:roles,name',
+            'status' => 'required|exists:statuses,name',
         ]);
 
         if ($validator->fails()) {
@@ -65,13 +67,17 @@ class StatusController extends Controller
             ], 400);
         }
 
-        $status = new Status();
-        $status->name = trim(request('name'));
-        $save = $status->save();
+        $role = new Role();
+
+        $status = Status::where('name', request('status'))->first();
+
+        $role->name = trim(request('name'));
+        $role->status_id = $status->id;
+        $save = $role->save();
 
         if ($save) {
             return response()->json([
-                'message' => 'Le statut a été créé avec succès!'
+                'message' => 'Le role a été créé avec succès!'
             ], 201);
         }
 
@@ -99,17 +105,17 @@ class StatusController extends Controller
             ], 400);
         }
 
-        $status = Status::find($id);
+        $role = Role::find($id);
 
-        if (!$status) {
+        if (!$role) {
             return response()->json([
-                'message' => 'Le statut n\'a pas été trouvé.',
+                'message' => 'Le role n\'a pas été trouvé.',
             ], 404);
         }
 
-        $customExistsName = Status::where('name', request('name'))->first();
+        $customExistsName = Role::where('name', request('name'))->first();
 
-        if (request('name') !== $status->name && $customExistsName) {
+        if (request('name') !== $role->name && $customExistsName) {
             return response()->json([
                 'errors' => [
                     'name' => 'Ce nom est déjà utilisé.'
@@ -117,13 +123,13 @@ class StatusController extends Controller
             ], 400);
         }
 
-        $status->name = request('name') ?? $status->name;
-        $update = $status->save();
+        $role->name = request('name') ?? $role->name;
+        $update = $role->save();
 
         if ($update) {
             return response()->json([
-                'message' => 'Statut mis à jour avec succès!',
-                'status' => $status
+                'message' => 'Role mis à jour avec succès!',
+                'role' => $role
             ], 201);
         }
 
@@ -140,19 +146,19 @@ class StatusController extends Controller
      */
     public function destroy($id)
     {
-        $status = Status::find($id);
+        $role = Role::find($id);
 
-        if (!$status) {
+        if (!$role) {
             return response()->json([
-                'message' => 'Le statut n\'a pas été trouvé.'
+                'message' => 'Le role n\'a pas été trouvé.'
             ], 404);
         }
 
-        $delete = $status->delete();
+        $delete = $role->delete();
 
         if ($delete) {
             return response()->json([
-                'message' => 'Statut supprimé avec succès!'
+                'message' => 'Role supprimé avec succès!'
             ], 201);
         }
 

@@ -1,8 +1,15 @@
 :root {
   --info: #5c95ff;
-  --succes: #35ce8d;
-  --waring: #ffcb77;
+  --info-focus: #126e82;
+  --success: #35ce8d;
+  --success-focus: #289672;
+  --warning: #e1701a;
+  --warning-focus: #e1701a;
   --danger: #c52233;
+  --danger-focus: #ce1212;
+
+  --light: #f1f1f1;
+  --dark: #222831;
 
   --link: #a4ebf3;
 
@@ -16,6 +23,7 @@
 
 .light {
   --bg: #f1f1f1;
+  --bg-no-opacity: #e8e8e8;
   --text: #222831;
   --title: rgba(0, 0, 0, 0.7);
   --title-reverse: rgba(255, 255, 255, 0.7);
@@ -27,6 +35,7 @@
 
 .dark {
   --bg: #222831;
+  --bg-no-opacity: #393e46;
   --text: #f1f1f1;
   --title: rgba(255, 255, 255, 0.7);
   --title-reverse: rgba(0, 0, 0, 0.7);

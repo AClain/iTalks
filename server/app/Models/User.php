@@ -8,15 +8,20 @@ class User extends Model
 {
     protected $table = "users";
 
-    protected $fillable = ['username, email, password, role_id, avatar_resource_id, status_id'];
+    protected $fillable = ['username', 'email', 'password', 'role_id', 'avatar_resource_id', 'status_id'];
 
     public function role()
     {
-        $this->hasOne(Role::class);
+        return $this->hasOne(Role::class, 'id', 'role_id');
     }
 
     public function status()
     {
-        $this->hasOne(Status::class);
+        return $this->hasOne(Status::class, 'id', 'status_id');
+    }
+
+    public function avatar()
+    {
+        return $this->hasOne(Resource::class, 'id', 'avatar_resource_id');
     }
 }

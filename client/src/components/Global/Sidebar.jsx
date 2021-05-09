@@ -46,7 +46,7 @@ export default function Sidebar(props) {
         />
       </LinkTo>
 
-      <Divider w="50%" borderColor="#F1F1F1" />
+      <Divider w="50%" borderColor="var(--text)" />
 
       <LinkTo to="/">
         <SidebarIcon active={currentPath === "/"} icon={HiOutlineHome} />
@@ -67,7 +67,7 @@ export default function Sidebar(props) {
         <SidebarIcon active={currentPath.includes("saved")} icon={HiBookmark} />
       </LinkTo>
 
-      <Divider w="50%" borderColor="#F1F1F1" />
+      <Divider w="50%" borderColor="var(--text)" />
 
       <LinkTo to="/profil">
         <SidebarIcon
@@ -91,7 +91,7 @@ export default function Sidebar(props) {
         />
       </LinkTo>
 
-      <Divider w="50%" borderColor="#F1F1F1" />
+      <Divider w="50%" borderColor="var(--text)" />
 
       <LinkTo to="/admin/users">
         <SidebarIcon
