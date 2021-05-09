@@ -49,12 +49,11 @@ class UserAuthController extends Controller
         $save = $user->save();
 
         if ($save) {
-            $token = TokenController::generateToken($user);
+            $token = TokenController::generateToken($user, null);
 
             return response()->json([
                 'message' => 'Inscription effectuée avec succès!',
-                'token' => $token->toString()
-            ], 201);
+            ], 201)->cookie('token', $token->toString(), null, null, null, null, true);
         }
 
         return response()->json([
@@ -75,7 +74,7 @@ class UserAuthController extends Controller
             'identifier' => 'required',
             'password' => 'required'
         ], [
-            'type.regex' => 'Le type d\'identification doit être email ou username.'
+            'type.regex' => 'Le type d\'identification doit être "email" ou "username".'
         ]);
 
         if ($validatorFirst->fails()) {
@@ -105,12 +104,11 @@ class UserAuthController extends Controller
         $user = User::where(request('type'), request('identifier'))->first();
 
         if (Hash::check(request('password'), $user->password)) {
-            $token = TokenController::generateToken($user);
+            $token = TokenController::generateToken($user, request('remember_me'));
 
             return response()->json([
                 'message' => 'Connexion effectuée avec succès!',
-                'token' => $token->toString()
-            ], 201);
+            ], 201)->cookie('token', $token->toString(), null, null, null, null, true);
         }
 
         return response()->json([

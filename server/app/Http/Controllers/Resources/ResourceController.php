@@ -9,7 +9,13 @@ use Illuminate\Support\Facades\Response;
 
 class ResourceController extends Controller
 {
-    public function get($image_name)
+    /**
+     * Get the asked image from the local files storage and display it
+     *
+     * @param string $image_name
+     * @return void
+     */
+    public function get(string $image_name)
     {
         $path = public_path('/storage/placeholder/');
 
@@ -28,7 +34,7 @@ class ResourceController extends Controller
         return $response;
     }
 
-    public function getUserAvatar($user_id, $image_name)
+    public function getUserAvatar(int $user_id, string $image_name)
     {
         $path = public_path('/storage/images/users/' . $user_id . '/');
 
@@ -47,7 +53,7 @@ class ResourceController extends Controller
         return $response;
     }
 
-    public function getBadgeResource($badge_id, $image_name)
+    public function getBadgeResource(int $badge_id, string $image_name)
     {
         $path = public_path('/storage/images/badges/' . $badge_id . '/');
 

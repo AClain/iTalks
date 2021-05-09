@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Admin routes
-Route::group(['prefix' => 'admin'/*, 'middleware' => 'auth:sanctum'*/], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'authenticated.admin'], function () {
     Route::get('users', [AdminUserController::class, 'list'])->name('getAllUser');
     Route::post('users', [AdminUserController::class, 'store'])->name('createUser');
     Route::get('user/id/{id}', [AdminUserController::class, 'get'])->name('getUserById');
@@ -47,6 +47,10 @@ Route::group(['prefix' => 'admin'/*, 'middleware' => 'auth:sanctum'*/], function
     Route::get('role/{id}', [AdminRoleController::class, 'get'])->name('getRole');
     Route::put('role/{id}', [AdminRoleController::class, 'update'])->name('updateRole');
     Route::delete('role/{id}', [AdminRoleController::class, 'destroy'])->name('deleteRole');
+});
+
+Route::middleware(['authenticated.user'])->group(function () {
+    Route::get('/', [HomeController::class, 'home'])->name('home');
 });
 
 // Public routes
