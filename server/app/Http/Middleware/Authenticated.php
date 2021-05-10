@@ -13,7 +13,7 @@ use DateTimeImmutable;
 
 use App\Models\User;
 
-class AdminAuthenticate
+class Authenticated
 {
     /**
      * Handle an incoming request.
@@ -27,59 +27,51 @@ class AdminAuthenticate
         // Cookie exists
         $token = $request->cookie('token');
         if (!$token || !TokenController::verifyToken($token)) {
-            return $this->forgetCookie('Invalid session.');
+            return $this->unauthorizedCookie('Session invalide.');
         };
 
         // Cookie is from server and is valid for client
         $claims = TokenController::parseToken($token);
         if ($claims['iss'] !== config('app.url') || $claims['aud'][0] !== config('app.client_url')) {
-            return $this->forgetCookie('Invalid session.');
+            return $this->unauthorizedCookie('Session invalide.');
         }
 
-
-        return response()->json([
-            'claims' => $claims
-        ]);
+        $user = User::where('username', $claims['username'])->first();
 
         // Cookie hasn't expired
-        $now = Carbon::now();
+        $now = Carbon::parse(new DateTimeImmutable());
         $expAt = Carbon::parse($claims['exp']);
-        if ($expAt->isAfter($now)) {
-            return $this->forgetCookie('Session expires.');
+        if ($expAt->isBefore($now)) {
+            return $this->unauthorizedCookie('La session a expirée.');
         }
 
-        // Date -2Hr ?
-        return response()->json([
-            'claims' => $claims
-        ]);
+        // User account active ?
+        if ($user->status() === "supprimé") {
+            return $this->unauthorizedCookie('Ce compte a été supprimé.');
+        }
 
         $response = $next($request);
 
-        $config = TokenController::getConfig();
-        $user = User::where('username', $claims['useranem'])->first();
-
-        $now   = new DateTimeImmutable();
-        $token = $config->builder()
-            ->issuedBy(config('app.url'))
-            ->permittedFor(config('app.client_url'))
-            ->issuedAt($now)
-            ->expiresAt($now->modify('+10 minutes'))
-            ->withClaim('uid', $user->id)
-            ->withClaim('username', $user->username)
-            ->withClaim('role', $user->role->name)
-            ->withClaim('status', $user->status->name)
-            ->getToken($config->signer(), $config->signingKey());
-
+        // Update token
+        if (!$claims['remember_me']) {
+            $token = TokenController::generateToken($user, false);
+        }
         return $response->cookie('token', $token->toString(), null, null, null, null, true);
     }
 
-    private function forgetCookie(string $message)
+    /**
+     * Undocumented function
+     *
+     * @param string $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    private function unauthorizedCookie(string $message)
     {
         Cookie::queue(Cookie::forget('token'));
         $cookie = Cookie::make('token', '');
         return response()->json([
             'message' => $message,
-            'status' => 403
-        ], 403)->withCookie($cookie);
+            'status' => 401
+        ], 401)->withCookie($cookie);
     }
 }

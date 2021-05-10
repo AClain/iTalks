@@ -18,6 +18,8 @@ import THeadCustom from "../../Misc/THeadCustom";
 import TBodyUser from "./TBodyUser";
 import CustomModal from "../../Misc/CustomModal";
 
+const selectableModelNames = ["Utilisateurs", "Statuts", "Roles", "Badges"];
+
 export default function Users() {
   // Context
   const { alert, setAlert } = useContext(GlobalContext);
@@ -143,9 +145,11 @@ export default function Users() {
                 defaultChecked="users"
                 w="250px"
               >
-                <option value="users">Utilisateurs</option>
-                <option value="roles">Roles</option>
-                <option value="statuses">Statuts</option>
+                {selectableModelNames.map((modelName, i) => (
+                  <option style={{ background: "var(--bg)" }} key={i}>
+                    {modelName}
+                  </option>
+                ))}
               </Select>
             </HStack>
             <LinkTo to="/admin/user/create" underline={false}>

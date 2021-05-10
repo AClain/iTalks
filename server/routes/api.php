@@ -1,9 +1,12 @@
 <?php
 
 use App\Http\Controllers\Resources\ResourceController;
+// Admin controllers
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use App\Http\Controllers\Auth\UserAuthController;
+// User controllers
+use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Admin routes
-Route::group(['prefix' => 'admin', 'middleware' => 'authenticated.admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authenticated.admin']], function () {
     Route::get('users', [AdminUserController::class, 'list'])->name('getAllUser');
     Route::post('users', [AdminUserController::class, 'store'])->name('createUser');
     Route::get('user/id/{id}', [AdminUserController::class, 'get'])->name('getUserById');
@@ -49,14 +52,18 @@ Route::group(['prefix' => 'admin', 'middleware' => 'authenticated.admin'], funct
     Route::delete('role/{id}', [AdminRoleController::class, 'destroy'])->name('deleteRole');
 });
 
-Route::middleware(['authenticated.user'])->group(function () {
+// Authenticated routes
+Route::middleware(['authenticated'])->group(function () {
     Route::get('/', [HomeController::class, 'home'])->name('home');
 });
 
-// Public routes
-Route::post('register', [UserAuthController::class, 'register'])->name('register');
-Route::post('login', [UserAuthController::class, 'login'])->name('login');
+// Unauthenticated routes
+Route::middleware(['unauthenticated'])->group(function () {
+    Route::post('register', [UserAuthController::class, 'register'])->name('register');
+    Route::post('login', [UserAuthController::class, 'login'])->name('login');
+});
 
+// Public routes
 Route::get('image/placeholder/{image_name}', [ResourceController::class, 'get']);
 Route::get('image/{user_id}/{image_name}', [ResourceController::class, 'getUserAvatar']);
 Route::get('image/badge/{badge_id}/{image_name}', [ResourceController::class, 'getBadgeResource']);

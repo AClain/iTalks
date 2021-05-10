@@ -21,7 +21,7 @@ class UserAuthController extends Controller
      * Registers and login the user. Returns a JWT token for authorized requests
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function register(Request $request)
     {
@@ -65,10 +65,12 @@ class UserAuthController extends Controller
      * Login the user. Returns a JWT token for authorized requests
      *
      * @param Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
     {
+
+
         $validatorFirst = Validator::make($request->all(), [
             'type' => ['required', 'regex:/(^username$)|(^email$)/'],
             'identifier' => 'required',

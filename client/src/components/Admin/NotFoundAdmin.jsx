@@ -20,16 +20,14 @@ export default function NotFound() {
       <Heading as="h2" fontSize="5xl">
         Resource introuvable
       </Heading>{" "}
-      <LinkTo to="/admin/users">
-        <Button
-          leftIcon={<Icon as={HiShieldExclamation} />}
-          colorScheme="teal"
-          variant="link"
-          mt="50px"
-        >
-          Retour au tableau de bord
-        </Button>
-      </LinkTo>
+      <Button
+        leftIcon={<Icon as={HiShieldExclamation} />}
+        colorScheme="teal"
+        variant="link"
+        mt="50px"
+      >
+        <LinkTo to="/admin/users">Retour au tableau de bord</LinkTo>
+      </Button>
     </Flex>
   );
 }

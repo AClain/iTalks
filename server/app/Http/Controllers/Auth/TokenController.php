@@ -40,8 +40,7 @@ class TokenController extends Controller
     {
         $config = self::getConfig();
 
-        $nowMutable = new DateTime("now", new DateTimeZone('Europe/Paris'));
-        $now = DateTimeImmutable::createFromMutable($nowMutable);
+        $now = new DateTimeImmutable();
         $token = $config->builder()
             ->issuedBy(config('app.url'))
             ->permittedFor(config('app.client_url'))
