@@ -144,6 +144,7 @@ export default function Users() {
                 bgColor="var(--bg)"
                 defaultChecked="users"
                 w="250px"
+                borderRadius="3px 3px 0px 0px"
               >
                 {selectableModelNames.map((modelName, i) => (
                   <option style={{ background: "var(--bg)" }} key={i}>

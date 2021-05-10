@@ -9,8 +9,6 @@ use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\UnencryptedToken;
 
-use DateTime;
-use DateTimeZone;
 use DateTimeImmutable;
 
 class TokenController extends Controller
@@ -88,5 +86,12 @@ class TokenController extends Controller
         assert($token instanceof UnencryptedToken);
 
         return $token->claims()->all();
+    }
+
+    public function isAuthenticated()
+    {
+        return response()->json([
+            'status' => 201
+        ], 201);
     }
 }

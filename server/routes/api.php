@@ -4,6 +4,7 @@ use App\Http\Controllers\Resources\ResourceController;
 // Admin controllers
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\StatusController as AdminStatusController;
+use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
 use App\Http\Controllers\User\HomeController;
@@ -54,6 +55,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
 
 // Authenticated routes
 Route::middleware(['authenticated'])->group(function () {
+    Route::get('/isAuthenticated', [TokenController::class, 'isAuthenticated'])->name('isAuthenticated');
     Route::get('/', [HomeController::class, 'home'])->name('home');
 });
 

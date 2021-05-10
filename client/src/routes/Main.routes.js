@@ -27,49 +27,51 @@ import NotFound from "../components/Misc/NotFound";
 
 import GlobalAlert from "../components/Misc/GlobalAlert";
 import SwitchTheme from "../components/Misc/SwitchTheme";
+import AuthenticatedRoute from "./AuthenticatedRoute";
+import UnauthenticatedRoute from "./UnauthenticatedRoute";
 
 export default function Routes() {
   return (
     <Router>
       <Switch>
         {/* Authenticated routes */}
-        <Route exact path="/">
+        <AuthenticatedRoute exact path="/">
           <Sidebar />
           <Home />
-        </Route>
-        <Route exact path="/search">
+        </AuthenticatedRoute>
+        <AuthenticatedRoute exact path="/search">
           <Sidebar />
           <Search />
-        </Route>
-        <Route exact path="/notifications">
+        </AuthenticatedRoute>
+        <AuthenticatedRoute exact path="/notifications">
           <Sidebar />
           <Notifications />
-        </Route>
-        <Route exact path="/saved">
+        </AuthenticatedRoute>
+        <AuthenticatedRoute exact path="/saved">
           <Sidebar />
           <Saved />
-        </Route>
-        <Route exact path="/profil">
+        </AuthenticatedRoute>
+        <AuthenticatedRoute exact path="/profil">
           <Sidebar />
           <Profil />
-        </Route>
-        <Route exact path="/messages">
+        </AuthenticatedRoute>
+        <AuthenticatedRoute exact path="/messages">
           <Sidebar />
           <Messages />
-        </Route>
-        <Route exact path="/settings">
+        </AuthenticatedRoute>
+        <AuthenticatedRoute exact path="/settings">
           <Sidebar />
           <Settings />
-        </Route>
+        </AuthenticatedRoute>
+        <AuthenticatedRoute exact path="/logout"></AuthenticatedRoute>
 
         {/* Unauthenticated routes */}
-        <Route exact path="/login">
+        <UnauthenticatedRoute exact path="/login">
           <LoginForm />
-        </Route>
-        <Route exact path="/register">
+        </UnauthenticatedRoute>
+        <UnauthenticatedRoute exact path="/register">
           <RegisterForm />
-        </Route>
-        <Route exact path="/logout"></Route>
+        </UnauthenticatedRoute>
 
         {/* Admin routes */}
         <Route path="/admin">
