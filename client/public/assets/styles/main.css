@@ -1,6 +1,6 @@
 :root {
-  --info: #5c95ff;
-  --info-focus: #126e82;
+  --info: #bee3f8;
+  --info-focus: #8bb4cc;
   --success: #35ce8d;
   --success-focus: #289672;
   --warning: #e1701a;
@@ -14,6 +14,7 @@
   --link: #a4ebf3;
 
   --purple: #6930c3;
+  --purple-focus: #4d238e;
 
   --small-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);

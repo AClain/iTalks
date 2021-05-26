@@ -115,7 +115,8 @@ export default function UserCreateForm(props) {
               name="password"
               ref={props.register({
                 required: true,
-                pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$/g,
+                pattern:
+                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,30}$/g,
               })}
             />
           </InputGroup>

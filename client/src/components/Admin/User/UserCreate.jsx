@@ -1,9 +1,8 @@
 import { useState, useRef, useContext } from "react";
-import { GlobalContext } from "../../../providers/GlobalContext";
-
 import { useHistory } from "react-router-dom";
-
 import { useForm } from "react-hook-form";
+
+import { GlobalContext } from "../../../providers/GlobalContext";
 
 import { Helmet } from "react-helmet-async";
 import AdminRequest from "../../../api/AdminRequests";
@@ -61,45 +60,50 @@ export default function UserCreate() {
     reader.readAsDataURL(e.target.files[0]);
   };
 
+  const onSuccess = (message) => {
+    setAlert({
+      ...alert,
+      message: message,
+      status: "success",
+      shouldDisplay: true,
+    });
+    removeImage();
+    formRef.current.reset();
+    setServerErrors([]);
+    return true;
+  };
+
+  const onError = (message) => {
+    setAlert({
+      ...alert,
+      message: message,
+      status: "error",
+      shouldDisplay: true,
+    });
+    return false;
+  };
+
+  const onServerError = (errors) => {
+    setServerErrors(errors);
+    return false;
+  };
+
   const onSubmit = (userData) => {
     setSending(true);
     AdminRequest.create(userData)
       .then((data) => {
         setSending(false);
         if (data.status === 201) {
-          setAlert({
-            ...alert,
-            message: data.data.message,
-            status: "success",
-            shouldDisplay: true,
-          });
-          removeImage();
-          formRef.current.reset();
-          setServerErrors([]);
-          return true;
+          return onSuccess(data.data.message);
         }
-        setAlert({
-          ...alert,
-          message: "500: Erreur serveur. Veuillez réessayer.",
-          status: "error",
-          shouldDisplay: true,
-        });
-        return false;
+        return onError("500: Erreur serveur. Veuillez réessayer.");
       })
       .catch((err) => {
         setSending(false);
-        console.log(err);
         if (err.response && err.response.status === 400) {
-          setServerErrors(err.response.data.errors);
-          return false;
+          return onServerError(err.response.data.errors);
         }
-        setAlert({
-          ...alert,
-          message: "500: Erreur serveur. Veuillez réessayer.",
-          status: "error",
-          shouldDisplay: true,
-        });
-        return false;
+        return onError("500: Erreur serveur. Veuillez réessayer.");
       });
   };
 

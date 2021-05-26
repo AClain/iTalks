@@ -69,8 +69,6 @@ class UserAuthController extends Controller
      */
     public function login(Request $request)
     {
-
-
         $validatorFirst = Validator::make($request->all(), [
             'type' => ['required', 'regex:/(^username$)|(^email$)/'],
             'identifier' => 'required',
@@ -90,10 +88,14 @@ class UserAuthController extends Controller
         if (request('type') === 'username') {
             $validatorSecond = Validator::make($request->all(), [
                 'identifier' => 'exists:users,username',
+            ], [
+                'identifier.exists' => "Mauvais nom d'utilisateur."
             ]);
         } else if (request('type') === 'email') {
             $validatorSecond = Validator::make($request->all(), [
                 'identifier' => 'exists:users,email',
+            ], [
+                'identifier.exists' => "Mauvaise adresse email."
             ]);
         }
 
@@ -110,11 +112,11 @@ class UserAuthController extends Controller
 
             return response()->json([
                 'message' => 'Connexion effectuée avec succès!',
-            ], 201)->cookie('token', $token->toString(), null, null, null, null, true);
+            ], 201)->withCookie('token', $token->toString(), null, null, null, null, true);
         }
 
         return response()->json([
-            'message' => 'Votre mot de passe ne correspond pas.'
+            'errors' => ['password' => 'Votre mot de passe ne correspond pas.']
         ], 400);
     }
 }

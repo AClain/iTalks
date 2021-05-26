@@ -55,12 +55,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
 
 // Authenticated routes
 Route::middleware(['authenticated'])->group(function () {
-    Route::get('/isAuthenticated', [TokenController::class, 'isAuthenticated'])->name('isAuthenticated');
-    Route::get('/', [HomeController::class, 'home'])->name('home');
+    Route::get('/authenticated', [TokenController::class, 'authenticated']);
 });
 
 // Unauthenticated routes
 Route::middleware(['unauthenticated'])->group(function () {
+    Route::get('/unauthenticated', [TokenController::class, 'unauthenticated']);
     Route::post('register', [UserAuthController::class, 'register'])->name('register');
     Route::post('login', [UserAuthController::class, 'login'])->name('login');
 });

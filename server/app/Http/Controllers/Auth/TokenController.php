@@ -88,7 +88,14 @@ class TokenController extends Controller
         return $token->claims()->all();
     }
 
-    public function isAuthenticated()
+    public function authenticated()
+    {
+        return response()->json([
+            'status' => 201
+        ], 201);
+    }
+
+    public function unauthenticated()
     {
         return response()->json([
             'status' => 201
