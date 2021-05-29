@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class AdminRequest {
-	#base_url = process.env.REACT_APP_SERVER_URL;
+	#base_url = process.env.REACT_APP_SERVER_URL + "/api/admin";
 
 	getAllUsers() {
 		return new Promise((resolve, reject) => {

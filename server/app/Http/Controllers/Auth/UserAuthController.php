@@ -53,7 +53,7 @@ class UserAuthController extends Controller
 
             return response()->json([
                 'message' => 'Inscription effectuée avec succès!',
-            ], 201)->cookie('token', $token->toString());
+            ], 201)->cookie('token', $token->toString(), null, null, null, null, false);
         }
 
         return response()->json([
@@ -112,7 +112,7 @@ class UserAuthController extends Controller
 
             return response()->json([
                 'message' => 'Connexion effectuée avec succès!',
-            ], 201)->withCookie('token', $token->toString(), null, null, null, null, true);
+            ], 201)->cookie('token', $token->toString(), null, null, null, null, false);
         }
 
         return response()->json([
