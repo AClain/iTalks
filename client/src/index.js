@@ -8,8 +8,8 @@ import "./assets/styles/fonts.css";
 import "./assets/styles/main.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById("core")
+	<React.StrictMode>
+		<App />
+	</React.StrictMode>,
+	document.getElementById("core")
 );

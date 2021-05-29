@@ -30,82 +30,83 @@ import SwitchTheme from "../components/Misc/SwitchTheme";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
 
-export default function Routes() {
-  return (
-    <Router>
-      <Switch>
-        {/* Authenticated routes */}
-        <AuthenticatedRoute exact path="/">
-          <Sidebar />
-          <Home />
-        </AuthenticatedRoute>
-        <AuthenticatedRoute exact path="/search">
-          <Sidebar />
-          <Search />
-        </AuthenticatedRoute>
-        <AuthenticatedRoute exact path="/notifications">
-          <Sidebar />
-          <Notifications />
-        </AuthenticatedRoute>
-        <AuthenticatedRoute exact path="/saved">
-          <Sidebar />
-          <Saved />
-        </AuthenticatedRoute>
-        <AuthenticatedRoute exact path="/profil">
-          <Sidebar />
-          <Profil />
-        </AuthenticatedRoute>
-        <AuthenticatedRoute exact path="/messages">
-          <Sidebar />
-          <Messages />
-        </AuthenticatedRoute>
-        <AuthenticatedRoute exact path="/settings">
-          <Sidebar />
-          <Settings />
-        </AuthenticatedRoute>
-        <AuthenticatedRoute exact path="/logout"></AuthenticatedRoute>
+const Routes = () => {
+	return (
+		<Router>
+			<Switch>
+				{/* Authenticated routes */}
+				<AuthenticatedRoute exact path='/'>
+					<Sidebar />
+					<Home />
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/search'>
+					<Sidebar />
+					<Search />
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/notifications'>
+					<Sidebar />
+					<Notifications />
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/saved'>
+					<Sidebar />
+					<Saved />
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/profil'>
+					<Sidebar />
+					<Profil />
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/messages'>
+					<Sidebar />
+					<Messages />
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/settings'>
+					<Sidebar />
+					<Settings />
+				</AuthenticatedRoute>
 
-        {/* Unauthenticated routes */}
-        <UnauthenticatedRoute exact path="/login">
-          <LoginForm />
-        </UnauthenticatedRoute>
-        <UnauthenticatedRoute exact path="/register">
-          <RegisterForm />
-        </UnauthenticatedRoute>
+				{/* Unauthenticated routes */}
+				<UnauthenticatedRoute exact path='/login'>
+					<LoginForm />
+				</UnauthenticatedRoute>
+				<UnauthenticatedRoute exact path='/register'>
+					<RegisterForm />
+				</UnauthenticatedRoute>
 
-        {/* Admin routes */}
-        <Route path="/admin">
-          <Switch>
-            <Route exact path="/admin/users">
-              <Sidebar />
-              <Users />
-            </Route>
-            <Route exact path="/admin/user/create">
-              <Sidebar />
-              <UserCreate />
-            </Route>
-            <Route exact path="/admin/user/:username">
-              <Sidebar />
-              <User />
-            </Route>
-            <Route exact path="/admin/user/:username/edit">
-              <Sidebar />
-              <UserEdit />
-            </Route>
+				{/* Admin routes */}
+				<Route path='/admin'>
+					<Switch>
+						<Route exact path='/admin/users'>
+							<Sidebar />
+							<Users />
+						</Route>
+						<Route exact path='/admin/user/create'>
+							<Sidebar />
+							<UserCreate />
+						</Route>
+						<Route exact path='/admin/user/:username'>
+							<Sidebar />
+							<User />
+						</Route>
+						<Route exact path='/admin/user/:username/edit'>
+							<Sidebar />
+							<UserEdit />
+						</Route>
 
-            <Route path="*">
-              <NotFoundAdmin />
-            </Route>
-          </Switch>
-        </Route>
+						<Route path='*'>
+							<NotFoundAdmin />
+						</Route>
+					</Switch>
+				</Route>
 
-        {/* No match */}
-        <Route path="*">
-          <NotFound />
-        </Route>
-      </Switch>
-      <GlobalAlert />
-      <SwitchTheme />
-    </Router>
-  );
-}
+				{/* No match */}
+				<Route path='*'>
+					<NotFound />
+				</Route>
+			</Switch>
+			<GlobalAlert />
+			<SwitchTheme />
+		</Router>
+	);
+};
+
+export default Routes;

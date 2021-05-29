@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 // Component library
 import { Button } from "@chakra-ui/react";
 
@@ -47,6 +49,17 @@ const CustomButton = ({ customType, customSize, children, ...rest }) => {
 			{children}
 		</Button>
 	);
+};
+
+CustomButton.propTypes = {
+	customType: PropTypes.string,
+	customSize: PropTypes.string,
+	children: PropTypes.string,
+};
+
+CustomButton.defaultProps = {
+	customType: "global",
+	customSize: "md",
 };
 
 export default CustomButton;

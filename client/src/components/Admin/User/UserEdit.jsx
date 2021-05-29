@@ -24,7 +24,7 @@ import BackButton from "../../Misc/BackButton";
 import UserEditForm from "./forms/UserEditForm";
 import AvatarPicture from "../../Misc/AvatarPicture";
 
-export default function UserEdit() {
+const UserEdit = () => {
 	// Router params
 	let { username } = useParams();
 	let history = useHistory();
@@ -63,7 +63,7 @@ export default function UserEdit() {
 						shouldDisplay: true,
 					});
 					setUser(data.data.user);
-					setUsesUsername(data.data.user.avatar !== null ? false : true);
+					setUsesUsername(data.data.user.avatar === null);
 					setServerErrors([]);
 					history.replace("/admin/user/" + data.data.user.username + "/edit");
 					username = data.data.user.username;
@@ -113,15 +113,13 @@ export default function UserEdit() {
 		});
 	};
 
-	const onServer400 = (message) => {};
-
 	const loadFile = (e) => {
 		setUsesUsername(false);
 		setNewAvatar(true);
 
 		var reader = new FileReader();
 		reader.onload = function (e) {
-			imageRef.current.style.backgroundImage = 'url("' + e.target.result + '")';
+			imageRef.current.style.backgroundImage = "url('" + e.target.result + "')";
 		};
 		reader.readAsDataURL(e.target.files[0]);
 	};
@@ -232,7 +230,7 @@ export default function UserEdit() {
 	return (
 		<TopContainer alignItems='center'>
 			<Helmet>
-				<title>iTalks - Administration - Mettre à jour l'utilisateur</title>
+				<title>iTalks - Administration - Mettre à jour l&#39;utilisateur</title>
 			</Helmet>
 
 			<CustomModal
@@ -252,7 +250,7 @@ export default function UserEdit() {
 				<BackButton />
 
 				<Heading textAlign='center' as='h2' w='max-content' p='0px 15px'>
-					Mettre à jour l'utilisateur
+					Mettre à jour l&#39;utilisateur
 				</Heading>
 			</HStack>
 
@@ -277,14 +275,13 @@ export default function UserEdit() {
 								<b>*</b>&nbsp;Champ requis
 							</Alert>
 
-							{Object.values(serverErrors).length > 0
-								? Object.values(serverErrors).map((message, i) => (
-										<Alert key={i} status='error' m='10px 0px' color='main.dark'>
-											<AlertIcon />
-											<Text color='red.500'>{message}</Text>
-										</Alert>
-								  ))
-								: null}
+							{Object.values(serverErrors).length > 0 &&
+								Object.values(serverErrors).map((message, i) => (
+									<Alert key={i} status='error' m='10px 0px' color='main.dark'>
+										<AlertIcon />
+										<Text color='red.500'>{message}</Text>
+									</Alert>
+								))}
 
 							<UserEditForm user={user} errors={errors} register={register} watch={watch} />
 
@@ -332,19 +329,19 @@ export default function UserEdit() {
 										}}>
 										Avatar
 									</Button>
-									{!usesUsername && !newAvatar ? (
+									{!usesUsername && !newAvatar && (
 										<IconButton variant='solid' colorScheme='red' onClick={onOpen} icon={<Icon as={HiOutlineX} />} />
-									) : null}
-									{newAvatar && !usesUsername ? (
+									)}
+									{newAvatar && !usesUsername && (
 										<Button
 											leftIcon={<Icon as={HiOutlineSave} />}
 											variant='solid'
 											colorScheme='green'
 											onClick={updateAvatar}
 											isLoading={sending}>
-											Mettre à jour l'avatar
+											Mettre à jour l&#39;avatar
 										</Button>
-									) : null}
+									)}
 								</HStack>
 							</Flex>
 						</Box>
@@ -357,4 +354,6 @@ export default function UserEdit() {
 			)}
 		</TopContainer>
 	);
-}
+};
+
+export default UserEdit;

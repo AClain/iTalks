@@ -53,7 +53,7 @@ class UserAuthController extends Controller
 
             return response()->json([
                 'message' => 'Inscription effectuée avec succès!',
-            ], 201)->cookie('token', $token->toString(), null, null, null, null, true);
+            ], 201)->cookie('token', $token->toString());
         }
 
         return response()->json([

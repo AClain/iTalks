@@ -1,7 +1,9 @@
 import axios from "axios";
-
+import Cookies from "js-cookie";
+import verify from "jose/jwt/verify";
 class Auth {
 	#base_url = process.env.REACT_APP_SERVER_URL + "/api";
+	#token = Cookies.get("token");
 
 	login(userData) {
 		return new Promise((resolve, reject) => {
@@ -20,17 +22,31 @@ class Auth {
 		});
 	}
 
-	register(ids) {}
+	// register(ids) {}
 
-	logout() {}
+	// logout() {}
 
-	isAuthenticated() {
-		return new Promise((resolve, reject) => {
-			axios
-				.get(this.#base_url + "/isAuthenticated")
-				.then((data) => resolve(data))
-				.catch((err) => reject(err));
+	async isAuthenticated() {
+		console.log(this.#token);
+
+		if (!this.#token) {
+			return false;
+		}
+
+		const publicKey = process.env.REACT_APP_CLIENT_SECRET;
+		const { payload, protectedHeader } = await jwtVerify(this.#token, publicKey, {
+			issuer: process.env.REACT_APP_SERVER_URL,
 		});
+
+		console.log(payload, protectedHeader);
+
+		return true;
+		// return new Promise((resolve, reject) => {
+		// 	axios
+		// 		.get(this.#base_url + "/isAuthenticated")
+		// 		.then((data) => resolve(data))
+		// 		.catch((err) => reject(err));
+		// });
 	}
 }
 

@@ -1,45 +1,75 @@
+import PropTypes from "prop-types";
+
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
+	Modal,
+	ModalOverlay,
+	ModalContent,
+	ModalHeader,
+	ModalFooter,
+	ModalBody,
+	ModalCloseButton,
 } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 
-export default function CustomModal(props) {
-  return (
-    <Modal isOpen={props.isOpen} onClose={props.onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>{props.headerText}</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody>{props.bodyText}</ModalBody>
+const CustomModal = ({
+	isOpen,
+	onClose,
+	headerText,
+	bodyText,
+	closeText,
+	sending,
+	confirmColor,
+	onConfirmClick,
+	confirmText,
+}) => {
+	return (
+		<Modal isOpen={isOpen} onClose={onClose}>
+			<ModalOverlay />
+			<ModalContent>
+				<ModalHeader>{headerText}</ModalHeader>
+				<ModalCloseButton />
+				<ModalBody>{bodyText}</ModalBody>
 
-        <ModalFooter>
-          <Button
-            borderColor="main.purple"
-            color="main.purple"
-            _hover={{
-              bgColor: "rgba(105, 48, 195, 0.2)",
-            }}
-            variant="ghost"
-            onClick={props.onClose}
-          >
-            {props.closeText}
-          </Button>
-          <Button
-            isLoading={props.sending}
-            variant="ghost"
-            colorScheme={props.confirmColor}
-            onClick={props.onConfirmClick}
-          >
-            {props.confirmText}
-          </Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
-}
+				<ModalFooter>
+					<Button
+						borderColor='main.purple'
+						color='main.purple'
+						_hover={{
+							bgColor: "rgba(105, 48, 195, 0.2)",
+						}}
+						variant='ghost'
+						onClick={onClose}>
+						{closeText}
+					</Button>
+					<Button isLoading={sending} variant='ghost' colorScheme={confirmColor} onClick={onConfirmClick}>
+						{confirmText}
+					</Button>
+				</ModalFooter>
+			</ModalContent>
+		</Modal>
+	);
+};
+
+CustomModal.propTypes = {
+	isOpen: PropTypes.func.isRequired,
+	onClose: PropTypes.func,
+	headerText: PropTypes.string,
+	bodyText: PropTypes.string,
+	closeText: PropTypes.string,
+	sending: PropTypes.bool,
+	confirmColor: PropTypes.string,
+	onConfirmClick: PropTypes.string,
+	confirmText: PropTypes.string,
+};
+
+CustomModal.defaultProps = {
+	isOpen: false,
+	headerText: "Header",
+	bodyText: "Body",
+	closeText: "Fermer",
+	sending: false,
+	confirmColor: "green",
+	confirmText: "Confirmer",
+};
+
+export default CustomModal;

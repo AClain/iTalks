@@ -100,14 +100,13 @@ const LoginForm = () => {
 			</Flex>
 			<form style={{ width: "50%" }} onSubmit={handleSubmit(onSubmit)} ref={formRef}>
 				<Stack w='100%' alignItems='center' justifyContent='center' bg='transparent' p='0px 15px' m='none'>
-					{Object.values(serverErrors).length > 0
-						? Object.values(serverErrors).map((message, i) => (
-								<Alert key={i} status='error' m='10px 0px' color='main.dark'>
-									<AlertIcon />
-									<Text color='red.500'>{message}</Text>
-								</Alert>
-						  ))
-						: null}
+					{Object.values(serverErrors).length > 0 &&
+						Object.values(serverErrors).map((message, i) => (
+							<Alert key={i} status='error' m='10px 0px' color='main.dark'>
+								<AlertIcon />
+								<Text color='red.500'>{message}</Text>
+							</Alert>
+						))}
 
 					<input type='hidden' name='type' ref={register} value={usingEmail ? "email" : "username"} />
 					<FormControl isRequired mb='25px' minW='350px' maxW='600px'>
@@ -132,7 +131,7 @@ const LoginForm = () => {
 								size='sm'
 								defaultChecked='true'
 							/>
-							<Text>Utiliser mon nom d'utilisateur</Text>
+							<Text>Utiliser mon nom d&#39;utilisateur</Text>
 						</HStack>
 						{errors.email && errors.email.type === "required" && (
 							<FormHelperText>
@@ -155,18 +154,16 @@ const LoginForm = () => {
 								ref={register({ required: true })}
 								isInvalid={serverErrors["password"] !== undefined}
 							/>
-							<InputRightElement
-								children={
-									<Icon
-										as={showPassword ? HiEye : HiEyeOff}
-										color='var(--text)'
-										onClick={() => {
-											setShowPassword(!showPassword);
-										}}
-										_hover={{ cursor: "pointer" }}
-									/>
-								}
-							/>
+							<InputRightElement>
+								<Icon
+									as={showPassword ? HiEye : HiEyeOff}
+									color='var(--text)'
+									onClick={() => {
+										setShowPassword(!showPassword);
+									}}
+									_hover={{ cursor: "pointer" }}
+								/>
+							</InputRightElement>
 						</InputGroup>
 						{errors.password && errors.password.type === "required" && (
 							<FormHelperText>

@@ -44,7 +44,7 @@ class TokenController extends Controller
             ->permittedFor(config('app.client_url'))
             // ->identifiedBy('4f1g23a12aa')
             ->issuedAt($now)
-            ->expiresAt($now->modify('+10 minutes'))
+            ->expiresAt($now->modify('+1 hour'))
             ->withClaim('uid', $user->id)
             ->withClaim('username', $user->username)
             ->withClaim('role', $user->role->name)

@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 // React libraries
 import { useEffect, useState, useContext } from "react";
 import { Route, useHistory, useLocation } from "react-router-dom";
@@ -7,7 +9,7 @@ import { GlobalContext } from "../providers/GlobalContext";
 
 import axios from "axios";
 
-const AuthenticatedRoute = (props, { ...rest }) => {
+const AuthenticatedRoute = ({ children, ...rest }) => {
 	// Context
 	const { alert, setAlert } = useContext(GlobalContext);
 
@@ -60,7 +62,11 @@ const AuthenticatedRoute = (props, { ...rest }) => {
 			});
 	}, [location]);
 
-	return loading ? null : <Route {...rest}>{props.children}</Route>;
+	return !loading && <Route {...rest}>{children}</Route>;
+};
+
+AuthenticatedRoute.propTypes = {
+	children: PropTypes.oneOfType([PropTypes.array, PropTypes.element]).isRequired,
 };
 
 export default AuthenticatedRoute;

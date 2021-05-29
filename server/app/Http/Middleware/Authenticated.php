@@ -56,7 +56,7 @@ class Authenticated
         if (!$claims['remember_me']) {
             $token = TokenController::generateToken($user, false);
         }
-        return $response->cookie('token', $token->toString(), null, null, null, null, true);
+        return $response->cookie('token', $token->toString());
     }
 
     /**

@@ -20,7 +20,7 @@ import CustomModal from "../../Misc/CustomModal";
 
 const selectableModelNames = ["Utilisateurs", "Statuts", "Roles", "Badges"];
 
-export default function Users() {
+const Users = () => {
 	// Context
 	const { alert, setAlert } = useContext(GlobalContext);
 
@@ -159,7 +159,7 @@ export default function Users() {
 				<Stack overflowX='auto' overflowY='hidden' justifyContent='center'>
 					<Table bgColor='var(--bg-no-opacity)'>
 						<THeadCustom titles={["#", "statut", "role", "@", "email", "date de création", "avatar", "actions"]} />
-						{loading ? null : (
+						{!loading && (
 							<Tbody>
 								{users.map((user, i) => (
 									<TBodyUser user={user} onOpen={onOpen} setUserToDelete={setUserToDelete} key={i} />
@@ -171,15 +171,19 @@ export default function Users() {
 						<Flex justifyContent='center'>
 							<Spinner color='var(--text)' size='xl' label='Chargement' thickness='5px' />
 						</Flex>
-					) : users.length > 0 ? null : (
-						<Flex justifyContent='center'>
-							<Text fontSize='2xl' fontFamily='Roboto Thin' fontStyle='italic'>
-								Aucun utilisateur enregistré.
-							</Text>
-						</Flex>
+					) : (
+						users.length === 0 && (
+							<Flex justifyContent='center'>
+								<Text fontSize='2xl' fontFamily='Roboto Thin' fontStyle='italic'>
+									Aucun utilisateur enregistré.
+								</Text>
+							</Flex>
+						)
 					)}
 				</Stack>
 			</Box>
 		</TopContainer>
 	);
-}
+};
+
+export default Users;
