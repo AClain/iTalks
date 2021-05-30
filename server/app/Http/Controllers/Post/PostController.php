@@ -22,7 +22,7 @@ class PostController extends Controller
         $posts = Post::all();
 
         return response()->json([
-            'status' => $posts,
+            'posts' => $posts,
         ], 201);
     }
 
