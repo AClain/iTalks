@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\Post\PostController;
 // User controllers
 use App\Http\Controllers\User\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -56,6 +57,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
 // Authenticated routes
 Route::middleware(['authenticated'])->group(function () {
     Route::get('/authenticated', [TokenController::class, 'authenticated']);
+    Route::get('/post/{id}', [PostController::class, 'get'])->name('getPost');
 });
 
 // Unauthenticated routes
