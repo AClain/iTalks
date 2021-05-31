@@ -16,6 +16,7 @@
     "framer-motion": "^3.3.0",
     "jose": "^3.12.2",
     "js-cookie": "^2.2.1",
+    "jwt-decode": "^3.1.2",
     "moment": "^2.29.1",
     "prettier": "^2.3.0",
     "prop-types": "^15.7.2",

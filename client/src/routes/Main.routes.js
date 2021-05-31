@@ -29,6 +29,7 @@ import GlobalAlert from "../components/Misc/GlobalAlert";
 import SwitchTheme from "../components/Misc/SwitchTheme";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
+import AdminAuthenticatedRoute from "./AdminAuthenticatedRoute";
 
 const Routes = () => {
 	return (
@@ -75,26 +76,26 @@ const Routes = () => {
 				{/* Admin routes */}
 				<Route path='/admin'>
 					<Switch>
-						<Route exact path='/admin/users'>
+						<AdminAuthenticatedRoute exact path='/admin/users'>
 							<Sidebar />
 							<Users />
-						</Route>
-						<Route exact path='/admin/user/create'>
+						</AdminAuthenticatedRoute>
+						<AdminAuthenticatedRoute exact path='/admin/user/create'>
 							<Sidebar />
 							<UserCreate />
-						</Route>
-						<Route exact path='/admin/user/:username'>
+						</AdminAuthenticatedRoute>
+						<AdminAuthenticatedRoute exact path='/admin/user/:username'>
 							<Sidebar />
 							<User />
-						</Route>
-						<Route exact path='/admin/user/:username/edit'>
+						</AdminAuthenticatedRoute>
+						<AdminAuthenticatedRoute exact path='/admin/user/:username/edit'>
 							<Sidebar />
 							<UserEdit />
-						</Route>
+						</AdminAuthenticatedRoute>
 
-						<Route path='*'>
+						<AdminAuthenticatedRoute path='*'>
 							<NotFoundAdmin />
-						</Route>
+						</AdminAuthenticatedRoute>
 					</Switch>
 				</Route>
 

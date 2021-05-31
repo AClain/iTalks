@@ -18,6 +18,7 @@ import {
 import LinkTo from "../Misc/LinkTo";
 import IconWithBadge from "../Misc/IconWithBadge";
 import SidebarIcon from "../Misc/SidebarIcon";
+import Auth from "../../api/Auth";
 
 const Sidebar = () => {
 	let location = useLocation();
@@ -72,11 +73,15 @@ const Sidebar = () => {
 				<SidebarIcon active={currentPath.includes("settings")} icon={HiAdjustments} />
 			</LinkTo>
 
-			<Divider w='50%' borderColor='var(--text)' />
+			{Auth.isAdmin() && (
+				<>
+					<Divider w='50%' borderColor='var(--text)' />
 
-			<LinkTo to='/admin/users'>
-				<SidebarIcon active={currentPath.includes("admin")} icon={HiOutlineShieldExclamation} />
-			</LinkTo>
+					<LinkTo to='/admin/users'>
+						<SidebarIcon active={currentPath.includes("admin")} icon={HiOutlineShieldExclamation} />
+					</LinkTo>
+				</>
+			)}
 		</Stack>
 	);
 };

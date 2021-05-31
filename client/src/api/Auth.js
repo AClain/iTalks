@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import jwt_decode from "jwt-decode";
 class Auth {
 	#base_url = process.env.REACT_APP_SERVER_URL + "/api";
 	#token = Cookies.get("token");
@@ -24,8 +25,6 @@ class Auth {
 	// logout() {}
 
 	isAuthenticated() {
-		console.log(this.#token);
-
 		if (!this.#token) {
 			return false;
 		}
@@ -34,12 +33,21 @@ class Auth {
 	}
 
 	isUnauthenticated() {
-		console.log(this.#token);
-
 		if (this.#token) {
 			return false;
 		}
 
+		return true;
+	}
+
+	decodeToken() {
+		var decoded = jwt_decode(this.#token);
+
+		return decoded;
+	}
+
+	isAdmin() {
+		if (this.decodeToken().role !== "admin") return false;
 		return true;
 	}
 }
