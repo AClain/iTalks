@@ -83,7 +83,7 @@ class BadgeController extends Controller
 
         $badge = new Badge();
 
-        $status = Status::where('name', request('name'))->first();
+        $status = Status::where('name', request('status'))->first();
 
         $badge->name = trim(request('name'));
         $badge->description = trim(request('description'));
