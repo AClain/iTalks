@@ -27,7 +27,7 @@ const ActionButton = ({ color, title, icon, hoverBgColor, onClick, linkExternal,
 ActionButton.propTypes = {
 	color: PropTypes.string,
 	title: PropTypes.string,
-	icon: PropTypes.element,
+	icon: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 	tooltip: PropTypes.string,
 	hoverBgColor: PropTypes.string,
 	onClick: PropTypes.func,

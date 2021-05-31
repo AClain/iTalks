@@ -21,7 +21,7 @@ const SidebarIcon = ({ active, icon }) => {
 
 SidebarIcon.propTypes = {
 	active: PropTypes.bool,
-	icon: PropTypes.element.isRequired,
+	icon: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
 };
 
 SidebarIcon.defaultProps = {

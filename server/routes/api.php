@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserBadgeController as AdminUserBadgeController;
 use App\Http\Controllers\Admin\RoleController as AdminRoleController;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
+use App\Http\Controllers\Post\PostController;
 // User controllers
 use Illuminate\Support\Facades\Route;
 
@@ -60,6 +61,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
 // Authenticated routes
 Route::middleware(['authenticated'])->group(function () {
     Route::get('/authenticated', [TokenController::class, 'authenticated']);
+    Route::get('/post/{id}', [PostController::class, 'get'])->name('getPost');
 });
 
 // Unauthenticated routes

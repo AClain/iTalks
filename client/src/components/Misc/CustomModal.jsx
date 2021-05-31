@@ -51,14 +51,14 @@ const CustomModal = ({
 };
 
 CustomModal.propTypes = {
-	isOpen: PropTypes.func.isRequired,
+	isOpen: PropTypes.bool.isRequired,
 	onClose: PropTypes.func,
 	headerText: PropTypes.string,
 	bodyText: PropTypes.string,
 	closeText: PropTypes.string,
 	sending: PropTypes.bool,
 	confirmColor: PropTypes.string,
-	onConfirmClick: PropTypes.string,
+	onConfirmClick: PropTypes.func,
 	confirmText: PropTypes.string,
 };
 
