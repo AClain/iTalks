@@ -22,7 +22,7 @@ class PostController extends Controller
         $posts = Post::all();
 
         return response()->json([
-            'status' => $posts,
+            'posts' => $posts,
         ], 201);
     }
 
@@ -46,5 +46,40 @@ class PostController extends Controller
             'post' => $post,
         ], 201);
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:20',
+            'text' => 'required|max:500|'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $post = new Post();
+        $post->title = trim(request('title'));
+        $save = $post->save();
+
+        if ($save) {
+            return response()->json([
+                'message' => 'Le statut a été créé avec succès!'
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
+        ], 500);
+    }
+
 
 }
