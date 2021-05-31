@@ -13,17 +13,17 @@ class UserBadge extends Model
 
     protected $fillable = ['user_id', 'badge_id', 'status_id'];
 
-    public function user_id(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function user()
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
 
-    public function badge_id(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function badge()
     {
         return $this->hasOne(Badge::class, 'id', 'badge_id');
     }
 
-    public function status_id(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function status_id()
     {
         return $this->hasOne(Status::class, 'id', 'status_id');
     }

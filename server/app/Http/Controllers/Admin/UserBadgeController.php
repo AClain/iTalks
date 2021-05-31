@@ -12,7 +12,8 @@ use Illuminate\Support\Facades\Validator;
 
 class UserBadgeController extends Controller
 {
-    public function store($user_id, Request $request) {
+    public function store($user_id, Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             "badge" => 'required|exists:badges,name',

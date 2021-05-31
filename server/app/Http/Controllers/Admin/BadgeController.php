@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
-use App\Models\UserBadge;
+use App\Models\Badge;
 use App\Models\Status;
 use App\Models\Resource;
 
@@ -22,7 +22,7 @@ class BadgeController extends Controller
      */
     public function index()
     {
-        $badges = UserBadge::all();
+        $badges = Badge::all();
 
         return response()->json([
             'badges' => $badges,
@@ -37,7 +37,7 @@ class BadgeController extends Controller
      */
     public function get($id)
     {
-        $badge = UserBadge::find($id);
+        $badge = Badge::find($id);
 
         if (!$badge) {
             return response()->json([
@@ -81,7 +81,7 @@ class BadgeController extends Controller
             }
         }
 
-        $badge = new UserBadge();
+        $badge = new Badge();
 
         $status = Status::where('name', request('status'))->first();
 
@@ -126,7 +126,7 @@ class BadgeController extends Controller
             ], 400);
         }
 
-        $badge = UserBadge::find($id);
+        $badge = Badge::find($id);
 
         if (!$badge) {
             return response()->json([
@@ -134,7 +134,7 @@ class BadgeController extends Controller
             ], 404);
         }
 
-        $customExistsName = UserBadge::where('name', request('name'))->first();
+        $customExistsName = Badge::where('name', request('name'))->first();
 
         if (request('name') !== $badge->name && $customExistsName) {
             return response()->json([
@@ -170,7 +170,7 @@ class BadgeController extends Controller
      */
     public function destroy($id)
     {
-        $badge = UserBadge::find($id);
+        $badge = Badge::find($id);
 
         if (!$badge) {
             return response()->json([
@@ -201,7 +201,7 @@ class BadgeController extends Controller
 
     public function updateImage(Request $request, $id)
     {
-        $badge = UserBadge::find($id);
+        $badge = Badge::find($id);
 
 
         if ($badge && $request->hasFile('image')) {
@@ -237,7 +237,7 @@ class BadgeController extends Controller
 
     public function deleteImageOuter($id)
     {
-        $badge = UserBadge::find($id);
+        $badge = Badge::find($id);
         $badge_image_resource = Resource::find($badge->image_resource_id);
 
         if (File::exists(public_path('/storage/images/badges/' . $badge->id . '/' . $badge_image_resource->name)) && $badge_image_resource) {
@@ -279,7 +279,7 @@ class BadgeController extends Controller
     {
         $file_extention = $file->getClientOriginalExtension();
         $filename = 'image.' . $file_extention;
-        $badge =  UserBadge::find($badge->id);
+        $badge =  Badge::find($badge->id);
 
         $base_path = public_path('/storage/images/badges/');
 
