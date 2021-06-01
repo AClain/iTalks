@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import { IconButton, Icon, Tooltip } from "@chakra-ui/react";
-import LinkTo from "./LinkTo";
+import LinkTo from "../LinkTo";
 
 const ActionButton = ({ color, title, icon, hoverBgColor, onClick, linkExternal, link, tooltip }) => {
 	return (

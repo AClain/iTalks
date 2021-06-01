@@ -1,38 +1,48 @@
 :root {
+	$lighten_percentage: 5%;
+
 	--info: #5c6bc0;
-	--info-focus: #6e7cc7;
+	--info-focus: #{lighten(#5c6bc0, $lighten_percentage)};
 	--success: #43a047;
-	--success-focus: #4bb24f;
+	--success-focus: #{lighten(#43a047, $lighten_percentage)};
 	--warning: #ff7043;
-	--warning-focus: #ff835d;
+	--warning-focus: #{lighten(#ff7043, $lighten_percentage)};
 	--danger: #e53935;
-	--danger-focus: #e84f4c;
+	--danger-focus: #{lighten(#e53935, $lighten_percentage)};
+
 	--light: #f1f1f1;
 	--dark: #222831;
+
 	--link: #a4ebf3;
+
 	--purple: #6930c3;
 	--purple-focus: #4d238e;
+
 	--small-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 	--medium-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
 .light {
 	--bg: #f1f1f1;
-	--bg-no-opacity: rgba(57, 62, 70);
+	--bg-no-opacity: #e8e8e8;
 	--text: #222831;
-	--text-reverse: rgba(255, 255, 255, 0.7);
+	--title: rgba(0, 0, 0, 0.7);
+	--title-reverse: rgba(255, 255, 255, 0.7);
 	background-color: #f1f1f1;
 	color: #222831;
+
 	transition: all 0.2s ease-in;
 }
 
 .dark {
 	--bg: #222831;
-	--bg-no-opacity: rgba(57, 62, 70, 0.5);
+	--bg-no-opacity: #393e46;
 	--text: #f1f1f1;
-	--text-reverse: rgba(0, 0, 0, 0.7);
+	--title: rgba(255, 255, 255, 0.7);
+	--title-reverse: rgba(0, 0, 0, 0.7);
 	background-color: #222831;
 	color: #f1f1f1;
+
 	transition: all 0.2s ease-in;
 }
 
@@ -40,5 +50,3 @@ html,
 body {
 	height: 100%;
 }
-
-/*# sourceMappingURL=main.css.map */

@@ -19,7 +19,7 @@ const GlobalAlert = () => {
 				className={alert.shouldDisplay ? "alert-show" : "alert-hidden"}
 				w='100%'
 				color='var(--bg)'>
-				<Alert id='global-alert' status={alert.status} w='max-content' variant='left-accent'>
+				<Alert id='global-alert' status={alert.status} w='max-content' variant='left-accent' color='var(--dark)'>
 					<AlertIcon />
 					{alert.message}
 					<CloseButton

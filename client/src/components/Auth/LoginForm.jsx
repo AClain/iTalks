@@ -13,7 +13,7 @@ import { Image, Text } from "@chakra-ui/react";
 import { Stack, HStack, Flex } from "@chakra-ui/react";
 
 // Custom element
-import CustomButton from "../Misc/CustomButton";
+import CustomButton from "../Misc/Buttons/CustomButton";
 
 // Icons & images
 import { HiEye, HiEyeOff } from "react-icons/hi";

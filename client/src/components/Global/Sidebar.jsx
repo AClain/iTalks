@@ -35,6 +35,7 @@ const Sidebar = () => {
 			minH='500px'
 			overflowY='auto'
 			align='center'
+			boxShadow='var(--medium-box-shadow)'
 			spacing={8}>
 			<LinkTo style={{ textAlign: "center" }} to='/'>
 				<Image display='initial' w='50%' src='/assets/images/italks-logo-transparent.png' alt='Logo' />

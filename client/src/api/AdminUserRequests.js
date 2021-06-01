@@ -1,6 +1,6 @@
 import axios from "axios";
 
-class AdminRequest {
+class AdminUserRequest {
 	#base_url = process.env.REACT_APP_SERVER_URL + "/api/admin";
 
 	getAllUsers() {
@@ -112,4 +112,4 @@ class AdminRequest {
 	}
 }
 
-export default new AdminRequest();
+export default new AdminUserRequest();

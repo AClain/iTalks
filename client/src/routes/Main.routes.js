@@ -7,6 +7,9 @@ import Users from "../components/Admin/User/Users";
 import UserCreate from "../components/Admin/User/UserCreate";
 import User from "../components/Admin/User/User";
 import UserEdit from "../components/Admin/User/UserEdit";
+import Statuses from "../components/Admin/Status/Statuses";
+
+// Not found admin
 import NotFoundAdmin from "../components/Admin/NotFoundAdmin";
 
 // Unauthenticated routes
@@ -25,7 +28,7 @@ import Settings from "../components/Settings/Settings";
 // Not found
 import NotFound from "../components/Misc/NotFound";
 
-import GlobalAlert from "../components/Misc/GlobalAlert";
+import GlobalAlert from "../components/Global/GlobalAlert";
 import SwitchTheme from "../components/Misc/SwitchTheme";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
@@ -91,6 +94,11 @@ const Routes = () => {
 						<AdminAuthenticatedRoute exact path='/admin/user/:username/edit'>
 							<Sidebar />
 							<UserEdit />
+						</AdminAuthenticatedRoute>
+
+						<AdminAuthenticatedRoute exact path='/admin/statuses'>
+							<Sidebar />
+							<Statuses />
 						</AdminAuthenticatedRoute>
 
 						<AdminAuthenticatedRoute path='*'>
