@@ -49,6 +49,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
     Route::delete('badge/{id}', [AdminBadgeController::class, 'destroy'])->name('deleteBadge');
     Route::delete("badge/{id}/image", [AdminBadgeController::class, 'deleteImageOuter'])->name('deleteBadgeImage');
 
+    Route::get('badges/link/{user_id}', [AdminUserBadgeController::class, 'store'])->name('linkBadgesUser');
     Route::post('badges/link/{user_id}', [AdminUserBadgeController::class, 'store'])->name('linkBadgesUser');
 
     Route::get('roles', [AdminRoleController::class, 'index'])->name('getAllRole');
