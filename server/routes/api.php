@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
-use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Post\PostController;
 
 /*
