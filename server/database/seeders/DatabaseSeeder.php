@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             PostSeeder::class,
-            PostSavedSeeder::class
-        ]);
+            PostSavedSeeder::class,
+            CategorySeeder::class,
+            ]);
     }
 }

@@ -1,15 +1,15 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Resources\ResourceController;
 // Admin controllers
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
-use App\Http\Controllers\Post\PostController;
 // User controllers
 use App\Http\Controllers\User\HomeController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Post\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,7 +57,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
 // Authenticated routes
 Route::middleware(['authenticated'])->group(function () {
     Route::get('/authenticated', [TokenController::class, 'authenticated']);
-    Route::get('/post/{id}', [PostController::class, 'get'])->name('getPost');
+    Route::post('posts', [PostController::class, 'store'])->name('createPost');
+    Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
+    Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
+    Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
 });
 
 // Unauthenticated routes
@@ -71,3 +74,4 @@ Route::middleware(['unauthenticated'])->group(function () {
 Route::get('image/placeholder/{image_name}', [ResourceController::class, 'get']);
 Route::get('image/{user_id}/{image_name}', [ResourceController::class, 'getUserAvatar']);
 Route::get('image/badge/{badge_id}/{image_name}', [ResourceController::class, 'getBadgeResource']);
+Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
