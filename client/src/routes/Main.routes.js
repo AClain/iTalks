@@ -7,6 +7,9 @@ import Users from "../components/Admin/User/Users";
 import UserCreate from "../components/Admin/User/UserCreate";
 import User from "../components/Admin/User/User";
 import UserEdit from "../components/Admin/User/UserEdit";
+import Statuses from "../components/Admin/Status/Statuses";
+
+// Not found admin
 import NotFoundAdmin from "../components/Admin/NotFoundAdmin";
 
 // Unauthenticated routes
@@ -25,10 +28,11 @@ import Settings from "../components/Settings/Settings";
 // Not found
 import NotFound from "../components/Misc/NotFound";
 
-import GlobalAlert from "../components/Misc/GlobalAlert";
+import GlobalAlert from "../components/Global/GlobalAlert";
 import SwitchTheme from "../components/Misc/SwitchTheme";
 import AuthenticatedRoute from "./AuthenticatedRoute";
 import UnauthenticatedRoute from "./UnauthenticatedRoute";
+import AdminAuthenticatedRoute from "./AdminAuthenticatedRoute";
 
 const Routes = () => {
 	return (
@@ -75,26 +79,31 @@ const Routes = () => {
 				{/* Admin routes */}
 				<Route path='/admin'>
 					<Switch>
-						<Route exact path='/admin/users'>
+						<AdminAuthenticatedRoute exact path='/admin/users'>
 							<Sidebar />
 							<Users />
-						</Route>
-						<Route exact path='/admin/user/create'>
+						</AdminAuthenticatedRoute>
+						<AdminAuthenticatedRoute exact path='/admin/user/create'>
 							<Sidebar />
 							<UserCreate />
-						</Route>
-						<Route exact path='/admin/user/:username'>
+						</AdminAuthenticatedRoute>
+						<AdminAuthenticatedRoute exact path='/admin/user/:username'>
 							<Sidebar />
 							<User />
-						</Route>
-						<Route exact path='/admin/user/:username/edit'>
+						</AdminAuthenticatedRoute>
+						<AdminAuthenticatedRoute exact path='/admin/user/:username/edit'>
 							<Sidebar />
 							<UserEdit />
-						</Route>
+						</AdminAuthenticatedRoute>
 
-						<Route path='*'>
+						<AdminAuthenticatedRoute exact path='/admin/statuses'>
+							<Sidebar />
+							<Statuses />
+						</AdminAuthenticatedRoute>
+
+						<AdminAuthenticatedRoute path='*'>
 							<NotFoundAdmin />
-						</Route>
+						</AdminAuthenticatedRoute>
 					</Switch>
 				</Route>
 

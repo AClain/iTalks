@@ -1,12 +1,14 @@
 import axios from "axios";
 
-class AdminRequest {
+class AdminUserRequest {
 	#base_url = process.env.REACT_APP_SERVER_URL + "/api/admin";
 
 	getAllUsers() {
 		return new Promise((resolve, reject) => {
 			axios
-				.get(this.#base_url + "/users", {})
+				.get(this.#base_url + "/users", {
+					withCredentials: true,
+				})
 				.then((data) => resolve(data))
 				.catch((err) => reject(err));
 		});
@@ -15,7 +17,9 @@ class AdminRequest {
 	getUserByUsername(username) {
 		return new Promise((resolve, reject) => {
 			axios
-				.get(this.#base_url + "/user/username/" + username, {})
+				.get(this.#base_url + "/user/username/" + username, {
+					withCredentials: true,
+				})
 				.then((data) => resolve(data))
 				.catch((err) => reject(err));
 		});
@@ -39,6 +43,7 @@ class AdminRequest {
 				headers: {
 					"Content-Type": "multipart/form-data",
 				},
+				withCredentials: true,
 			})
 				.then((data) => resolve(data))
 				.catch((err) => reject(err));
@@ -51,6 +56,7 @@ class AdminRequest {
 				method: "post",
 				url: this.#base_url + "/user/" + username,
 				data: userData,
+				withCredentials: true,
 			})
 				.then((data) => resolve(data))
 				.catch((err) => reject(err));
@@ -70,6 +76,7 @@ class AdminRequest {
 					headers: {
 						"Content-Type": "multipart/form-data",
 					},
+					withCredentials: true,
 				})
 					.then((data) => resolve(data))
 					.catch((err) => reject(err));
@@ -85,7 +92,9 @@ class AdminRequest {
 	delete(username) {
 		return new Promise((resolve, reject) => {
 			axios
-				.delete(this.#base_url + "/user/" + username)
+				.delete(this.#base_url + "/user/" + username, {
+					withCredentials: true,
+				})
 				.then((data) => resolve(data))
 				.catch((err) => reject(err));
 		});
@@ -94,11 +103,13 @@ class AdminRequest {
 	deleteAvatar(username) {
 		return new Promise((resolve, reject) => {
 			axios
-				.delete(this.#base_url + "/user/" + username + "/avatar", {})
+				.delete(this.#base_url + "/user/" + username + "/avatar", {
+					withCredentials: true,
+				})
 				.then((data) => resolve(data))
 				.catch((err) => reject(err));
 		});
 	}
 }
 
-export default new AdminRequest();
+export default new AdminUserRequest();

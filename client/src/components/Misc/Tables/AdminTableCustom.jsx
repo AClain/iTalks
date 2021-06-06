@@ -1,8 +1,7 @@
 import { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import { GlobalContext } from "../../../providers/GlobalContext";
 import { Helmet } from "react-helmet-async";
-import AdminUserRequest from "../../../api/AdminUserRequests";
+import AdminStatusRequest from "../../../api/AdminStatusRequest";
 
 import { Box, Stack, HStack, Flex } from "@chakra-ui/react";
 import { Heading, Text } from "@chakra-ui/layout";
@@ -15,45 +14,27 @@ import LinkTo from "../../Misc/LinkTo";
 import TopContainer from "../../Misc/TopContainer";
 
 import THeadCustom from "../../Misc/Tables/THeadCustom";
-import TRowUser from "./TRowUser";
+import TRowStatus from "./TRowStatus";
 import CustomModal from "../../Misc/CustomModal";
 
-import "./styles/users.scss";
+import "./styles/statuses.scss";
 
-const selectableModels = [
-	{
-		name: "Utilisateurs",
-		path: "users",
-	},
-	{
-		name: "Statuts",
-		path: "statuses",
-	},
-	{
-		name: "Roles",
-		path: "roles",
-	},
-	{
-		name: "Badges",
-		path: "badges",
-	},
-];
+const selectableModelNames = ["Utilisateurs", "Statuts", "Roles", "Badges"];
 
-const Users = () => {
+const Statuses = ({ titles, customRow }) => {
 	// Context
 	const { alert, setAlert } = useContext(GlobalContext);
-
-	// Router
-	const history = useHistory();
 
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	// States
-	const [users, setUsers] = useState([]);
+	const [statuses, setStatuses] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [userToDelete, setUserToDelete] = useState(0);
+	const [statusToDelete, setStatusToDelete] = useState(0);
 	const [sending, setSending] = useState(false);
 	const [refresh, setRefresh] = useState(false);
+
+	const TRowCustom = customRow;
 
 	// Custom functions
 	const onServerUnavailable = (message) => {
@@ -65,9 +46,9 @@ const Users = () => {
 		});
 	};
 
-	const deleteUser = () => {
+	const deleteStatus = () => {
 		setSending(true);
-		AdminUserRequest.delete(userToDelete)
+		AdminStatusRequest.delete(statusToDelete)
 			.then((data) => {
 				setSending(false);
 				onClose();
@@ -95,18 +76,13 @@ const Users = () => {
 			});
 	};
 
-	const changeModel = (key) => {
-		console.log(selectableModels[key]);
-		history.push("/admin/" + selectableModels[key].path);
-	};
-
 	// Effects
 	useEffect(() => {
-		AdminUserRequest.getAllUsers()
+		AdminStatusRequest.getAllStatuses()
 			.then((data) => {
 				if (data.status === 201) {
-					console.log(data.data.users);
-					setUsers(data.data.users);
+					console.log(data.data.status);
+					setStatuses(data.data.status);
 					setTimeout(() => {
 						setLoading(false);
 					}, 500);
@@ -131,10 +107,10 @@ const Users = () => {
 				isOpen={isOpen}
 				onOpen={onOpen}
 				onClose={onClose}
-				onConfirmClick={deleteUser}
+				onConfirmClick={deleteStatus}
 				sending={sending}
-				headerText="Suppression d'un utilisateur"
-				bodyText='Êtes-vous sur de vouloir supprimer cet utilisateur ?'
+				headerText="Suppression d'un statut"
+				bodyText='Êtes-vous sur de vouloir supprimer ce statut ?'
 				closeText='Annuler'
 				confirmText='Supprimer'
 				confirmColor='red'
@@ -146,7 +122,7 @@ const Users = () => {
 				width='90%'
 				boxShadow='var(--medium-box-shadow)'
 				bgColor='var(--bg-no-opacity)'
-				color='var(--light)'
+				color='var(--text)'
 				borderRadius='5px'
 				p='15px'>
 				<HStack textAlign='left' w='100%' mb='15px'>
@@ -159,22 +135,17 @@ const Users = () => {
 								color='var(--text)'
 								borderColor='var(--bg)'
 								bgColor='var(--bg)'
-								defaultChecked='users'
+								defaultChecked='statuses'
 								w='250px'
 								borderRadius='3px 3px 0px 0px'>
-								{selectableModels.map((model, i) => (
-									<option
-										style={{ background: "var(--bg)" }}
-										key={i}
-										onClick={() => {
-											changeModel(i);
-										}}>
-										{model.name}
+								{selectableModelNames.map((modelName, i) => (
+									<option style={{ background: "var(--bg)" }} key={i}>
+										{modelName}
 									</option>
 								))}
 							</Select>
 						</HStack>
-						<LinkTo to='/admin/user/create' underline={false}>
+						<LinkTo to='/admin/status/create' underline={false}>
 							<Button
 								textAlign='right'
 								borderColor='var(--info)'
@@ -191,11 +162,11 @@ const Users = () => {
 				</HStack>
 				<Stack overflowX='auto' overflowY='hidden' justifyContent='center'>
 					<Table bgColor='var(--bg-no-opacity)'>
-						<THeadCustom titles={["#", "statut", "role", "@", "email", "date de création", "avatar", "actions"]} />
+						<THeadCustom titles={titles} />
 						{!loading && (
 							<Tbody>
-								{users.map((user, i) => (
-									<TRowUser user={user} onOpen={onOpen} setUserToDelete={setUserToDelete} key={i} />
+								{statuses.map((status, i) => (
+									<TRowStatus status={status} onOpen={onOpen} setStatusToDelete={setStatusToDelete} key={i} />
 								))}
 							</Tbody>
 						)}
@@ -205,10 +176,10 @@ const Users = () => {
 							<Spinner color='var(--text)' size='xl' label='Chargement' thickness='5px' />
 						</Flex>
 					) : (
-						users.length === 0 && (
+						statuses.length === 0 && (
 							<Flex justifyContent='center'>
 								<Text fontSize='2xl' fontFamily='Roboto Thin' fontStyle='italic'>
-									Aucun utilisateur enregistré.
+									Aucun statut enregistré.
 								</Text>
 							</Flex>
 						)
@@ -219,4 +190,4 @@ const Users = () => {
 	);
 };
 
-export default Users;
+export default Statuses;

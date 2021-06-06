@@ -30,7 +30,7 @@ const IconWithBadge = ({ active, icon, badgeNumber }) => {
 
 IconWithBadge.propTypes = {
 	active: PropTypes.bool,
-	icon: PropTypes.element.isRequired,
+	icon: PropTypes.oneOfType([PropTypes.element, PropTypes.func]).isRequired,
 	badgeNumber: PropTypes.number,
 };
 

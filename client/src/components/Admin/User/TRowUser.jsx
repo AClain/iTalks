@@ -8,11 +8,11 @@ import { Tooltip } from "@chakra-ui/react";
 
 import { HiOutlineExternalLink, HiOutlineEye, HiOutlinePencilAlt, HiTrash, HiOutlineBan } from "react-icons/hi";
 
-import ActionButton from "../../Misc/ActionButton";
+import ActionButton from "../../Misc/Buttons/ActionButton";
 
-import "./styles/table_users.css";
+import "./styles/table_users.scss";
 
-const TBodyUser = ({ user, onOpen, setUserToDelete }) => {
+const TRowUser = ({ user, onOpen, setUserToDelete }) => {
 	return (
 		<Tr fontSize={15} className='table-list-row'>
 			<Td className='table-user-td'>{user.id}</Td>
@@ -55,7 +55,7 @@ const TBodyUser = ({ user, onOpen, setUserToDelete }) => {
 					color='var(--warning)'
 					link={"/admin/user/" + user.username}
 				/>
-				{[1, 2].includes(user.role) && (
+				{!["developpeur", "admin"].includes(user.role.name) && (
 					<>
 						<ActionButton
 							icon={HiOutlinePencilAlt}
@@ -81,10 +81,10 @@ const TBodyUser = ({ user, onOpen, setUserToDelete }) => {
 	);
 };
 
-TBodyUser.propTypes = {
+TRowUser.propTypes = {
 	user: PropTypes.object.isRequired,
 	onOpen: PropTypes.func.isRequired,
 	setUserToDelete: PropTypes.func.isRequired,
 };
 
-export default TBodyUser;
+export default TRowUser;

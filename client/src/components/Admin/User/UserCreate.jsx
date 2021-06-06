@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { GlobalContext } from "../../../providers/GlobalContext";
 
 import { Helmet } from "react-helmet-async";
-import AdminRequest from "../../../api/AdminRequests";
+import AdminUserRequest from "../../../api/AdminUserRequests";
 
 import { Box, Flex, HStack } from "@chakra-ui/layout";
 import { Heading, Text } from "@chakra-ui/layout";
@@ -89,7 +89,7 @@ const UserCreate = () => {
 
 	const onSubmit = (userData) => {
 		setSending(true);
-		AdminRequest.create(userData)
+		AdminUserRequest.create(userData)
 			.then((data) => {
 				setSending(false);
 				if (data.status === 201) {

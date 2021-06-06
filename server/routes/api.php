@@ -5,6 +5,9 @@ use App\Http\Controllers\Resources\ResourceController;
 // Admin controllers
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\StatusController as AdminStatusController;
+use App\Http\Controllers\Admin\BadgeController as AdminBadgeController;
+use App\Http\Controllers\Admin\UserBadgeController as AdminUserBadgeController;
+use App\Http\Controllers\Admin\RoleController as AdminRoleController;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
@@ -45,6 +48,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
     Route::post("badge/{id}/image", [AdminBadgeController::class, 'updateImage'])->name('updateBadgeImage');
     Route::delete('badge/{id}', [AdminBadgeController::class, 'destroy'])->name('deleteBadge');
     Route::delete("badge/{id}/image", [AdminBadgeController::class, 'deleteImageOuter'])->name('deleteBadgeImage');
+
+    Route::post('badges/link/{user_id}', [AdminUserBadgeController::class, 'store'])->name('linkBadgesUser');
 
     Route::get('roles', [AdminRoleController::class, 'index'])->name('getAllRole');
     Route::post('roles', [AdminRoleController::class, 'store'])->name('createRole');

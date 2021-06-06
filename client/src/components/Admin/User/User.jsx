@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet-async";
 
 import moment from "moment";
 
-import AdminRequest from "../../../api/AdminRequests";
+import AdminUserRequest from "../../../api/AdminUserRequests";
 
 import { Box, Flex, Stack, HStack } from "@chakra-ui/layout";
 import { Heading, Text } from "@chakra-ui/layout";
@@ -20,7 +20,7 @@ import AvatarPicture from "../../Misc/AvatarPicture";
 
 import { HiChat, HiBadgeCheck, HiCake, HiShieldExclamation, HiPencil, HiLightningBolt } from "react-icons/hi";
 
-import BackButton from "../../Misc/BackButton";
+import BackButton from "../../Misc/Buttons/BackButton";
 
 const UserEdit = () => {
 	// Router params
@@ -36,7 +36,7 @@ const UserEdit = () => {
 	const [notFound, setNotFound] = useState({ status: false, message: null });
 
 	useEffect(() => {
-		AdminRequest.getUserByUsername(username)
+		AdminUserRequest.getUserByUsername(username)
 			.then((data) => {
 				if (data.status === 201) {
 					setUser(data.data.user);

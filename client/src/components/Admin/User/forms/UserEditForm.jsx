@@ -56,7 +56,7 @@ const UserEditForm = ({ user, register, errors, watch }) => {
 						</sup>
 					</FormLabel>
 					<InputGroup>
-						<InputLeftAddon color='main.dark' borderColor='var(--text)'>
+						<InputLeftAddon color='var(--dark)' borderColor='var(--light)'>
 							@
 						</InputLeftAddon>
 						<Input
@@ -138,9 +138,9 @@ const UserEditForm = ({ user, register, errors, watch }) => {
 					</FormLabel>
 					<Select
 						size='sm'
-						color='#222831'
-						borderColor='var(--text)'
-						bgColor='var(--text)'
+						color='var(--dark)'
+						borderColor='var(--light)'
+						bgColor='var(--light)'
 						name='role'
 						ref={register({ required: true })}
 						defaultValue={user.role ? user.role.name : "basic"}>
@@ -162,9 +162,9 @@ const UserEditForm = ({ user, register, errors, watch }) => {
 					</FormLabel>
 					<Select
 						size='sm'
-						color='#222831'
-						borderColor='var(--text)'
-						bgColor='var(--text)'
+						color='var(--dark)'
+						borderColor='var(--light)'
+						bgColor='var(--light)'
 						name='status'
 						ref={register({ required: true })}
 						defaultValue={user.status ? user.status.name : "active"}>

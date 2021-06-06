@@ -7,7 +7,7 @@ const THeadCustom = ({ titles }) => {
 		<Thead bgColor='main.purple'>
 			<Tr>
 				{titles.map((title, i) => (
-					<Th color='var(--text)' textAlign='center' whiteSpace='nowrap' fontSize={15} key={i}>
+					<Th color='var(--light)' textAlign='center' whiteSpace='nowrap' fontSize={15} key={i}>
 						{title}
 					</Th>
 				))}

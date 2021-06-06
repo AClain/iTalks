@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 
 import { Helmet } from "react-helmet-async";
 
-import AdminRequest from "../../../api/AdminRequests";
+import AdminUserRequest from "../../../api/AdminUserRequests";
 
 import { Box, Flex, HStack, Stack } from "@chakra-ui/react";
 import { Heading, Text } from "@chakra-ui/react";
@@ -20,7 +20,7 @@ import TopContainer from "../../Misc/TopContainer";
 
 import { HiOutlineX, HiUpload, HiOutlineSave } from "react-icons/hi";
 import CustomModal from "../../Misc/CustomModal";
-import BackButton from "../../Misc/BackButton";
+import BackButton from "../../Misc/Buttons/BackButton";
 import UserEditForm from "./forms/UserEditForm";
 import AvatarPicture from "../../Misc/AvatarPicture";
 
@@ -52,7 +52,7 @@ const UserEdit = () => {
 	const { register, handleSubmit, watch, errors } = useForm();
 	const onSubmit = (userData) => {
 		setSending(true);
-		AdminRequest.update(username, userData)
+		AdminUserRequest.update(username, userData)
 			.then((data) => {
 				setSending(false);
 				if (data.status === 201) {
@@ -126,7 +126,7 @@ const UserEdit = () => {
 
 	const updateAvatar = () => {
 		setSending(true);
-		AdminRequest.updateAvatar(username, inputRef.current)
+		AdminUserRequest.updateAvatar(username, inputRef.current)
 			.then((data) => {
 				setSending(false);
 				onClose();
@@ -162,7 +162,7 @@ const UserEdit = () => {
 
 	const deleteAvatar = () => {
 		setSending(true);
-		AdminRequest.deleteAvatar(username)
+		AdminUserRequest.deleteAvatar(username)
 			.then((data) => {
 				setSending(false);
 				onClose();
@@ -196,7 +196,7 @@ const UserEdit = () => {
 
 	// Effects
 	useEffect(() => {
-		AdminRequest.getUserByUsername(username)
+		AdminUserRequest.getUserByUsername(username)
 			.then((data) => {
 				if (data.status === 201) {
 					setUser(data.data.user);
@@ -266,12 +266,12 @@ const UserEdit = () => {
 					<Flex direction='row' w='100%'>
 						<Box
 							width='70%'
-							boxShadow='0px 0px 5px rgba(0, 0, 0, 0.25)'
-							bgColor='rgba(57, 62, 70, 0.5)'
+							boxShadow='var(--small-box-shadow)'
+							bgColor='var(--bg-no-opacity)'
 							borderRadius='5px'
 							p='15px'>
-							<Alert status='info' m='10px 0px' color='main.dark'>
-								<AlertIcon />
+							<Alert status='info' m='10px 0px' color='var(--light)' background='var(--info)'>
+								<AlertIcon color='var(--light)' />
 								<b>*</b>&nbsp;Champ requis
 							</Alert>
 
@@ -286,7 +286,7 @@ const UserEdit = () => {
 							<UserEditForm user={user} errors={errors} register={register} watch={watch} />
 
 							<Button
-								color='var(--text)'
+								color='var(--light)'
 								_hover={{
 									backgroundColor: "main.purple",
 									borderColor: "main.purple",
@@ -302,8 +302,8 @@ const UserEdit = () => {
 
 						<Box
 							width='25%'
-							boxShadow='0px 0px 5px rgba(0, 0, 0, 0.25)'
-							bgColor='rgba(57, 62, 70, 0.5)'
+							boxShadow='var(--small-box-shadow)'
+							bgColor='var(--bg-no-opacity)'
 							borderRadius='5px'
 							p='15px'>
 							<Flex m='25px 0px' direction='column' alignItems='center'>

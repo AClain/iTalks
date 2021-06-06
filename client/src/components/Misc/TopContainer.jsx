@@ -11,7 +11,7 @@ const TopContainer = ({ children, ...rest }) => {
 };
 
 TopContainer.propTypes = {
-	children: PropTypes.element.isRequired,
+	children: PropTypes.array.isRequired,
 };
 
 export default TopContainer;
