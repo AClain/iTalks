@@ -8,16 +8,11 @@ class Post extends Model
 {
     protected $table = "posts";
 
-    protected $fillable = ['title', 'text', 'user_id', 'status_id', 'category_id', 'is_edited'];
-
-    public function role()
-    {
-        return $this->hasOne(Role::class, 'id', 'role_id');
-    }
+    protected $fillable = ['title', 'text', 'user_id', 'status_id', 'is_edited'];
 
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class, 'id', 'user_id');
     }
 
     public function status()
@@ -25,8 +20,13 @@ class Post extends Model
         return $this->hasOne(Status::class, 'id', 'status_id');
     }
 
-    public function avatar()
+    public function resources()
     {
-        return $this->hasOne(Resource::class, 'id', 'avatar_resource_id');
+        return $this->hasMany(PostResource::class, 'post_id', 'id');
+    }
+
+    public function categories()
+    {
+        return $this->hasMany(PostCategory::class, 'post_id', 'id');
     }
 }

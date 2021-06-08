@@ -237,10 +237,12 @@ class UserController extends Controller
 
         $file->storeAs('users/' . $user->id, 'avatar.' . $file_extention, 'local');
 
+        $status = Status::where('name', 'actif')->first();
+
         $avatar = new Resource();
-        $avatar->link = 'http://localhost:18080/api/image/' . $user->id . '/' . $filename;
+        $avatar->link = config('app.url') . '/api/image/user/' . $user->id . '/' . $filename;
         $avatar->name = $filename;
-        $avatar->status_id = 1;
+        $avatar->status_id = $status->id;
         $avatar->save();
 
         $user->avatar_resource_id = $avatar->id;
@@ -326,6 +328,6 @@ class UserController extends Controller
             return $user_avatar_resource->delete();
         }
 
-        return true;
+        return false;
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePostSavedTable extends Migration
+class CreatePostCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreatePostSavedTable extends Migration
      */
     public function up()
     {
-        Schema::create('post_saved', function (Blueprint $table) {
+        Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id');
-            $table->foreignId('user_id');
+            $table->foreignId('category_id')->default(1);
+            $table->foreignId('status_id')->default(1);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreatePostSavedTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('post_saved');
+        Schema::dropIfExists('post_resources');
     }
 }

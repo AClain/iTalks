@@ -19,7 +19,6 @@ class CreatePostsTable extends Migration
             $table->text('text')->nullable();
             $table->foreignId('user_id');
             $table->foreignId('status_id')->default(1);
-            $table->foreignId('category_id')->default(1);
             $table->boolean('is_edited')->default(false);
             $table->timestamps();
         });

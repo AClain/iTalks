@@ -61,7 +61,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
 // Authenticated routes
 Route::middleware(['authenticated'])->group(function () {
     Route::get('/authenticated', [TokenController::class, 'authenticated']);
-    Route::post('posts', [PostController::class, 'store'])->name('createPost');
+
+    Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
+    Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
+    Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');
+
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
@@ -76,6 +80,7 @@ Route::middleware(['unauthenticated'])->group(function () {
 
 // Public routes
 Route::get('image/placeholder/{image_name}', [ResourceController::class, 'get']);
-Route::get('image/{user_id}/{image_name}', [ResourceController::class, 'getUserAvatar']);
+Route::get('image/user/{user_id}/{image_name}', [ResourceController::class, 'getUserAvatar']);
+Route::get('image/post/{post_id}/{image_name}', [ResourceController::class, 'getPostImage']);
 Route::get('image/badge/{badge_id}/{image_name}', [ResourceController::class, 'getBadgeResource']);
 Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
