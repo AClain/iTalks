@@ -50,7 +50,8 @@ Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authent
     Route::delete("badge/{id}/image", [AdminBadgeController::class, 'deleteImageOuter'])->name('deleteBadgeImage');
 
     Route::get('badges/link/{user_id}', [AdminUserBadgeController::class, 'index'])->name('getAllLinkedBadges');
-    Route::post('badges/link/{user_id}', [AdminUserBadgeController::class, 'store'])->name('linkBadges');
+    Route::post('badges/link/{user_id}', [AdminUserBadgeController::class, 'link'])->name('linkBadges');
+    Route::post('badges/unlink/{user_id}', [AdminUserBadgeController::class, 'unlink'])->name('unlinkBadges');
 
     Route::get('roles', [AdminRoleController::class, 'index'])->name('getAllRole');
     Route::post('roles', [AdminRoleController::class, 'store'])->name('createRole');
