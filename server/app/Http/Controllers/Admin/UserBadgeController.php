@@ -16,35 +16,82 @@ class UserBadgeController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            "badge" => 'required|exists:badges,name',
-            'status' => 'required|exists:statuses,name'
+            "badges" => "required|array"
         ]);
 
         if ($validator->fails()) {
             return response()->json([
-                'errors' => $validator->errors()
+                'message' => 'Mauvais format de données.'
             ], 400);
         }
 
-        $user = User::where('id', $user_id)->first();
+        $user = User::find($user_id);
 
-        $badge = Badge::where('name', request('badge'))->first();
-        $status = Status::where('name', request('status'))->first();
-
-        $UserBadge = new UserBadge();
-        $UserBadge->user_id = $user->id;
-        $UserBadge->badge_id = $badge->id;
-        $UserBadge->status_id = $status->id;
-        $save = $UserBadge->save();
-
-        if ($save) {
+        if (!$user) {
             return response()->json([
-                'message' => 'Utilisateur est lié au badge'
-            ], 201);
-        } else {
-            return response()->json([
-                'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
-            ], 500);
+                'message' => 'Impossible de lier un badge à cet utilisateur.'
+            ], 404);
         }
+
+        $errors = [];
+
+        foreach (request('badges') as $badge) {
+            $validator = Validator::make($badge, [
+                "badge" => 'required|exists:badges,name',
+                'status' => 'required|exists:statuses,name'
+            ]);
+
+            if ($validator->fails()) {
+                $errors[] = $validator->errors();
+                continue;
+            }
+
+            $badge = Badge::where('name', $badge->badge)->first();
+            $status = Status::where('name', $badge->status)->first();
+
+            $badgeAlreadyLinked = UserBadge::where('user_id', $user_id)
+                ->where('badge_id', $badge->id)->first();
+
+            if ($badgeAlreadyLinked) {
+                $errors[] = 'Le badge "' + $badge->name + '" est déjà relié à l\'utilisateur';
+            }
+
+            if (!$badge) {
+                return response()->json([
+                    'message' => 'Le badge "' + $badge->badge + '" n\'existe pas'
+                ], 404);
+            } else if (!$status) {
+                return response()->json([
+                    'message' => 'Le statut "' + $badge->status + '" n\'existe pas'
+                ], 404);
+            }
+
+            $userBadge = new UserBadge();
+            $userBadge->user_id = $user->id;
+            $userBadge->badge_id = $badge->id;
+            $userBadge->status_id = $status->id;
+            $save = $userBadge->save();
+
+            if (!$save) {
+                $errors[] = 'Une erreur s\'est produite, le badge "' + $badge->badge + '" n\'a pas pu être lié, veuillez réessayer.';
+            }
+
+            if (!$user) {
+                return response()->json([
+                    'message' => 'L\'utilisateur n\'a pas été trouvé.',
+                ], 404);
+            }
+        }
+
+        if (!empty($errors)) {
+            return response()->json([
+                'message' => 'Des erreurs sont survenues.',
+                'errors' => $errors
+            ], 400);
+        }
+
+        return response()->json([
+            'message' => 'Les badges ont bien été liés à l\'utilisateur'
+        ], 201);
     }
 }
