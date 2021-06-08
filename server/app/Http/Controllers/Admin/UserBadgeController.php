@@ -15,15 +15,23 @@ class UserBadgeController extends Controller
     public function store($user_id, Request $request)
     {
 
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             "badges" => "required|array"
         ]);
 
-        $user = User::where('id', $user_id)->first();
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Mauvais format de données.'
+            ], 400);
+        }
 
-        return response()->json([
-            'message' => 'Impossible de lier un badge à cet utilisateur.'
-        ], 404);
+        $user = User::find($user_id);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Impossible de lier un badge à cet utilisateur.'
+            ], 404);
+        }
 
         $errors = [];
 
@@ -40,6 +48,13 @@ class UserBadgeController extends Controller
 
             $badge = Badge::where('name', $badge->badge)->first();
             $status = Status::where('name', $badge->status)->first();
+
+            $badgeAlreadyLinked = UserBadge::where('user_id', $user_id)
+                ->where('badge_id', $badge->id)->first();
+
+            if ($badgeAlreadyLinked) {
+                $errors[] = 'Le badge "' + $badge->name + '" est déjà relié à l\'utilisateur';
+            }
 
             if (!$badge) {
                 return response()->json([
@@ -60,6 +75,19 @@ class UserBadgeController extends Controller
             if (!$save) {
                 $errors[] = 'Une erreur s\'est produite, le badge "' + $badge->badge + '" n\'a pas pu être lié, veuillez réessayer.';
             }
+
+            if (!$user) {
+                return response()->json([
+                    'message' => 'L\'utilisateur n\'a pas été trouvé.',
+                ], 404);
+            }
+        }
+
+        if (!empty($errors)) {
+            return response()->json([
+                'message' => 'Des erreurs sont survenues.',
+                'errors' => $errors
+            ], 400);
         }
 
         return response()->json([

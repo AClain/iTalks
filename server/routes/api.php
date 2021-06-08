@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Admin routes
-Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authenticated.admin']], function () {
+Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authenticated.admin'] */], function () {
     Route::get('users', [AdminUserController::class, 'list'])->name('getAllUser');
     Route::post('users', [AdminUserController::class, 'store'])->name('createUser');
     Route::get('user/id/{id}', [AdminUserController::class, 'get'])->name('getUserById');
@@ -49,7 +49,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
     Route::delete('badge/{id}', [AdminBadgeController::class, 'destroy'])->name('deleteBadge');
     Route::delete("badge/{id}/image", [AdminBadgeController::class, 'deleteImageOuter'])->name('deleteBadgeImage');
 
-    Route::post('badges/link/{user_id}', [AdminUserBadgeController::class, 'store'])->name('linkBadgesUser');
+    Route::get('badges/link/{user_id}', [AdminUserBadgeController::class, 'index'])->name('getAllLinkedBadges');
+    Route::post('badges/link/{user_id}', [AdminUserBadgeController::class, 'store'])->name('linkBadges');
 
     Route::get('roles', [AdminRoleController::class, 'index'])->name('getAllRole');
     Route::post('roles', [AdminRoleController::class, 'store'])->name('createRole');
