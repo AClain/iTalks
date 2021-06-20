@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
 use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\User\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,3 +87,5 @@ Route::get('image/user/{user_id}/{image_name}', [ResourceController::class, 'get
 Route::get('image/post/{post_id}/{image_name}', [ResourceController::class, 'getPostImage']);
 Route::get('image/badge/{badge_id}/{image_name}', [ResourceController::class, 'getBadgeResource']);
 Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
+
+Route::get('/', [HomeController::class, 'searchIndex'])->name('searchPost');

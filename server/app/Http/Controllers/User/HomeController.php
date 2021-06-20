@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -12,4 +13,17 @@ class HomeController extends Controller
             'message' => 'HOME'
         ]);
     }
+
+    public function searchIndex()
+    {
+        $search = \request()->query('query');
+        if ($search) {
+            $posts = Post::where('title', 'LIKE', '%'.$search.'%')->orderBy('id', 'desc')->simplePaginate(3);
+        } else {
+            $posts = Post::orderBy('id', 'desc')->simplePaginate(3);
+        }
+        // \dd(\request()->query('q'));
+        return \response(['posts' => $posts]);
+    }
+
 }
