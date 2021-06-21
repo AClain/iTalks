@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +73,11 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
+
+    Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
+    Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
+    Route::put('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
+
 });
 
 // Unauthenticated routes

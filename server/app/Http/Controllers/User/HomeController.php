@@ -22,7 +22,7 @@ class HomeController extends Controller
         } else {
             $posts = Post::orderBy('id', 'desc')->simplePaginate(3);
         }
-        // \dd(\request()->query('q'));
+        // \dd(\request()->query('query'));
         return \response(['posts' => $posts]);
     }
 
