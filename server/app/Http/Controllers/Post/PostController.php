@@ -92,7 +92,7 @@ class PostController extends Controller
 
         $post->title = trim(request('title'));
         $post->text = request('text');
-        $post->user_id = $token->uid;
+        $post->user_id = $token['uid'];
         $post->status_id = $status->id;
 
         if ($post->save()) {
