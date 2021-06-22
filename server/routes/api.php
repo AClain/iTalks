@@ -81,9 +81,11 @@ Route::middleware(['authenticated'])->group(function () {
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
 
+    Route::get('comments', [CommentController::class, 'index'])->name('getAllComments');
+    // Route::get('comment/{id}', [AdminCommentController::class, 'get'])->name('getComment');
     Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
-
+    Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
 });
 
 // Unauthenticated routes

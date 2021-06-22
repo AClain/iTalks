@@ -38,6 +38,10 @@ class Authenticated
 
         $user = User::where('username', $claims['username'])->first();
 
+        if (!isset($user)) {
+            return $this->unauthorizedCookie('Session invalide.');
+        }
+
         // Cookie hasn't expired
         $now = Carbon::parse(new DateTimeImmutable());
         $expAt = Carbon::parse($claims['exp']);

@@ -18,6 +18,7 @@ class CreateCommentsTable extends Migration
             $table->foreignId('user_id');
             $table->foreignId('post_id');
             $table->text('text');
+            $table->boolean('is_edited')->default(false);
             $table->foreignId('parent_id')->nullable();
             $table->foreignId('status_id')->default(1);
             $table->foreignId('resource_id')->nullable();

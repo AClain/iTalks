@@ -33,5 +33,10 @@ class StatusSeeder extends Seeder
             'id' => 4,
             'name' => 'lu'
         ]);
+
+        Status::create([
+            'id' => 5,
+            'name' => 'édité'
+        ]);
     }
 }
