@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use App\Http\Controllers\Admin\BadgeController as AdminBadgeController;
 use App\Http\Controllers\Admin\UserBadgeController as AdminUserBadgeController;
 use App\Http\Controllers\Admin\RoleController as AdminRoleController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
@@ -60,6 +61,12 @@ Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authent
     Route::get('role/{id}', [AdminRoleController::class, 'get'])->name('getRole');
     Route::put('role/{id}', [AdminRoleController::class, 'update'])->name('updateRole');
     Route::delete('role/{id}', [AdminRoleController::class, 'destroy'])->name('deleteRole');
+
+    Route::get('comments', [AdminCommentController::class, 'index'])->name('getAllComments');
+    Route::get('comment/{id}', [AdminCommentController::class, 'get'])->name('getComment');
+    Route::post('comment/{post_id}', [AdminCommentController::class, 'store'])->name('createComment');
+    Route::put('comment/{id}', [AdminCommentController::class, 'update'])->name('updateComment');
+    Route::delete('comment/{id}', [AdminCommentController::class, 'destroy'])->name('deleteComment');
 });
 
 // Authenticated routes
