@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Comment;
 
 use App\Http\Controllers\Auth\TokenController;
+use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Status;
@@ -39,7 +40,7 @@ class CommentController extends Controller
             'user' => 'required|exists:users,username',
             'status' => 'required|exists:statuses,name',
             'post' => 'required|exists:posts,title',
-            'parent' => 'nullable|exists:comments,text'
+            'parent' => 'nullable|exists:comments,id'
         ]);
 
         if ($validator->fails()) {
@@ -53,13 +54,13 @@ class CommentController extends Controller
         $user = User::where('username', request('user'))->first();
         $status = Status::where('name', request('status'))->first();
         $post = Post::where('title', request('post'))->first();
-        $parent = Comment::where('text', request('parent'))->first();
+        $parent = Comment::where('id', request('parent'))->first();
 
         $comment->text = request('text');
         $comment->user_id = $user->id;
         $comment->status_id = $status->id;
         $comment->post_id = $post->id;
-        $comment->parent_id = $parent->id;
+        $comment->parent_id = $parent ? $parent->id : null;
         $save = $comment->save();
 
         if ($save) {
@@ -116,12 +117,6 @@ class CommentController extends Controller
         $comment->status_id = $status ? $status->id : $status->status_id;
 
         if ($comment->save()) {
-            if ($comment->status_id !== 2) {
-                return response()->json([
-                    'message' => 'Vous n\'êtes pas autorisé à modifier cette ressource.',
-                ], 403);
-            }
-
             return response()->json([
                 'message' => 'Commentaire mis à jour avec succès!',
                 'comment' => $comment
@@ -141,35 +136,6 @@ class CommentController extends Controller
      */
     public function destroy($id, Request $request)
     {
-        $comment = Comment::find($id);
-        if (!$comment) {
-            return response()->json([
-                'message' => 'Le commentaire n\'a pas été trouvé.'
-            ], 404);
-        }
-
-        $token = TokenController::parseToken($request->cookie('token'));
-        if ($token["uid"] !== $comment->user_id) {
-            return response()->json([
-                'message' => 'Vous n\'êtes pas autorisé à modifier cette ressource.',
-            ], 403);
-        }
-
-        $status = Status::where('name', request('status'))->first();
-
-        $comment->status_id = $status ? $status->id : $status->status_id;
-
-        if ($comment->save()) {
-            if ($comment->status_id !== 3) {
-                return response()->json([
-                    'message' => 'Vous n\'êtes pas autorisé à modifier cette ressource.',
-                ], 403);
-            }
-
-            return response()->json([
-                'message' => 'Commentaire supprimé avec succès!',
-                'comment' => $comment
-            ], 201);
-        }
+        //
     }
 }

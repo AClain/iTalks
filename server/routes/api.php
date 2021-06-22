@@ -13,7 +13,7 @@ use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\HomeController;
-use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Comment\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +76,6 @@ Route::middleware(['authenticated'])->group(function () {
 
     Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
-    Route::put('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
 
 });
 
