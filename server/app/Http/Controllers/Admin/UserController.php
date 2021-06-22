@@ -14,11 +14,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SearchOptionsController;
+use Illuminate\Http\UploadedFile;
 
 class UserController extends Controller
 {
     public function store(Request $request)
     {
+        return response()->json([
+            'type' => get_class($request->file('avatar'))
+        ]);
+
         $validator = Validator::make($request->all(), [
             'username' => 'required|min:3|max:25|unique:users,username',
             'email' => 'required|email|unique:users,email',
@@ -70,19 +76,19 @@ class UserController extends Controller
         }
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        // Pagination
-        $users = User::all();
+        $searchOptions = new SearchOptionsController($request);
+        $users = User::where('username', 'LIKE', '%' . $searchOptions->getSearch() . '%')->limit($searchOptions->getLimit())->offset($searchOptions->getOffset())->get();
 
         foreach ($users as $user) {
+            $user->avatar = Resource::find($user->avatar_resource_id);
             $user->role = Role::find($user->role_id);
             $user->status = Status::find($user->status_id);
-            $user->avatar = Resource::find($user->avatar_resource_id);
 
+            unset($user->avatar_resource_id);
             unset($user->role_id);
             unset($user->status_id);
-            unset($user->avatar_resource_id);
         }
 
         return response()->json([
@@ -90,7 +96,7 @@ class UserController extends Controller
         ], 201);
     }
 
-    public function update($username, Request $request)
+    public function update(Request $request, string $username)
     {
         $validator = Validator::make($request->all(), [
             'username' => 'min:3|max:25',
@@ -154,7 +160,7 @@ class UserController extends Controller
         }
     }
 
-    public function get(Request $request, $username)
+    public function get(Request $request, string $username)
     {
         $user = User::where('username', $username)->first();
 
@@ -173,7 +179,7 @@ class UserController extends Controller
         }
     }
 
-    public function getByUsername(Request $request, $username)
+    public function getByUsername(Request $request, string $username)
     {
         $user = User::where('username', $username)->first();
 
@@ -196,7 +202,7 @@ class UserController extends Controller
         ], 404);
     }
 
-    public function delete($username)
+    public function delete(string $username)
     {
         $user = User::where('username', $username)->first();
 
@@ -221,11 +227,10 @@ class UserController extends Controller
         }
     }
 
-    private function storeAvatar($file, $user)
+    private function storeAvatar(UploadedFile $file, User $user)
     {
         $file_extention = $file->getClientOriginalExtension();
         $filename = 'avatar.' . $file_extention;
-        $user =  User::find($user->id);
 
         $base_path = public_path('/storage/images/users/');
 
@@ -249,7 +254,7 @@ class UserController extends Controller
         $user->save();
     }
 
-    public function updateAvatar(Request $request, $username)
+    public function updateAvatar(Request $request, string $username)
     {
         $user = User::where('username', $username)->first();
 
@@ -284,7 +289,7 @@ class UserController extends Controller
         ], 500);
     }
 
-    public function deleteAvatarOuter($username)
+    public function deleteAvatarOuter(string $username)
     {
         $user = User::where('username', $username)->first();
         $user_avatar_resource = Resource::find($user->avatar_resource_id);
@@ -319,7 +324,7 @@ class UserController extends Controller
         ], 500);
     }
 
-    private function deleteAvatarInner($user)
+    private function deleteAvatarInner(User $user)
     {
         $user_avatar_resource = Resource::where('id', $user->avatar_resource_id)->first();
 
