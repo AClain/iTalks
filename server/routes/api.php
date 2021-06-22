@@ -8,10 +8,13 @@ use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use App\Http\Controllers\Admin\BadgeController as AdminBadgeController;
 use App\Http\Controllers\Admin\UserBadgeController as AdminUserBadgeController;
 use App\Http\Controllers\Admin\RoleController as AdminRoleController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
 use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\Comment\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +61,12 @@ Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authent
     Route::get('role/{id}', [AdminRoleController::class, 'get'])->name('getRole');
     Route::put('role/{id}', [AdminRoleController::class, 'update'])->name('updateRole');
     Route::delete('role/{id}', [AdminRoleController::class, 'destroy'])->name('deleteRole');
+
+    Route::get('comments', [AdminCommentController::class, 'index'])->name('getAllComments');
+    Route::get('comment/{id}', [AdminCommentController::class, 'get'])->name('getComment');
+    Route::post('comment/{post_id}', [AdminCommentController::class, 'store'])->name('createComment');
+    Route::put('comment/{id}', [AdminCommentController::class, 'update'])->name('updateComment');
+    Route::delete('comment/{id}', [AdminCommentController::class, 'destroy'])->name('deleteComment');
 });
 
 // Authenticated routes
@@ -71,6 +80,12 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
+
+    Route::get('comments', [CommentController::class, 'index'])->name('getAllComments');
+    // Route::get('comment/{id}', [AdminCommentController::class, 'get'])->name('getComment');
+    Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
+    Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
+    Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
 });
 
 // Unauthenticated routes

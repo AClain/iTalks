@@ -92,7 +92,7 @@ class PostController extends Controller
 
         $post->title = trim(request('title'));
         $post->text = request('text');
-        $post->user_id = $token->uid;
+        $post->user_id = $token["uid"];
         $post->status_id = $status->id;
 
         if ($post->save()) {
@@ -161,7 +161,7 @@ class PostController extends Controller
 
         $post->title = trim(request('title'));
         $post->text = request('text');
-        $post->user_id = $token->uid;
+        $post->user_id = $token["uid"];
         $post->status_id = $status->id;
 
         if ($post->save()) {
@@ -276,7 +276,7 @@ class PostController extends Controller
         }
 
         $token = TokenController::parseToken($request->cookie('token'));
-        if ($token->uid !== $post->user_id) {
+        if ($token["uid"] !== $post->user_id) {
             return response()->json([
                 'message' => 'Vous n\êtes pas authorisé à modifé cette resource.',
             ], 403);
@@ -328,7 +328,7 @@ class PostController extends Controller
         }
 
         $token = TokenController::parseToken($request->cookie('token'));
-        if ($token->uid !== $post->user_id) {
+        if ($token["uid"] !== $post->user_id) {
             return response()->json([
                 'message' => 'Vous n\êtes pas authorisé à modifé cette resource.',
             ], 403);
