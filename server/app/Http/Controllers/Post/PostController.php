@@ -328,7 +328,7 @@ class PostController extends Controller
         }
 
         $token = TokenController::parseToken($request->cookie('token'));
-        if ($token['uid'] !== $post->user_id) {
+        if ($token["uid"] !== $post->user_id) {
             return response()->json([
                 'message' => 'Vous n\êtes pas authorisé à modifé cette resource.',
             ], 403);
