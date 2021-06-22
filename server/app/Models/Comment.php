@@ -23,13 +23,13 @@ class Comment extends Model
         return $this->hasOne(Status::class, 'id', 'status_id');
     }
 
-    public function comment()
-    {
-        return $this->belongsTo(Comment::class, 'id', 'parent_id');
-    }
-
-    public function comments()
+    public function parentComment()
     {
         return $this->hasMany(Comment::class, 'id', 'id');
+    }
+
+    public function childrenComment()
+    {
+        return $this->belongsTo(Comment::class, 'id', 'parent_id');
     }
 }
