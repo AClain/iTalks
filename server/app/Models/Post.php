@@ -34,4 +34,10 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class, 'post_id', 'id');
     }
+
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class, 'entity_id', 'id');
+    }
+
 }

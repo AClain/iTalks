@@ -15,6 +15,8 @@ use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Comment\CommentController;
+use App\Http\Controllers\Feedback\FeedbackController;
+use App\Models\Feedback;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,6 +88,8 @@ Route::middleware(['authenticated'])->group(function () {
     Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
     Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
+
+    Route::post('vote/{post_id}', [FeedbackController::class, 'store'])->name('addFeedback');
 });
 
 // Unauthenticated routes
