@@ -11,7 +11,7 @@ class Comment extends Model
 
     protected $table = "comments";
 
-    protected $fillable = ['user_id', 'post_id', 'text', 'is_edited', 'parent_id', 'status_id', 'resource_id'];
+    protected $fillable = ['user_id', 'post_id', 'text', 'is_edited', 'parent_id', 'status_id'];
 
     public function user()
     {
@@ -20,16 +20,16 @@ class Comment extends Model
 
     public function status()
     {
-        return $this->hasOne(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class, 'id', 'status_id');
     }
 
     public function parentComment()
     {
-        return $this->hasMany(Comment::class, 'id', 'id');
+        return $this->hasOne(Comment::class, 'id', 'id');
     }
 
     public function childrenComment()
     {
-        return $this->belongsTo(Comment::class, 'id', 'parent_id');
+        return $this->hasMany(Comment::class, 'id', 'parent_id');
     }
 }
