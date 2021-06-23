@@ -17,7 +17,7 @@ class CreateResourcesTable extends Migration
             $table->id();
             $table->text('link');
             $table->string('name');
-            $table->foreignId('status_id')->default(1);
+            $table->foreignId('status_id');
             $table->timestamps();
         });
     }

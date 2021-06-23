@@ -25,6 +25,6 @@ class Message extends Model
 
     public function status()
     {
-        return $this->belongsTo(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class);
     }
 }

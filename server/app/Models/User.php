@@ -10,14 +10,34 @@ class User extends Model
 
     protected $fillable = ['username', 'email', 'password', 'role_id', 'avatar_resource_id', 'status_id'];
 
+    public function password_reset()
+    {
+        return $this->hasOne(PasswordReset::class);
+    }
+
     public function role()
     {
-        return $this->hasOne(Role::class, 'id', 'role_id');
+        return $this->belongsTo(Role::class);
+    }
+
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class);
+    }
+
+    public function followers()
+    {
+        return $this->hasMany(Follow::class, 'follower_id', 'id');
+    }
+
+    public function follows()
+    {
+        return $this->hasMany(Follow::class, 'following_id', 'id');
     }
 
     public function status()
     {
-        return $this->hasOne(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class);
     }
 
     public function avatar()
@@ -35,11 +55,6 @@ class User extends Model
         return $this->hasMany(Notification::class);
     }
 
-    public function badges()
-    {
-        return $this->hasMany(UserBadge::class);
-    }
-
     public function posts()
     {
         return $this->hasMany(Post::class);
@@ -52,6 +67,16 @@ class User extends Model
 
     public function messages()
     {
-        return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class, 'sender_id', 'id');
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class, 'reporter_id', 'id');
+    }
+
+    public function reported_by()
+    {
+        return $this->hasMany(Report::class, 'reported_id', 'id');
     }
 }

@@ -15,11 +15,11 @@ class Notification extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public function status()
     {
-        return $this->belongsTo(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class);
     }
 }

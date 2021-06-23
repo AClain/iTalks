@@ -15,23 +15,28 @@ class Post extends Model
         return $this->belongsTo(User::class, 'id', 'user_id');
     }
 
+    public function users()
+    {
+        return $this->hasMany(PostSaved::class);
+    }
+
     public function status()
     {
-        return $this->hasOne(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class);
     }
 
     public function resources()
     {
-        return $this->hasMany(PostResource::class, 'post_id', 'id');
+        return $this->hasMany(Resource::class);
     }
 
     public function categories()
     {
-        return $this->hasMany(PostCategory::class, 'post_id', 'id');
+        return $this->hasMany(Category::class);
     }
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'post_id', 'id');
+        return $this->hasMany(Comment::class);
     }
 }

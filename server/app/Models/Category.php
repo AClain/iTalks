@@ -10,8 +10,13 @@ class Category extends Model
 
     protected $fillable = ['name', 'description', 'status_id', 'image_resource_id'];
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
     public function status()
     {
-        return $this->hasOne(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class);
     }
 }

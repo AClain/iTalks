@@ -15,17 +15,22 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
     }
 
     public function status()
     {
-        return $this->belongsTo(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class);
     }
 
     public function parentComment()
     {
-        return $this->hasOne(Comment::class, 'id', 'id');
+        return $this->belongsTo(Comment::class, 'parent_id', 'id');
     }
 
     public function childrenComment()

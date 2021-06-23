@@ -12,17 +12,15 @@ class PostSaved extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
-    }
-
-    public function status()
-    {
-        return $this->hasOne(Status::class, 'id', 'status_id');
+        return $this->belongsTo(User::class);
     }
 
     public function post()
     {
-        return $this->hasOne(Post::class, 'id', 'post_id');
+        return $this->belongsTo(Post::class);
     }
-
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
 }

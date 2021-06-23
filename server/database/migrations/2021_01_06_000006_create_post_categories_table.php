@@ -16,8 +16,8 @@ class CreatePostCategoriesTable extends Migration
         Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('post_id');
-            $table->foreignId('category_id')->default(1);
-            $table->foreignId('status_id')->default(1);
+            $table->foreignId('category_id');
+            $table->foreignId('status_id');
             $table->timestamps();
         });
     }

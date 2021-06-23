@@ -17,6 +17,7 @@ class CreateFollowsTable extends Migration
             $table->id();
             $table->foreignId('follower_id');
             $table->foreignId('followed_id');
+            $table->foreignId('status_id');
             $table->boolean('has_notification')->nullabe()->default(false);
             $table->timestamps();
         });

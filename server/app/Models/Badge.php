@@ -13,13 +13,18 @@ class Badge extends Model
 
     protected $fillable = ['name', 'description', 'status_id', 'image_resource_id'];
 
-    public function status()
-    {
-        return $this->hasOne(Status::class, 'id', 'status_id');
-    }
-
-    public function resource()
+    public function image()
     {
         return $this->hasOne(Resource::class, 'id', 'image_resource_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
     }
 }

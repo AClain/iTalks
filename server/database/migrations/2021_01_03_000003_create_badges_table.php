@@ -17,7 +17,7 @@ class CreateBadgesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->foreignId('status_id')->default(1);
+            $table->foreignId('status_id');
             $table->foreignId('image_resource_id')->nullable();
             $table->timestamps();
         });
