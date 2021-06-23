@@ -89,7 +89,7 @@ Route::middleware(['authenticated'])->group(function () {
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
     Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
 
-    Route::post('vote/{post_id}', [FeedbackController::class, 'store'])->name('addFeedback');
+    Route::post('vote', [FeedbackController::class, 'store'])->name('addFeedback');
 });
 
 // Unauthenticated routes

@@ -69,8 +69,8 @@ class FeedbackController extends Controller
     {
         $validatorFirst = Validator::make($request->all(), [
             // 'type' => ['required', 'regex:/(^post$)|(^comment$)/']
-            'post' => 'nullable|exists:posts,id',
-            'comment' => 'nullable|exists:comments,id'
+            'post' => 'nullable|exists:posts,title',
+            'comment' => 'nullable|exists:comments,text'
         ]);
 
         if ($validatorFirst->fails()) {
@@ -108,18 +108,17 @@ class FeedbackController extends Controller
         $status = Status::where('name', 'actif')->first();
         // $post = Post::find($request->id);
         // $comment = Comment::find($request->id);
-        $post = Post::where('id', request('post'))->first();
-        $comment = Comment::where('id', request('comment'))->first();
+        $post = Post::where('title', request('post'))->first();
+        $comment = Comment::where('text', request('comment'))->first();
 
         // $entity = Feedback::where(request('type'), request('entity'))->first();
-
         $feedback->positive = 1;
         $feedback->status_id = $status->id;
         $feedback->user_id = $token["uid"];
         if (isset($post) || isset($comment)) {
             $feedback->entity_id = ($post ? $post->id : null) | ($comment ? $comment->id : null);
         }
-        // $feedback->entity_id = $entity->id;
+
         $save = $feedback->save();
 
         if ($save) {
