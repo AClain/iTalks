@@ -106,8 +106,6 @@ class FeedbackController extends Controller
 
         $token = TokenController::parseToken($request->cookie('token'));
         $status = Status::where('name', 'actif')->first();
-        // $post = Post::find($request->id);
-        // $comment = Comment::find($request->id);
         $post = Post::where('title', request('post'))->first();
         $comment = Comment::where('text', request('comment'))->first();
 
@@ -117,8 +115,11 @@ class FeedbackController extends Controller
         $feedback->user_id = $token["uid"];
         if (isset($post) || isset($comment)) {
             $feedback->entity_id = ($post ? $post->id : null) | ($comment ? $comment->id : null);
+        } else {
+            return response()->json([
+                'message' => "Ce post ou commentaire n'existe plus."
+            ], 403);
         }
-
         $save = $feedback->save();
 
         if ($save) {
