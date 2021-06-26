@@ -16,6 +16,16 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+
+        User::create([
+            'username' => 'admin',
+            'email' => 'admin' . '@example.fr',
+            'password' => Hash::make('admin'),
+            'status_id' => 1,
+            'role_id' => 2,
+            'resource_id' => 5
+        ]);
+
         for ($i = 0; $i < 10; $i++) {
             User::create([
                 'username' => Str::random(10),
@@ -23,7 +33,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('password'),
                 'status_id' => 1,
                 'role_id' => \random_int(1, 4),
-                'avatar_resource_id' => \random_int(1, 2)
+                'resource_id' => \random_int(1, 4)
             ]);
         }
     }

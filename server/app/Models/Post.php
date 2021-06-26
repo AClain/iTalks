@@ -7,12 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $table = "posts";
+    protected $fillable = ['title', 'text', 'is_edited', 'user_id', 'status_id'];
+    protected $appends = ['status', 'user'];
+    protected $hidden = ['user_id', 'status_id'];
 
-    protected $fillable = ['title', 'text', 'user_id', 'status_id', 'is_edited'];
-
+    // Relationship methods
     public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class);
     }
 
     public function users()
@@ -38,5 +40,20 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    // Accessor methods
+    public function getStatusAttribute()
+    {
+        return Status::find($this->status_id)->name;
+    }
+
+    public function getUserAttribute()
+    {
+        $user = User::find($this->user_id);
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+        ];
     }
 }

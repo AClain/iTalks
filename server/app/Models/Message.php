@@ -10,8 +10,8 @@ class Message extends Model
     use HasFactory;
 
     protected $table = "messages";
-
     protected $fillable = ['sender_id', 'receiver_id', 'text', 'is_open', 'status_id'];
+    protected $hidden = ['sender_id', 'receiver_id', 'status_id'];
 
     public function sender()
     {

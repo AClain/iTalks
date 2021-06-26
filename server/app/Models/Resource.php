@@ -10,8 +10,8 @@ class Resource extends Model
     use HasFactory;
 
     protected $table = 'resources';
-
     protected $fillable = ['link', 'name', 'status_id'];
+    protected $hidden = ['status_id'];
 
     public function posts()
     {

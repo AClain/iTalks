@@ -21,7 +21,6 @@ class CreateCommentsTable extends Migration
             $table->boolean('is_edited')->default(false);
             $table->foreignId('parent_id')->nullable();
             $table->foreignId('status_id');
-            $table->foreignId('resource_id')->nullable();
             $table->timestamps();
         });
     }

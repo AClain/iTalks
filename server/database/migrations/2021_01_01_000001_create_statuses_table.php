@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class CreateStatusesTable extends Migration
 {
@@ -18,6 +19,38 @@ class CreateStatusesTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
+
+        $statuses = [
+            [
+                'name' => 'actif',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'retiré',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'supprimé',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'lu',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'édité',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+        ];
+
+        foreach ($statuses as $status) {
+            DB::table('statuses')->insert($status);
+        }
     }
 
     /**

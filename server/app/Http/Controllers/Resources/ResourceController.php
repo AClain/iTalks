@@ -72,18 +72,16 @@ class ResourceController extends Controller
         return $response;
     }
 
-    public function getBadgeResource(int $badge_id, string $image_name)
+    public function getBadgeResource(string $image_name)
     {
-        $path = public_path('/storage/images/badges/' . $badge_id . '/');
+        $path = public_path('/storage/images/badges/' . $image_name);
 
-        if (!File::exists($path . $image_name)) {
+        if (!File::exists($path)) {
             abort(404);
         }
 
-        $full_path = $path . $image_name;
-
-        $file = File::get($full_path);
-        $type = File::mimeType($full_path);
+        $file = File::get($path);
+        $type = File::mimeType($path);
 
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);

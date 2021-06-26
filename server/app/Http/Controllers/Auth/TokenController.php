@@ -47,8 +47,8 @@ class TokenController extends Controller
             ->expiresAt($now->modify('+1 hour'))
             ->withClaim('uid', $user->id)
             ->withClaim('username', $user->username)
-            ->withClaim('role', $user->role->name)
-            ->withClaim('status', $user->status->name)
+            ->withClaim('role', $user->role)
+            ->withClaim('status', $user->status)
             ->withClaim('remember_me', $remember_me ? true : false)
             // ->withHeader('foo', 'bar')
             ->getToken($config->signer(), $config->signingKey());

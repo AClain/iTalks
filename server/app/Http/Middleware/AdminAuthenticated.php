@@ -27,7 +27,7 @@ class AdminAuthenticated
         $user = User::where('username', $claims['username'])->first();
 
         // Use is admin ?
-        if ($user->role() === "admin") {
+        if ($user->role === "admin") {
             return $this->forbiddenCookie('Vous devez être administrateur pour accèder à ce contenu.');
         }
 

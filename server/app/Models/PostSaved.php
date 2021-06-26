@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class PostSaved extends Model
 {
     protected $table = "posts_saved";
-
     protected $fillable = ['user_id', 'post_id', 'status_id'];
+    protected $hidden = ['user_id', 'post_id', 'status_id'];
 
     public function user()
     {

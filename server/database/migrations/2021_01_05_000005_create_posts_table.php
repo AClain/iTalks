@@ -18,8 +18,8 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->text('text')->nullable();
             $table->foreignId('user_id');
-            $table->foreignId('status_id');
             $table->boolean('is_edited')->default(false);
+            $table->foreignId('status_id');
             $table->timestamps();
         });
     }

@@ -10,21 +10,39 @@ class Badge extends Model
     use HasFactory;
 
     protected $table = 'badges';
+    protected $fillable = ['name', 'description', 'status_id', 'resource_id'];
+    protected $appends = ['status', 'resource'];
+    protected $hidden = ['status_id', 'resource_id', 'pivot', 'created_at', 'updated_at'];
 
-    protected $fillable = ['name', 'description', 'status_id', 'image_resource_id'];
-
+    // Relationship methods
     public function image()
     {
-        return $this->hasOne(Resource::class, 'id', 'image_resource_id');
+        return $this->hasOne(Resource::class);
     }
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'user_badges');
     }
 
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    // Accessor methods
+    public function getStatusAttribute()
+    {
+        return Status::find($this->status_id)->name;
+    }
+
+    public function getResourceAttribute()
+    {
+        return Resource::find($this->resource_id)->link;
+    }
+
+    public function getReceivedOnAttribute()
+    {
+        return $this->pivot->created_at;
     }
 }

@@ -46,9 +46,8 @@ class UserAuthController extends Controller
         $user->role_id = $role->id;
         $user->status_id = $status->id;
         $user->password = Hash::make(request('password'));
-        $save = $user->save();
 
-        if ($save) {
+        if ($user->save()) {
             $token = TokenController::generateToken($user, null);
 
             return response()->json([

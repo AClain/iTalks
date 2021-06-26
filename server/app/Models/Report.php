@@ -10,8 +10,8 @@ class Report extends Model
     use HasFactory;
 
     protected $table = "reports";
-
     protected $fillable = ['reporter_id', 'reported_id', 'reason', 'type'];
+    protected $hidden = ['reporter_id', 'reported_id'];
 
     public function reporter()
     {

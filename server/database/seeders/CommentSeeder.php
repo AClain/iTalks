@@ -23,7 +23,6 @@ class CommentSeeder extends Seeder
                 'user_id' => random_int(1, 10),
                 'status_id' => 1,
                 'parent_id' => null,
-                'resource_id' => null
             ]);
         }
 
@@ -35,7 +34,6 @@ class CommentSeeder extends Seeder
                 'user_id' => random_int(1, 10),
                 'status_id' => 1,
                 'parent_id' => random_int(1, 10),
-                'resource_id' => null
             ]);
         }
     }

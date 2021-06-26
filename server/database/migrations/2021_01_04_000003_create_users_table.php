@@ -19,8 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->text('password');
             $table->foreignId('role_id')->default(5);
+            $table->foreignId('resource_id')->nullable();
             $table->foreignId('status_id');
-            $table->foreignId('avatar_resource_id')->nullable();
             $table->timestamps(true);
         });
     }
