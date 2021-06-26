@@ -18,6 +18,7 @@ use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\User\FollowController;
 use App\Http\Controllers\User\PasswordResetController;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,6 +109,8 @@ Route::middleware(['unauthenticated'])->group(function () {
 });
 
 // Public routes
+
+Route::get('verify_email/{token}', [UserController::class, 'verifyEmail'])->name('verifyEmail');
 
 Route::get('followers/{user_id}', [FollowController::class, 'getFollowers'])->name('followers');
 Route::get('followings/{user_id}', [FollowController::class, 'getFollowings'])->name('followings');

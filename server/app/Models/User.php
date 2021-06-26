@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     protected $table = "users";
-    protected $fillable = ['username', 'email', 'password', 'role_id', 'resource_id', 'status_id'];
+    protected $fillable = ['username', 'email', 'password', 'email_verified', 'email_token', 'role_id', 'resource_id', 'status_id'];
     protected $appends = ['role', 'avatar', 'status'];
-    protected $hidden = ['password', 'role_id', 'resource_id', 'status_id'];
+    protected $hidden = ['password', 'email_token', 'role_id', 'resource_id', 'status_id'];
 
     // Relationship methods
 

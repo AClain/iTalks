@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use App\Http\Controllers\Auth\TokenController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TemplateMail;
 
 class UserAuthController extends Controller
 {
@@ -37,6 +39,7 @@ class UserAuthController extends Controller
             ], 400);
         }
 
+
         $role = Role::where('name', 'utilisateur')->first();
         $status = Status::where('name', 'actif')->first();
 
@@ -49,9 +52,20 @@ class UserAuthController extends Controller
 
         if ($user->save()) {
             $token = TokenController::generateToken($user, null);
+            $emailVerifyToken = TokenController::generateEmailVerifyToken($user);
+            $user->update(['email_token' => $emailVerifyToken->toString()]);
+
+            Mail::to($user->email)->send(
+                new TemplateMail([
+                    'user' => $user,
+                    'token' => $emailVerifyToken->toString(),
+                    'subject' => 'Confirmation de votre adresse mail.',
+                    'reason' => 'user.email_verify',
+                ])
+            );
 
             return response()->json([
-                'message' => 'Inscription effectuée avec succès!',
+                'message' => 'Inscription effectuée avec succès! Un mail vous a été envoyé pour confirmer votre adresse mail.',
             ], 201)->cookie('token', $token->toString(), null, null, null, null, false);
         }
 
