@@ -56,6 +56,27 @@ class TokenController extends Controller
         return $token;
     }
 
+    public static function generatePasswordResetToken($user)
+    {
+        $config = self::getConfig();
+
+        $now = new DateTimeImmutable();
+        $token = $config->builder()
+            ->issuedBy(config('app.url'))
+            ->permittedFor(config('app.client_url'))
+            // ->identifiedBy('4f1g23a12aa')
+            ->issuedAt($now)
+            ->expiresAt($now->modify('+1 hour'))
+            ->withClaim('uid', $user->id)
+            ->withClaim('username', $user->username)
+            ->withClaim('role', $user->role)
+            ->withClaim('status', $user->status)
+            // ->withHeader('foo', 'bar')
+            ->getToken($config->signer(), $config->signingKey());
+
+        return $token;
+    }
+
     /**
      * Verify a token validity
      *

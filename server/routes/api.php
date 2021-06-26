@@ -17,6 +17,7 @@ use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\User\FollowController;
+use App\Http\Controllers\User\PasswordResetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,9 @@ Route::middleware(['unauthenticated'])->group(function () {
     Route::get('/unauthenticated', [TokenController::class, 'unauthenticated']);
     Route::post('register', [UserAuthController::class, 'register'])->name('register');
     Route::post('login', [UserAuthController::class, 'login'])->name('login');
+
+    Route::get('password_reset/{email_address}', [PasswordResetController::class, 'reset'])->name('passwordReset');
+    Route::post('password_reset/{token}', [PasswordResetController::class, 'confirm'])->name('confirmReset');
 });
 
 // Public routes

@@ -17,7 +17,6 @@ class CreatePasswordResetsTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->text('token');
-            $table->date('expiration_date');
             $table->timestamps();
         });
     }
