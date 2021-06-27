@@ -67,40 +67,18 @@ class FeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        $validatorFirst = Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             // 'type' => ['required', 'regex:/(^post$)|(^comment$)/']
+            'type' => 'required', 'post' | 'comment',
             'post' => 'nullable|exists:posts,title',
             'comment' => 'nullable|exists:comments,text'
         ]);
 
-        if ($validatorFirst->fails()) {
+        if ($validator->fails()) {
             return response()->json([
-                'errors' => $validatorFirst->errors()
+                'errors' => $validator->errors()
             ], 400);
         }
-
-        // $validatorSecond = null;
-
-        // if (request('type') === 'post') {
-        //     $validatorSecond = Validator::make($request->all(), [
-        //         'entityId' => 'exists:posts,id',
-        //     ], [
-        //         'entityId.exists' => "une erreur s'est produite, veuillez réessayer."
-        //     ]);
-        // } else if (request('type') === 'comment') {
-        //     $validatorSecond = Validator::make($request->all(), [
-        //         'entityId' => 'exists:comments,id',
-        //     ], [
-        //         'entityId.exists' => "une erreur s'est produite, veuillez réessayer."
-        //     ]);
-        // }
-
-        // if ($validatorSecond->fails()) {
-        //     return response()->json([
-        //         'errors' => $validatorSecond->errors()
-        //     ], 400);
-        // }
-
 
         $feedback = new Feedback();
 
@@ -117,7 +95,7 @@ class FeedbackController extends Controller
             $feedback->entity_id = ($post ? $post->id : null) | ($comment ? $comment->id : null);
         } else {
             return response()->json([
-                'message' => "Ce post ou commentaire n'existe plus."
+                'message' => "Une erreur s'est produite."
             ], 403);
         }
         $save = $feedback->save();
@@ -135,37 +113,53 @@ class FeedbackController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Feedback $feedback)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Feedback $feedback)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Feedback  $feedback
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Feedback $feedback)
+    public function update(Request $request, int $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            // 'type' => ['required', 'regex:/(^post$)|(^comment$)/']
+            'post' => 'nullable|exists:posts,title',
+            'comment' => 'nullable|exists:comments,text'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $feedback = Feedback::find($id);
+
+        if (!$feedback) {
+            return response()->json([
+                'message' => 'Le post ou commentaire n\'a pas été trouvé.',
+            ], 403);
+        }
+
+        $token = TokenController::parseToken($request->cookie('token'));
+        if (!$token["uid"]) {
+            return response()->json([
+                'message' => 'Vous n\'êtes pas autorisé à voter cette ressource.',
+            ], 403);
+        }
+
+        if ($feedback->positive == 1) {
+            $feedback->positive = 0;
+        } else {
+            $feedback->positive = 1;
+        }
+
+        if ($feedback->save()) {
+            return response()->json([
+                'message' => 'Vote mis à jour avec succès!',
+                'feedback' => $feedback
+            ], 201);
+        }
     }
 
     /**

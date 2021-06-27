@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     use HasFactory;
+    use Votable;
 
     protected $table = "comments";
     protected $fillable = ['user_id', 'post_id', 'text', 'is_edited', 'parent_id', 'status_id'];

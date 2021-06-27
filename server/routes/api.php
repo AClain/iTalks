@@ -95,6 +95,7 @@ Route::middleware(['authenticated'])->group(function () {
     Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
 
     Route::post('vote', [FeedbackController::class, 'store'])->name('addFeedback');
+    Route::put('vote/{id}', [FeedbackController::class, 'update'])->name('updateFeedback');
     Route::delete('vote/{id}', [FeedbackController::class, 'destroy'])->name('deleteFeedback');
 
     Route::get('follow/{following_id}', [FollowController::class, 'follow'])->name('follow');

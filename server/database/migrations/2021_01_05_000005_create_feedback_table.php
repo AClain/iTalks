@@ -18,8 +18,9 @@ class CreateFeedbackTable extends Migration
             $table->foreignId('user_id');
             $table->foreignId('entity_id');
             $table->boolean('positive');
-            $table->foreignId('status_id');
+            $table->foreignId('status_id')->default(1);
             $table->timestamps();
+            // $table->unique('user_id', 'entity_id'); // je ne sais pas si on doit rendre les feedback unique
         });
     }
 

@@ -83,6 +83,12 @@ class User extends Model
         return $this->hasMany(Report::class, 'reported_id', 'id');
     }
 
+    public function votes()
+    {
+        return $this->hasMany(Feedback::class, 'entity_id', 'id');
+    }
+
+
     // Accesor methods
 
     public function getRoleAttribute()

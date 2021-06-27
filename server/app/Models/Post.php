@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use Votable;
+
     protected $table = "posts";
     protected $fillable = ['title', 'text', 'is_edited', 'user_id', 'status_id'];
     protected $appends = ['status', 'user'];
     protected $hidden = ['user_id', 'status_id'];
+
 
     // Relationship methods
     public function user()
@@ -55,11 +59,6 @@ class Post extends Model
             'id' => $user->id,
             'name' => $user->name,
         ];
-    }
-
-    public function feedback()
-    {
-        return $this->hasMany(Feedback::class, 'entity_id', 'id');
     }
 
 }
