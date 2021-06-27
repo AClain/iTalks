@@ -174,8 +174,21 @@ class FeedbackController extends Controller
      * @param  \App\Models\Feedback  $feedback
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Feedback $feedback)
+    public function destroy(int $id)
     {
-        //
+        $feedback = Feedback::find($id);
+        if (!$feedback) {
+            return response()->json([
+                'message' => 'Le vote n\'a pas été trouvé.',
+            ], 404);
+        }
+
+        $feedback->positive = 0;
+
+        if ($feedback->save()) {
+            return response()->json([
+                'message' => 'vote supprimé avec succès!',
+            ], 201);
+        }
     }
 }
