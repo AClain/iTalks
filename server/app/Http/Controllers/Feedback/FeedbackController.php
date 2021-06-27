@@ -122,7 +122,6 @@ class FeedbackController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
-            // 'type' => ['required', 'regex:/(^post$)|(^comment$)/']
             'post' => 'nullable|exists:posts,title',
             'comment' => 'nullable|exists:comments,text'
         ]);
