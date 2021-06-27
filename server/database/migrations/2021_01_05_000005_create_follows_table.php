@@ -16,8 +16,8 @@ class CreateFollowsTable extends Migration
         Schema::create('follows', function (Blueprint $table) {
             $table->id();
             $table->foreignId('follower_id');
-            $table->foreignId('followed_id');
-            $table->boolean('has_notification')->nullabe()->default(false);
+            $table->foreignId('following_id');
+            $table->boolean('has_notifications')->nullabe()->default(false);
             $table->timestamps();
         });
     }

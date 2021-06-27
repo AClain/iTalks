@@ -10,11 +10,16 @@ class Role extends Model
     use HasFactory;
 
     protected $table = 'roles';
-
     protected $fillable = ['name', 'status_id'];
+    protected $hidden = ['status_id'];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 
     public function status()
     {
-        return $this->hasOne(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class);
     }
 }

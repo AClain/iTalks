@@ -10,27 +10,32 @@ class Comment extends Model
     use HasFactory;
 
     protected $table = "comments";
-
-    protected $fillable = ['user_id', 'post_id', 'text', 'is_edited', 'parent_id', 'status_id', 'resource_id'];
+    protected $fillable = ['user_id', 'post_id', 'text', 'is_edited', 'parent_id', 'status_id'];
+    protected $hidden = ['user_id', 'post_id', 'parent_id', 'status_id'];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class);
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
     }
 
     public function status()
     {
-        return $this->hasOne(Status::class, 'id', 'status_id');
+        return $this->belongsTo(Status::class);
     }
 
     public function parentComment()
     {
-        return $this->hasMany(Comment::class, 'id', 'id');
+        return $this->belongsTo(Comment::class, 'parent_id', 'id');
     }
 
     public function childrenComment()
     {
-        return $this->belongsTo(Comment::class, 'id', 'parent_id');
+        return $this->hasMany(Comment::class, 'id', 'parent_id');
     }
 
     public function feedback()

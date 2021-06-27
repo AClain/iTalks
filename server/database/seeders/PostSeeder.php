@@ -27,7 +27,8 @@ class PostSeeder extends Seeder
 
             PostCategory::create([
                 'post_id' => $post->id,
-                'category_id' => random_int(1, 6)
+                'category_id' => random_int(1, 6),
+                'status_id' => 1
             ]);
         }
     }

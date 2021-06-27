@@ -8,6 +8,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\UnencryptedToken;
+use Illuminate\Support\Str;
 
 use DateTimeImmutable;
 
@@ -42,15 +43,56 @@ class TokenController extends Controller
         $token = $config->builder()
             ->issuedBy(config('app.url'))
             ->permittedFor(config('app.client_url'))
-            // ->identifiedBy('4f1g23a12aa')
+            ->identifiedBy(Str::random(16))
             ->issuedAt($now)
             ->expiresAt($now->modify('+1 hour'))
             ->withClaim('uid', $user->id)
             ->withClaim('username', $user->username)
-            ->withClaim('role', $user->role->name)
-            ->withClaim('status', $user->status->name)
+            ->withClaim('role', $user->role)
+            ->withClaim('status', $user->status)
             ->withClaim('remember_me', $remember_me ? true : false)
-            // ->withHeader('foo', 'bar')
+            ->getToken($config->signer(), $config->signingKey());
+
+        return $token;
+    }
+
+    public static function generatePasswordResetToken($user)
+    {
+        $config = self::getConfig();
+
+        $now = new DateTimeImmutable();
+        $token = $config->builder()
+            ->issuedBy(config('app.url'))
+            ->permittedFor(config('app.client_url'))
+            ->identifiedBy(Str::random(16))
+            ->issuedAt($now)
+            ->expiresAt($now->modify('+1 hour'))
+            ->withClaim('uid', $user->id)
+            ->withClaim('username', $user->username)
+            ->withClaim('role', $user->role)
+            ->withClaim('status', $user->status)
+            ->withClaim('reason', "password_reset")
+            ->getToken($config->signer(), $config->signingKey());
+
+        return $token;
+    }
+
+    public static function generateEmailVerifyToken($user)
+    {
+        $config = self::getConfig();
+
+        $now = new DateTimeImmutable();
+        $token = $config->builder()
+            ->issuedBy(config('app.url'))
+            ->permittedFor(config('app.client_url'))
+            ->identifiedBy(Str::random(16))
+            ->issuedAt($now)
+            ->expiresAt($now->modify('+1 hour'))
+            ->withClaim('uid', $user->id)
+            ->withClaim('username', $user->username)
+            ->withClaim('role', $user->role)
+            ->withClaim('status', $user->status)
+            ->withClaim('reason', "email_verify")
             ->getToken($config->signer(), $config->signingKey());
 
         return $token;

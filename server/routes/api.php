@@ -16,7 +16,10 @@ use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\Feedback\FeedbackController;
-use App\Models\Feedback;
+use App\Http\Controllers\TestController;
+use App\Http\Controllers\User\FollowController;
+use App\Http\Controllers\User\PasswordResetController;
+use App\Http\Controllers\User\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +33,7 @@ use App\Models\Feedback;
 */
 
 // Admin routes
+
 Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authenticated.admin'] */], function () {
     Route::get('users', [AdminUserController::class, 'list'])->name('getAllUser');
     Route::post('users', [AdminUserController::class, 'store'])->name('createUser');
@@ -72,6 +76,7 @@ Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authent
 });
 
 // Authenticated routes
+
 Route::middleware(['authenticated'])->group(function () {
     Route::get('/authenticated', [TokenController::class, 'authenticated']);
 
@@ -90,18 +95,33 @@ Route::middleware(['authenticated'])->group(function () {
     Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
 
     Route::post('vote', [FeedbackController::class, 'store'])->name('addFeedback');
+
+    Route::get('follow/{following_id}', [FollowController::class, 'follow'])->name('follow');
+    Route::get('unfollow/{following_id}', [FollowController::class, 'unfollow'])->name('unfollow');
 });
 
 // Unauthenticated routes
+
 Route::middleware(['unauthenticated'])->group(function () {
     Route::get('/unauthenticated', [TokenController::class, 'unauthenticated']);
     Route::post('register', [UserAuthController::class, 'register'])->name('register');
     Route::post('login', [UserAuthController::class, 'login'])->name('login');
+
+    Route::get('password_reset/{email_address}', [PasswordResetController::class, 'reset'])->name('passwordReset');
+    Route::post('password_reset/{token}', [PasswordResetController::class, 'confirm'])->name('confirmReset');
 });
 
 // Public routes
+
+Route::get('verify_email/{token}', [UserController::class, 'verifyEmail'])->name('verifyEmail');
+
+Route::get('followers/{user_id}', [FollowController::class, 'getFollowers'])->name('followers');
+Route::get('followings/{user_id}', [FollowController::class, 'getFollowings'])->name('followings');
+
 Route::get('image/placeholder/{image_name}', [ResourceController::class, 'get']);
 Route::get('image/user/{user_id}/{image_name}', [ResourceController::class, 'getUserAvatar']);
 Route::get('image/post/{post_id}/{image_name}', [ResourceController::class, 'getPostImage']);
-Route::get('image/badge/{badge_id}/{image_name}', [ResourceController::class, 'getBadgeResource']);
+Route::get('image/badge/{image_name}', [ResourceController::class, 'getBadgeResource']);
 Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
+
+Route::get('/test', [TestController::class, 'index']);

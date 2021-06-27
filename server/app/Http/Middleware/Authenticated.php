@@ -50,7 +50,7 @@ class Authenticated
         }
 
         // User account active ?
-        if ($user->status() === "supprimé") {
+        if ($user->status === "supprimé") {
             return $this->unauthorizedCookie('Ce compte a été supprimé.');
         }
 
