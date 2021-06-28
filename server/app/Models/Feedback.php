@@ -5,33 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
+use Illuminate\Support\Facades\DB;
 
 class Feedback extends Model
 {
     use HasFactory;
 
-    protected $table = "feedback";
-
-    protected $fillable = ['user_id', 'entity_id', 'positive', 'status_id'];
-
-    public function post()
-    {
-        return $this->belongsTo(Post::class)->withDefault();
-    }
-
-    public function comment()
-    {
-        return $this->belongsTo(Comment::class)->withDefault();
-    }
+    protected $table = "feedbacks";
+    protected $fillable = ['user_id', 'entity_id', 'positive', 'type'];
 
     public function user()
     {
-        return $this->belongsTo(User::class)->withDefault();
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(User::class);
     }
 }

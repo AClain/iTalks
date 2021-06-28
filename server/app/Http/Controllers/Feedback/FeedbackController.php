@@ -8,23 +8,106 @@ use App\Models\Comment;
 use App\Models\Feedback;
 use App\Models\Post;
 use App\Models\Status;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class FeedbackController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function vote(Request $request, int $id)
     {
-        $feedback = Feedback::all();
+
+        $validator = Validator::make($request->all(), [
+            'type' => ['required', 'regex:/(^post$)|(^comment$)/'],
+            'positive' => ['required', 'boolean']
+        ], [
+            'type.regex' => 'Le type de vote doit être "post" ou "comment".'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $token = TokenController::parseToken($request->cookie('token'));
+        $user = User::find($token['uid']);
+
+        $entity = DB::table(request('type') . 's')->find($id);
+
+        $feedback = Feedback::where('user_id', $user->id)->where('entity_id', $entity->id)->where('type', request('type'))->first();
+
+        if ($feedback && $feedback->positive === request('positive')) {
+            $feedback->delete();
+
+            return response()->json([
+                'message' => 'Vote retiré.'
+            ], 201);
+        }
+
+        if ($feedback && $feedback->positive !== request('positive')) {
+            $feedback->positive = !$feedback->positive;
+            $feedback->save();
+
+            return response()->json([
+                'message' => ucfirst(request('type')) . " voté avec succès."
+            ], 201);
+        }
+
+        $feedback = new Feedback();
+        $feedback->user_id = $user->id;
+        $feedback->entity_id = $entity->id;
+        $feedback->positive = request('positive');
+        $feedback->type = request('type');
+
+        if ($feedback->save()) {
+            return response()->json([
+                'message' => ucfirst(request('type')) . " voté avec succès."
+            ], 201);
+        }
 
         return response()->json([
-            'feedback' => $feedback,
-        ], 201);
+            'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
+        ], 500);
+    }
+
+    public function voted_posts(Request $request)
+    {
+        $token = TokenController::parseToken($request->cookie('token'));
+        $user = User::find($token['uid']);
+
+        $post_feedbacks = $user->voted_posts;
+        $voted_posts = [];
+
+        foreach ($post_feedbacks as $feedback) {
+            $post = Post::find($feedback->entity_id);
+            $post->vote = $feedback->positive;
+            $voted_posts[] = $post;
+        }
+
+        return response()->json([
+            'posts' => $voted_posts
+        ]);
+    }
+
+    public function voted_comments(Request $request)
+    {
+        $token = TokenController::parseToken($request->cookie('token'));
+        $user = User::find($token['uid']);
+
+        $comment_feedbacks = $user->voted_comments;
+        $voted_comments = [];
+
+        foreach ($comment_feedbacks as $feedback) {
+            $comment = Comment::find($feedback->entity_id);
+            $comment->vote = $feedback->positive;
+            $voted_comments[] = $comment;
+        }
+
+        return response()->json([
+            'comments' => $voted_comments
+        ]);
     }
 
     /**
@@ -33,155 +116,20 @@ class FeedbackController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function get($id)
+    public function get(Request $request, string $type, int $id)
     {
-        $feedback = Feedback::find($id);
+        $entity = DB::table($type . "s")->find($id);
 
-        if (!$feedback) {
+        if (!$entity) {
             return response()->json([
-                'message' => 'Le vote n\'a pas été trouvé.',
+                'message' => 'L\'entité recherchée n\'existe pas.',
             ], 404);
         }
 
+        $votes = Feedback::where('entity_id', $entity->id)->get();
+
         return response()->json([
-            'feedback' => $feedback,
+            'votes' => $votes,
         ], 201);
-    }
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            // 'type' => ['required', 'regex:/(^post$)|(^comment$)/']
-            'type' => 'required', 'post' | 'comment',
-            'post' => 'nullable|exists:posts,title',
-            'comment' => 'nullable|exists:comments,text'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ], 400);
-        }
-
-        $feedback = new Feedback();
-
-        $token = TokenController::parseToken($request->cookie('token'));
-        $status = Status::where('name', 'actif')->first();
-        $post = Post::where('title', request('post'))->first();
-        $comment = Comment::where('text', request('comment'))->first();
-
-        // $entity = Feedback::where(request('type'), request('entity'))->first();
-        $feedback->positive = 1;
-        $feedback->status_id = $status->id;
-        $feedback->user_id = $token["uid"];
-        if (isset($post) || isset($comment)) {
-            $feedback->entity_id = ($post ? $post->id : null) | ($comment ? $comment->id : null);
-        } else {
-            return response()->json([
-                'message' => "Une erreur s'est produite."
-            ], 403);
-        }
-        $save = $feedback->save();
-
-        if ($save) {
-            return response()->json([
-                'message' => 'Vote ajouté avec succès!'
-            ], 201);
-        }
-
-        return response()->json([
-            'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
-        ], 500);
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, int $id)
-    {
-        $validator = Validator::make($request->all(), [
-            'post' => 'nullable|exists:posts,title',
-            'comment' => 'nullable|exists:comments,text'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors()
-            ], 400);
-        }
-
-        $feedback = Feedback::find($id);
-
-        if (!$feedback) {
-            return response()->json([
-                'message' => 'Le post ou commentaire n\'a pas été trouvé.',
-            ], 403);
-        }
-
-        $token = TokenController::parseToken($request->cookie('token'));
-        if (!$token["uid"]) {
-            return response()->json([
-                'message' => 'Vous n\'êtes pas autorisé à voter cette ressource.',
-            ], 403);
-        }
-
-        if ($feedback->positive == 1) {
-            $feedback->positive = 0;
-        } else {
-            $feedback->positive = 1;
-        }
-
-        if ($feedback->save()) {
-            return response()->json([
-                'message' => 'Vote mis à jour avec succès!',
-                'feedback' => $feedback
-            ], 201);
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Feedback  $feedback
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(int $id)
-    {
-        $feedback = Feedback::find($id);
-        if (!$feedback) {
-            return response()->json([
-                'message' => 'Le vote n\'a pas été trouvé.',
-            ], 404);
-        }
-
-        $feedback->positive = 0;
-
-        if ($feedback->save()) {
-            return response()->json([
-                'message' => 'vote supprimé avec succès!',
-            ], 201);
-        }
     }
 }

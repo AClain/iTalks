@@ -11,11 +11,11 @@ class Post extends Model
 
     protected $table = "posts";
     protected $fillable = ['title', 'text', 'is_edited', 'user_id', 'status_id'];
-    protected $appends = ['status', 'user'];
-    protected $hidden = ['user_id', 'status_id'];
-
+    protected $appends = ['status', 'user', 'vote_count'];
+    protected $hidden = ['user_id', 'status_id', 'votes'];
 
     // Relationship methods
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -46,10 +46,21 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function votes()
+    {
+        return $this->hasMany(Feedback::class, 'entity_id');
+    }
+
     // Accessor methods
+
     public function getStatusAttribute()
     {
         return Status::find($this->status_id)->name;
+    }
+
+    public function getVoteCountAttribute()
+    {
+        return $this->votes->count();
     }
 
     public function getUserAttribute()
@@ -57,8 +68,7 @@ class Post extends Model
         $user = User::find($this->user_id);
         return [
             'id' => $user->id,
-            'name' => $user->name,
+            'username' => $user->username,
         ];
     }
-
 }

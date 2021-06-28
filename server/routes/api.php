@@ -94,9 +94,10 @@ Route::middleware(['authenticated'])->group(function () {
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
     Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
 
-    Route::post('vote', [FeedbackController::class, 'store'])->name('addFeedback');
-    Route::put('vote/{id}', [FeedbackController::class, 'update'])->name('updateFeedback');
-    Route::delete('vote/{id}', [FeedbackController::class, 'destroy'])->name('deleteFeedback');
+    Route::get('votes/posts', [FeedbackController::class, 'voted_posts'])->name('getVotedPosts');
+    Route::get('votes/comments', [FeedbackController::class, 'voted_comments'])->name('getVotedComments');
+    Route::get('votes/{type}/{id}', [FeedbackController::class, 'get'])->name('getEntityVotes');
+    Route::post('vote/{id}', [FeedbackController::class, 'vote'])->name('vote');
 
     Route::get('follow/{following_id}', [FollowController::class, 'follow'])->name('follow');
     Route::get('unfollow/{following_id}', [FollowController::class, 'unfollow'])->name('unfollow');
