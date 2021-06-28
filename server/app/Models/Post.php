@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use Votable;
+
     protected $table = "posts";
     protected $fillable = ['title', 'text', 'is_edited', 'user_id', 'status_id'];
-    protected $appends = ['status', 'user', 'comments_count', 'associated_resources'];
-    protected $hidden = ['user_id', 'status_id', 'comments', 'resources'];
+    protected $appends = ['status', 'user', 'vote_count'];
+    protected $hidden = ['user_id', 'status_id', 'votes'];
 
     // Relationship methods
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -42,11 +46,21 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function votes()
+    {
+        return $this->hasMany(Feedback::class, 'entity_id');
+    }
+
     // Accessor methods
 
     public function getStatusAttribute()
     {
         return Status::find($this->status_id)->name;
+    }
+
+    public function getVoteCountAttribute()
+    {
+        return $this->votes->count();
     }
 
     public function getUserAttribute()

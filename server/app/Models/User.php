@@ -9,7 +9,7 @@ class User extends Model
     protected $table = "users";
     protected $fillable = ['username', 'email', 'password', 'email_verified', 'email_token', 'role_id', 'resource_id', 'status_id'];
     protected $appends = ['role', 'avatar', 'status'];
-    protected $hidden = ['password', 'email_token', 'role_id', 'resource_id', 'status_id'];
+    protected $hidden = ['password', 'email_token', 'role_id', 'resource_id', 'feedbacks', 'status_id'];
 
     // Relationship methods
 
@@ -26,6 +26,11 @@ class User extends Model
     public function badges()
     {
         return $this->belongsToMany(Badge::class, 'user_badges')->withTimestamps();
+    }
+
+    public function feedbacks()
+    {
+        return $this->hasMany(Feedback::class);
     }
 
     public function followings()
@@ -98,6 +103,16 @@ class User extends Model
     public function getStatusAttribute()
     {
         return Status::find($this->status_id)->name;
+    }
+
+    public function getVotedPostsAttribute()
+    {
+        return $this->feedbacks->where('type', 'post');
+    }
+
+    public function getVotedCommentsAttribute()
+    {
+        return $this->feedbacks->where('type', 'comment');
     }
 
     // Custom methods

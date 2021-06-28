@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Comment\CommentController;
+use App\Http\Controllers\Feedback\FeedbackController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\User\FollowController;
 use App\Http\Controllers\User\PasswordResetController;
@@ -95,6 +96,11 @@ Route::middleware(['authenticated'])->group(function () {
     Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
     Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
+
+    Route::get('votes/posts', [FeedbackController::class, 'voted_posts'])->name('getVotedPosts');
+    Route::get('votes/comments', [FeedbackController::class, 'voted_comments'])->name('getVotedComments');
+    Route::get('votes/{type}/{id}', [FeedbackController::class, 'get'])->name('getEntityVotes');
+    Route::post('vote/{id}', [FeedbackController::class, 'vote'])->name('vote');
 
     Route::get('follow/{following_id}', [FollowController::class, 'follow'])->name('follow');
     Route::get('unfollow/{following_id}', [FollowController::class, 'unfollow'])->name('unfollow');
