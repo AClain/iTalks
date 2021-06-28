@@ -99,4 +99,9 @@ class PasswordResetController extends Controller
             'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
         ], 500);
     }
+
+    // Complete cancel password reset request method here
+    public function cancel(Request $request, string $token)
+    {
+    }
 }

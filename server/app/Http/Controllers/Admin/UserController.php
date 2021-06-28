@@ -245,7 +245,7 @@ class UserController extends Controller
         $status = Status::where('name', 'actif')->first();
 
         $avatar = new Resource();
-        $avatar->link = config('app.url') . '/api/image/user/' . $user->id . '/' . $filename;
+        $avatar->link = config('app.url') . config('app.port') . '/api/image/user/' . $user->id . '/' . $filename;
         $avatar->name = $filename;
         $avatar->status_id = $status->id;
         $avatar->save();

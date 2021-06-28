@@ -9,17 +9,19 @@ import { GlobalContext } from "../../providers/GlobalContext";
 // Component librairy
 import { Switch, Checkbox, Icon, Alert, AlertIcon } from "@chakra-ui/react";
 import { FormControl, FormLabel, FormHelperText, InputGroup, InputRightElement, Input } from "@chakra-ui/react";
-import { Image, Text } from "@chakra-ui/react";
-import { Stack, HStack, Flex } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
+import { Stack, HStack } from "@chakra-ui/react";
 
 // Custom element
 import CustomButton from "../Misc/Buttons/CustomButton";
+import LinkTo from "../Misc/LinkTo";
 
 // Icons & images
 import { HiEye, HiEyeOff } from "react-icons/hi";
 
 // Custom modules
 import auth from "../../api/Auth";
+import AuthPagePresentation from "./AuthPagePresentation";
 
 const LoginForm = () => {
 	// Context
@@ -95,10 +97,8 @@ const LoginForm = () => {
 
 	return (
 		<HStack h='100%'>
-			<Flex h='100%' w='50%' justifyContent='center' alignItems='center' bg='var(--text)'>
-				<Image w='150px' h='150px' src='/assets/images/italks-logo-transparent.png' />
-			</Flex>
-			<form style={{ width: "50%" }} onSubmit={handleSubmit(onSubmit)} ref={formRef}>
+			<AuthPagePresentation />
+			<form style={{ width: "40%" }} onSubmit={handleSubmit(onSubmit)} ref={formRef}>
 				<Stack w='100%' alignItems='center' justifyContent='center' bg='transparent' p='0px 15px' m='none'>
 					{Object.values(serverErrors).length > 0 &&
 						Object.values(serverErrors).map((message, i) => (
@@ -170,11 +170,18 @@ const LoginForm = () => {
 								<Text color='var(--danger)'>Requis</Text>
 							</FormHelperText>
 						)}
+						<Checkbox name='remember_me' ref={register} mt='5px'>
+							Se souvenir de moi
+						</Checkbox>
 					</FormControl>
-					<Checkbox name='remember_me'>Checkbox</Checkbox>
 					<CustomButton type='submit' customType='global' customSize='md' isLoading={loading}>
 						Connexion
 					</CustomButton>
+					<LinkTo to='/register'>
+						<Text as='p' fontSize='16px'>
+							Pas encore de compte ?
+						</Text>
+					</LinkTo>
 				</Stack>
 			</form>
 		</HStack>

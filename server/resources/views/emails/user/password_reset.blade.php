@@ -21,7 +21,7 @@
         <p></p>
     </div>
     <div class="col-md-auto text-center">
-        <a href="{{ config('app.client_url') . '/password_reset&token=' . $data['token'] }}" class="btn btn-primary me-1 mb-3"><i class="fa fa-sync-alt"></i> Réinitialiser mon mot de passe</a>
+        <a href="{{ config('app.client_url') . '/password_reset?token=' . $data['token'] }}" class="btn btn-primary me-1 mb-3"><i class="fa fa-sync-alt"></i> Réinitialiser mon mot de passe</a>
     </div>
     <div class="col-12">
         <p>Lien expirant au bout d'une heure.</p>

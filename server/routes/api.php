@@ -79,6 +79,9 @@ Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authent
 Route::middleware(['authenticated'])->group(function () {
     Route::get('/authenticated', [TokenController::class, 'authenticated']);
 
+    Route::get('profil', [UserController::class, 'profil'])->name('profil');
+    Route::get('profil/comments', [UserController::class, 'profilComments'])->name('profilComments');
+
     Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
     Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
     Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');

@@ -8,8 +8,8 @@ class Post extends Model
 {
     protected $table = "posts";
     protected $fillable = ['title', 'text', 'is_edited', 'user_id', 'status_id'];
-    protected $appends = ['status', 'user'];
-    protected $hidden = ['user_id', 'status_id'];
+    protected $appends = ['status', 'user', 'comments_count', 'associated_resources'];
+    protected $hidden = ['user_id', 'status_id', 'comments', 'resources'];
 
     // Relationship methods
     public function user()
@@ -29,7 +29,7 @@ class Post extends Model
 
     public function resources()
     {
-        return $this->hasMany(Resource::class);
+        return $this->belongsToMany(Resource::class, 'post_resources')->withTimestamps();
     }
 
     public function categories()
@@ -43,6 +43,7 @@ class Post extends Model
     }
 
     // Accessor methods
+
     public function getStatusAttribute()
     {
         return Status::find($this->status_id)->name;
@@ -53,7 +54,17 @@ class Post extends Model
         $user = User::find($this->user_id);
         return [
             'id' => $user->id,
-            'name' => $user->name,
+            'username' => $user->username,
         ];
+    }
+
+    public function getCommentsCountAttribute()
+    {
+        return $this->comments->count();
+    }
+
+    public function getAssociatedResourcesAttribute()
+    {
+        return $this->resources;
     }
 }
