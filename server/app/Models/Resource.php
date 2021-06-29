@@ -11,15 +11,25 @@ class Resource extends Model
 
     protected $table = 'resources';
     protected $fillable = ['link', 'name', 'status_id'];
+    protected $appends = ['status'];
     protected $hidden = ['status_id'];
+
+    // Relationship methods
 
     public function posts()
     {
-        return $this->hasMany(Post::class);
+        return $this->belongsToMany(Post::class, 'post_resources');
     }
 
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    // Accessor methods
+
+    public function getStatusAttribute()
+    {
+        return Status::find($this->status_id)->name;
     }
 }

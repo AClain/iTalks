@@ -41,7 +41,7 @@ class TokenController extends Controller
 
         $now = new DateTimeImmutable();
         $token = $config->builder()
-            ->issuedBy(config('app.url'))
+            ->issuedBy(config('app.url') . config('app.port'))
             ->permittedFor(config('app.client_url'))
             ->identifiedBy(Str::random(16))
             ->issuedAt($now)
@@ -62,7 +62,7 @@ class TokenController extends Controller
 
         $now = new DateTimeImmutable();
         $token = $config->builder()
-            ->issuedBy(config('app.url'))
+            ->issuedBy(config('app.url') . config('app.port'))
             ->permittedFor(config('app.client_url'))
             ->identifiedBy(Str::random(16))
             ->issuedAt($now)
@@ -83,7 +83,7 @@ class TokenController extends Controller
 
         $now = new DateTimeImmutable();
         $token = $config->builder()
-            ->issuedBy(config('app.url'))
+            ->issuedBy(config('app.url') . config('app.port'))
             ->permittedFor(config('app.client_url'))
             ->identifiedBy(Str::random(16))
             ->issuedAt($now)

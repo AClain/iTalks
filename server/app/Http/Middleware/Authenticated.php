@@ -32,7 +32,7 @@ class Authenticated
 
         // Cookie is from server and is valid for client
         $claims = TokenController::parseToken($token);
-        if ($claims['iss'] !== config('app.url') || $claims['aud'][0] !== config('app.client_url')) {
+        if ($claims['iss'] !== config('app.url') . config('app.port') || $claims['aud'][0] !== config('app.client_url')) {
             return $this->unauthorizedCookie('Session invalide.');
         }
 
@@ -45,7 +45,7 @@ class Authenticated
         // Cookie hasn't expired
         $now = Carbon::parse(new DateTimeImmutable());
         $expAt = Carbon::parse($claims['exp']);
-        if ($expAt->isBefore($now)) {
+        if ($expAt->isBefore($now) && !$claims['remember_me']) {
             return $this->unauthorizedCookie('La session a expirée.');
         }
 
@@ -59,8 +59,9 @@ class Authenticated
         // Update token
         if (!$claims['remember_me']) {
             $token = TokenController::generateToken($user, false);
+            return $response->cookie('token', $token->toString(), null, null, null, null, false);
         }
-        return $response->cookie('token', $token->toString(), null, null, null, null, false);
+        return $response->cookie('token', $token, null, null, null, null, false);
     }
 
     /**

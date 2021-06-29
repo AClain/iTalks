@@ -15,6 +15,30 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function profil(Request $request)
+    {
+        $token = TokenController::parseToken($request->cookie('token'));
+
+        $user = User::find($token['uid']);
+        $user->badges;
+        $user->posts;
+
+        return response()->json([
+            'info' => $user
+        ]);
+    }
+
+    public function profilComments(Request $request)
+    {
+        $token = TokenController::parseToken($request->cookie('token'));
+
+        $user = User::find($token['uid']);
+
+        return response()->json([
+            'comments' => $user->comments
+        ]);
+    }
+
     public function list(Request $request)
     {
         $searchOptions = new SearchOptionsController($request);

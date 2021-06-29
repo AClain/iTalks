@@ -33,7 +33,7 @@ class Post extends Model
 
     public function resources()
     {
-        return $this->hasMany(Resource::class);
+        return $this->belongsToMany(Resource::class, 'post_resources')->withTimestamps();
     }
 
     public function categories()
@@ -70,5 +70,15 @@ class Post extends Model
             'id' => $user->id,
             'username' => $user->username,
         ];
+    }
+
+    public function getCommentsCountAttribute()
+    {
+        return $this->comments->count();
+    }
+
+    public function getAssociatedResourcesAttribute()
+    {
+        return $this->resources;
     }
 }

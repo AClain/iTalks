@@ -15,6 +15,7 @@ import NotFoundAdmin from "../components/Admin/NotFoundAdmin";
 // Unauthenticated routes
 import LoginForm from "../components/Auth/LoginForm";
 import RegisterForm from "../components/Auth/RegisterForm";
+import VerifyEmail from "../components/Auth/VerifyEmail";
 
 // Authenticated routes
 import Home from "../components/Global/Home";
@@ -105,6 +106,11 @@ const Routes = () => {
 							<NotFoundAdmin />
 						</AdminAuthenticatedRoute>
 					</Switch>
+				</Route>
+
+				{/* Public routes */}
+				<Route path='/verify_email'>
+					<VerifyEmail />
 				</Route>
 
 				{/* No match */}

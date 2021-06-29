@@ -97,22 +97,22 @@ class PostController extends Controller
 
         if ($post->save()) {
             if ($request->hasFile('image')) {
-                $postResource = new PostResource();
-
                 $resource_id = $this->storeImage($request->file('image'), $post);
-                $postResource->post_id = $post->id;
-                $postResource->resource_id = $resource_id;
-                $postResource->status_id = $status->id;
+
+                PostResource::create([
+                    'post_id' => $post->id,
+                    'resource_id' => $resource_id,
+                    'status_id' => $status->id,
+                ]);
             }
 
             $category = Category::where('name', request('category'))->first();
 
-            $postCategory = new PostCategory();
-            $postCategory->post_id = $post->id;
-            $postCategory->category_id = $category->id;
-            $postCategory->status_id = $status->id;
-
-            $saveCategory = $post->save();
+            PostCategory::create([
+                'post_id' => $post->id,
+                'category_id' => $category->id,
+                'status_id' => $status->id,
+            ]);
 
             return response()->json([
                 'message' => 'Le post a été créé avec succès!'
@@ -212,7 +212,7 @@ class PostController extends Controller
         $status = Status::where('name', 'actif')->first();
 
         $image = new Resource();
-        $image->link = config('app.url') . '/api/image/post/' . $post->id . '/' . $filename;
+        $image->link = config('app.url') . config('app.port') . '/api/image/post/' . $post->id . '/' . $filename;
         $image->name = $filename;
         $image->status_id = $status->id;
         $image->save();
@@ -239,7 +239,7 @@ class PostController extends Controller
         $status = Status::where('name', 'actif')->first();
 
         $video = new Resource();
-        $video->link = config('app.url') . '/api/image/post/' . $post->id . '/' . $filename;
+        $video->link = config('app.url') . config('app.port') . '/api/image/post/' . $post->id . '/' . $filename;
         $video->name = $filename;
         $video->status_id = $status->id;
         $video->save();
@@ -287,8 +287,8 @@ class PostController extends Controller
 
         $post->title = request('title') ?? $post->title;
         $post->text = request('text') ?? $post->text;
-        $post->user_id  = $user ? $user->id : $user->user_id;
-        $post->category_id = $category ? $category->id : $category->category_id;
+        $post->user_id  = $user ? $user->id : $post->user_id;
+        $post->category_id = $category ? $category->id : $post->category_id;
         $post->is_edited = true;
 
         if ($post->save()) {
