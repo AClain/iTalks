@@ -24,42 +24,27 @@ Via https
 
 - Modifier les variables d'environnements
 
-Variables d'environnement importantes à modifier dans /.env :
-_(ce fichier n'étant pas présent lors de la première copie du repo, il vous faudra faire une copie de /.env.example)_
+Variables d'environnement importantes à modifier/ajouter dans /client :
+_(ce fichier n'étant pas présent lors de la première copie du repo, il vous faudra faire une copie de /client/.env.example)_
 
 ```
-MYSQL_USER
-MYSQL_PASSWORD
+REACT_APP_SERVER_URL=http://localhost:8000
 ```
 
-Variables d'environnement importantes à modifier dans /server/.env
+Variables d'environnement importantes à modifier dans /server
 _(ce fichier n'étant pas présent lors de la première copie du repo, il vous faudra faire une copie de /server/.env.example)_
 
 ```
-DB_USERNAME
-DB_PASSWORD
-```
+APP_PORT=8000
+SERVER_PORT=8000
 
-Les paires suivantes doivent être identiques :
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=italks
+DB_USERNAME=root
+DB_PASSWORD=
 
-```
-MYSQL_DATABASE <=> DB_DATABASE
-MYSQL_USER <=> DB_USERNAME
-MYSQL_PASSWORD <=> DB_PASSWORD
-```
-
-- Construire les images
-
-```
-> cd quantify
-> docker-compose up -d
-mysql uses an image, skipping
-Building laravel
-(...)
-Building nginx
-(...)
-Building react
-(...)
+JWT_SECRET=IpZHKZADOFqgY64ap7tiIvOlGXqyKgjsas2FYDQu1O8=
 ```
 
 - Côté serveur (Laravel)
@@ -67,49 +52,57 @@ Building react
 Installer les dépendances :
 
 ```
-> docker exec -it laravel /bin/bash
-# composer install
-Installing dependencies from lock file (including require-dev)
-Generating optimized autoload files
+$ cd server
+$ composer install
+// Commande requise deux fois d$u à certains packects
+$ composer install
+```
+
+Générer une clé secrète :
+
+```
+$ php artisan key:generate
+Application key set successfully.
 ```
 
 Créer le lien symbolique pour le dossier `storage` :
 
 ```
-# php artisan storage:link
+$ php artisan storage:link
 The links have been created.
 ```
 
 Effectuer les migrations :
 
 ```
-# php artisan migrate:fresh
+$ php artisan migrate:fresh
 Dropped all tables successfully.
 Migration table created successfully.
 Migrating: ...
 Migrated: ...
 ```
 
-Quitter le conteneur
+- Configuration de Maildev
 
 ```
-# exit
->
+$ docker pull djfarrelly/maildev
+$ docker run -p 1080:80 -p 1025:25 djfarrelly/maildev
 ```
 
-- Arrêter docker
+Modifier ces variables d'environnement dans /server/.env
 
 ```
-> docker-compose down
-```
-
-- Lancer / Relancer docker (cela peut prendre quelques secondes)
-
-```
-> docker-compose up -d
+MAIL_MAILER=smtp
+MAIL_HOST=localhost
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=no-reply@italks.com
 ```
 
 - Accéder aux services
 
-Accéder au client : localhost:13000
-Accéder à l'api : localhost:18080
+Accéder au client : localhost:3000
+Accéder à l'api : localhost:8000/api
+Accèder au serveur mail : localhost:1080
