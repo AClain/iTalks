@@ -8,16 +8,16 @@ iTalks est une plateforme d'échange d'avis et de conseil sur des produits allan
 
 ### Cloner le projet
 
-Via ssh
+Via ssh [comment configurer sa clé SSH](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 
 ```
-> git clone git@github.com:AClain/italks.git
+$ git clone git@github.com:AClain/italks.git
 ```
 
 Via https
 
 ```
-> git clone https://github.com/AClain/italks.git
+$ git clone https://github.com/AClain/italks.git
 ```
 
 ### Modifier les variables d'environnement
@@ -43,6 +43,14 @@ DB_PORT=3306
 DB_DATABASE=italks
 DB_USERNAME=root
 DB_PASSWORD=
+
+MAIL_MAILER=smtp
+MAIL_HOST=localhost
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=no-reply@italks.com
 
 JWT_SECRET=IpZHKZADOFqgY64ap7tiIvOlGXqyKgjsas2FYDQu1O8=
 ```
@@ -82,23 +90,11 @@ Migrating: ...
 Migrated: ...
 ```
 
-- Configuration de Maildev
+- Configuration de Maildev [installer Docker](https://docs.docker.com/get-docker/)
 
 ```
 $ docker pull djfarrelly/maildev
 $ docker run -p 1080:80 -p 1025:25 djfarrelly/maildev
-```
-
-Modifier ces variables d'environnement dans /server/.env
-
-```
-MAIL_MAILER=smtp
-MAIL_HOST=localhost
-MAIL_PORT=1025
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
-MAIL_FROM_ADDRESS=no-reply@italks.com
 ```
 
 - Accéder aux services
