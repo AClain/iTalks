@@ -8,7 +8,7 @@ iTalks est une plateforme d'échange d'avis et de conseil sur des produits allan
 
 ### Cloner le projet
 
-Via ssh [comment configurer sa clé SSH](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+Via ssh [(comment configurer sa clé SSH)](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 
 ```
 $ git clone git@github.com:AClain/italks.git
@@ -90,7 +90,7 @@ Migrating: ...
 Migrated: ...
 ```
 
-- Configuration de Maildev [installer Docker](https://docs.docker.com/get-docker/)
+- Configuration de Maildev [(installer Docker)](https://docs.docker.com/get-docker/)
 
 ```
 $ docker pull djfarrelly/maildev
