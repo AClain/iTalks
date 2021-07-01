@@ -88,4 +88,25 @@ class ResourceController extends Controller
 
         return $response;
     }
+
+    public function swagger()
+    {
+        $filename = 'swagger.json';
+
+        $path = public_path('/storage/.swagger/');
+
+        if (!File::exists($path . $filename)) {
+            abort(404);
+        }
+
+        $full_path = $path . $filename;
+
+        $file = File::get($full_path);
+        $type = File::mimeType($full_path);
+
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+
+        return $response;
+    }
 }

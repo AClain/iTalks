@@ -8,12 +8,9 @@ use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use App\Http\Controllers\Admin\BadgeController as AdminBadgeController;
 use App\Http\Controllers\Admin\UserBadgeController as AdminUserBadgeController;
 use App\Http\Controllers\Admin\RoleController as AdminRoleController;
-use App\Http\Controllers\Admin\CommentController as AdminCommentController;
-use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
 use App\Http\Controllers\Post\PostController;
-use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\Feedback\FeedbackController;
 use App\Http\Controllers\TestController;
@@ -67,21 +64,16 @@ Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authent
     Route::get('role/{id}', [AdminRoleController::class, 'get'])->name('getRole');
     Route::put('role/{id}', [AdminRoleController::class, 'update'])->name('updateRole');
     Route::delete('role/{id}', [AdminRoleController::class, 'destroy'])->name('deleteRole');
-
-    Route::get('comments', [AdminCommentController::class, 'index'])->name('getAllComments');
-    Route::get('comment/{id}', [AdminCommentController::class, 'get'])->name('getComment');
-    Route::post('comment/{post_id}', [AdminCommentController::class, 'store'])->name('createComment');
-    Route::put('comment/{id}', [AdminCommentController::class, 'update'])->name('updateComment');
-    Route::delete('comment/{id}', [AdminCommentController::class, 'destroy'])->name('deleteComment');
 });
 
 // Authenticated routes
 
 Route::middleware(['authenticated'])->group(function () {
-    Route::get('/authenticated', [TokenController::class, 'authenticated']);
-
     Route::get('profil', [UserController::class, 'profil'])->name('profil');
     Route::get('profil/comments', [UserController::class, 'profilComments'])->name('profilComments');
+
+    Route::get('followers/{user_id}', [FollowController::class, 'getFollowers'])->name('followers');
+    Route::get('followings/{user_id}', [FollowController::class, 'getFollowings'])->name('followings');
 
     Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
     Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
@@ -91,8 +83,6 @@ Route::middleware(['authenticated'])->group(function () {
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
 
-    Route::get('comments', [CommentController::class, 'index'])->name('getAllComments');
-    // Route::get('comment/{id}', [AdminCommentController::class, 'get'])->name('getComment');
     Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
     Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
@@ -109,7 +99,6 @@ Route::middleware(['authenticated'])->group(function () {
 // Unauthenticated routes
 
 Route::middleware(['unauthenticated'])->group(function () {
-    Route::get('/unauthenticated', [TokenController::class, 'unauthenticated']);
     Route::post('register', [UserAuthController::class, 'register'])->name('register');
     Route::post('login', [UserAuthController::class, 'login'])->name('login');
 
@@ -121,13 +110,9 @@ Route::middleware(['unauthenticated'])->group(function () {
 
 Route::get('verify_email/{token}', [UserController::class, 'verifyEmail'])->name('verifyEmail');
 
-Route::get('followers/{user_id}', [FollowController::class, 'getFollowers'])->name('followers');
-Route::get('followings/{user_id}', [FollowController::class, 'getFollowings'])->name('followings');
-
 Route::get('image/placeholder/{image_name}', [ResourceController::class, 'get']);
 Route::get('image/user/{user_id}/{image_name}', [ResourceController::class, 'getUserAvatar']);
 Route::get('image/post/{post_id}/{image_name}', [ResourceController::class, 'getPostImage']);
 Route::get('image/badge/{image_name}', [ResourceController::class, 'getBadgeResource']);
-Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
 
 Route::get('/test', [TestController::class, 'index']);
