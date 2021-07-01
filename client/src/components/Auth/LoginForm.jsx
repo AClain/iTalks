@@ -100,6 +100,7 @@ const LoginForm = () => {
 			<AuthPagePresentation />
 			<form style={{ width: "40%" }} onSubmit={handleSubmit(onSubmit)} ref={formRef}>
 				<Stack w='100%' alignItems='center' justifyContent='center' bg='transparent' p='0px 15px' m='none'>
+					
 					{Object.values(serverErrors).length > 0 &&
 						Object.values(serverErrors).map((message, i) => (
 							<Alert key={i} status='error' m='10px 0px' color='main.dark'>
@@ -108,6 +109,12 @@ const LoginForm = () => {
 							</Alert>
 						))}
 
+						<Text fontFamily='Roboto Black' customType='global' > 
+						iTalks </Text>
+						<Text> Vous souhaîtes la Bienvenue </Text>
+						
+										
+							<br></br>
 					<input type='hidden' name='type' ref={register} value={usingEmail ? "email" : "username"} />
 					<FormControl isRequired mb='25px' minW='350px' maxW='600px'>
 						<FormLabel>{usingEmail ? "Adresse email" : "Nom d'utilisateur"}</FormLabel>
