@@ -78,8 +78,8 @@
           "admins/user"
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Utilisateur enregistré avec succès!"
           }
         }
       },
@@ -89,11 +89,11 @@
           "admins/user"
         ],
         "responses": {
-          "200": {
-            "description": "User created"
+          "201": {
+            "description": "Le post a été créé avec succès!"
           },
-          "400": {
-            "description": "Array or errors",
+          "500": {
+            "description": "Une erreur sest produite, veuillez réessayer.",
             "content": {
               "application/json": {
                 "schema": {
@@ -124,8 +124,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Utilisateur enregistré avec succès!"
           }
         }
       }
@@ -149,7 +149,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Server ready and open to requests"
+            "description": "Utilisateur a été créer avec succès!"
           }
         }
       }
@@ -173,7 +173,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Server ready and open to requests"
+            "description": "Utilisateur enregistré avec succès!"
           }
         }
       },
@@ -194,8 +194,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Utilisateur supprimé avec succès! "
           }
         }
       }
@@ -218,8 +218,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Avatar enregistré avec succès"
           }
         }
       },
@@ -240,8 +240,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Avatar supprimé avec succès"
           }
         }
       }
@@ -253,8 +253,8 @@
           "admins/status"
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le statut a été créé avec succès!"
           }
         }
       },
@@ -264,8 +264,8 @@
           "admins/status"
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le statut a été enregisté avec succès!"
           }
         }
       }
@@ -289,8 +289,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le statut a été créé avec succès!"
           }
         }
       },
@@ -312,8 +312,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le statut a été mise à jour avec succès!"
           }
         }
       },
@@ -335,8 +335,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le statut a été supprimé avec succès!"
           }
         }
       }
@@ -348,8 +348,8 @@
           "admins/badge"
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le badge a été créé avec succès!"
           }
         }
       },
@@ -359,8 +359,8 @@
           "admins/badge"
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le badge a été enregisté avec succès!"
           }
         }
       }
@@ -384,8 +384,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le badge a été créé avec succès!"
           }
         }
       },
@@ -407,8 +407,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le badge a été mise à jour avec succès!"
           }
         }
       },
@@ -430,8 +430,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le badge a été supprimer avec succès!"
           }
         }
       }
@@ -455,8 +455,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Les badges ont bien été liés à l'utilisateur"
           }
         }
       },
@@ -478,8 +478,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Les badges ont bien été déliés de l'utilisateur."
           }
         }
       }
@@ -503,8 +503,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Les badges ont bien été créer à l'utilisateur."
           }
         }
       },
@@ -526,8 +526,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Les badges ont bien été lié à l'utilisateur."
           }
         }
       }
@@ -551,8 +551,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Les badges ont bien été déliés."
           }
         }
       }
@@ -564,8 +564,8 @@
           "admins/role"
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le role a été créé avec succès!"
           }
         }
       },
@@ -576,7 +576,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Server ready and open to requests"
+            "description": "Le role a été enregisté avec succès!"
           }
         }
       }
@@ -600,8 +600,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le role a été créé avec succès!"
           }
         }
       },
@@ -623,8 +623,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le role a été mise à jour avec succès!"
           }
         }
       },
@@ -646,8 +646,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Server ready and open to requests"
+          "201": {
+            "description": "Le role a été suprrimer avec succès!"
           }
         }
       }
@@ -659,8 +659,8 @@
           "authenticated/profil"
         ],
         "responses": {
-          "200": {
-            "description": "User found"
+          "201": {
+            "description": "Utilisateur trouvé avec succès"
           }
         }
       }
@@ -672,8 +672,8 @@
           "authenticated/profil"
         ],
         "responses": {
-          "200": {
-            "description": "User"
+          "201": {
+            "description": "Commentaire créer avec succès!"
           }
         }
       }
@@ -697,8 +697,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "User found"
+          "201": {
+            "description": "Followers créer avec succès !"
           }
         }
       }
@@ -722,8 +722,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "User found"
+          "201": {
+            "description": "Followers a été créer avec succès !"
           }
         }
       }
@@ -735,8 +735,8 @@
           "authenticated/post"
         ],
         "responses": {
-          "200": {
-            "description": "Post created"
+          "201": {
+            "description": "Le post a été créer avec succès ! "
           }
         }
       }
@@ -748,8 +748,8 @@
           "authenticated/post"
         ],
         "responses": {
-          "200": {
-            "description": "Post created"
+          "201": {
+            "description": "Le post a été créer avec succès ! "
           }
         }
       }
@@ -761,8 +761,8 @@
           "authenticated/post"
         ],
         "responses": {
-          "200": {
-            "description": "Post created"
+          "201": {
+            "description": "Le post a été créer avec succès ! "
           }
         }
       }
@@ -786,8 +786,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Post found"
+          "201": {
+            "description": "Le post a été créer avec succès ! "
           }
         }
       },
@@ -810,8 +810,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Post updated"
+          "201": {
+            "description": "Le post a été mise à jour avec succès ! "
           }
         }
       },
@@ -834,8 +834,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Post deleted"
+          "201": {
+            "description": "Le post a été supprimer avec succès ! "
           }
         }
       }
@@ -859,8 +859,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Comment created"
+          "201": {
+            "description": "Le commentaire a été enregistrer !"
           }
         }
       }
@@ -884,8 +884,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Comment updated"
+          "201": {
+            "description": "Le commentaire a été mise à jour ! "
           }
         }
       },
@@ -907,8 +907,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Comment deleted"
+          "201": {
+            "description": "Le commentaire a été supprimer ! "
           }
         }
       }
@@ -920,8 +920,8 @@
           "authenticated/vote"
         ],
         "responses": {
-          "200": {
-            "description": "Feedback(s) found"
+          "201": {
+            "description": "Le post a été voté! "
           }
         }
       }
@@ -933,8 +933,8 @@
           "authenticated/vote"
         ],
         "responses": {
-          "200": {
-            "description": "Feedback(s) found"
+          "201": {
+            "description": "Le commentaire a été voté! "
           }
         }
       }
@@ -968,8 +968,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Feedback(s) found"
+          "201": {
+            "description": "Voté créer avec succès"
           }
         }
       }
@@ -993,8 +993,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Feedback(s) found"
+          "201": {
+            "description": "Voté enregistré avec succès"
           }
         }
       }
@@ -1018,8 +1018,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Follow created"
+          "201": {
+            "description": "Follow créer avec succès"
           }
         }
       }
@@ -1043,8 +1043,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Follow deleted"
+          "201": {
+            "description": "Follow retiré avec succès"
           }
         }
       }
@@ -1056,8 +1056,8 @@
           "unauthenticated/auth"
         ],
         "responses": {
-          "200": {
-            "description": "User registered"
+          "201": {
+            "description": "Utilisateur enregistré avec succès"
           }
         }
       }
@@ -1069,8 +1069,8 @@
           "unauthenticated/auth"
         ],
         "responses": {
-          "200": {
-            "description": "User logged in"
+          "201": {
+            "description": "Connexion enregistré avec succès"
           }
         }
       }
@@ -1095,8 +1095,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Password reset Mail sent"
+          "201": {
+            "description": "Un email a été envoyé à l'adresse indiquée."
           }
         }
       }
@@ -1120,8 +1120,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "User password reseted"
+          "201": {
+            "description": "Un email a été envoyé à l'adresse indiquée."
           }
         }
       }
@@ -1145,8 +1145,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Mail confirmed"
+          "201": {
+            "description": "Le mail a été confirmer"
           }
         }
       }
@@ -1170,8 +1170,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource found"
+          "201": {
+            "description": "Image téléchargé avec succès"
           }
         }
       }
@@ -1205,8 +1205,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource found"
+          "201": {
+            "description": "Image téléchargé avec succès"
           }
         }
       }
@@ -1240,8 +1240,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource found"
+          "201": {
+            "description": "Image téléchargé avec succès"
           }
         }
       }
@@ -1265,8 +1265,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Resource found"
+          "201": {
+            "description": "Image téléchargé avec succès"
           }
         }
       }

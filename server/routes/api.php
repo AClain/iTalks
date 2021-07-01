@@ -79,6 +79,7 @@ Route::middleware(['authenticated'])->group(function () {
     Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
     Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');
 
+    Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
