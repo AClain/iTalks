@@ -1,36 +1,28 @@
-import React from "react";
-import { HelmetProvider } from "react-helmet-async";
+// React
+import { useState } from "react";
 
-import { ChakraProvider } from "@chakra-ui/react";
-import { extendTheme } from "@chakra-ui/react";
+// Providers
+import { HelmetProvider } from "react-helmet-async";
+import { ThemeContext } from "providers/ThemeContext";
+import ThemeProvider from "providers/ThemeProvider";
 
 import { BrowserRouter as Router } from "react-router-dom";
 
-import { Box } from "@chakra-ui/react";
-
-import Routes from "./routes/Routes";
-
-const theme = extendTheme({
-  colors: {
-    main: {
-      purple: "#6930C3",
-      light: "#F1F1F1",
-      lightBlue: "#A4EBF3",
-      dark: "#222831",
-    },
-  },
-});
+import Routes from "routes/Main.routes";
+import { Box } from "@material-ui/core";
 
 export default function App() {
-  return (
-    <HelmetProvider>
-      <ChakraProvider theme={theme}>
-        <Router>
-          <Box bgColor="#222831" h="100vh" minH="500px" overflowY="auto">
-            <Routes />
-          </Box>
-        </Router>
-      </ChakraProvider>
-    </HelmetProvider>
-  );
+	const [theme, setTheme] = useState(ThemeProvider.getClientTheme());
+
+	return (
+		<HelmetProvider>
+			<ThemeContext.Provider value={{ theme, setTheme }}>
+				<Box className={`${theme}`} height='100vh' minHeight='500px' overflow='auto'>
+					<Router>
+						<Routes />
+					</Router>
+				</Box>
+			</ThemeContext.Provider>
+		</HelmetProvider>
+	);
 }

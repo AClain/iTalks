@@ -17,7 +17,6 @@ class CreatePostResourcesTable extends Migration
             $table->id();
             $table->foreignId('post_id');
             $table->foreignId('resource_id');
-            $table->foreignId('status_id')->default(1);
             $table->timestamps();
         });
     }

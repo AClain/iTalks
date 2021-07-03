@@ -53,6 +53,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'port' => env('APP_PORT', '8000'),
+    'client_url' => env('CLIENT_URL', 'http://localhost:3000'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -67,7 +69,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Paris',
 
     /*
     |--------------------------------------------------------------------------
@@ -165,6 +167,8 @@ return [
         /*
          * Package Service Providers...
          */
+
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
         /*
          * Application Service Providers...

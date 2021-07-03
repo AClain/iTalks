@@ -1,0 +1,91 @@
+import { FC } from "react";
+
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+
+import AuthenticatedRoute from "routes/AuthenticatedRoute";
+import UnauthenticatedRoute from "routes/UnauthenticatedRoute";
+import AdminAuthenticatedRoute from "routes/AdminAuthenticatedRoute";
+
+import Home from "components/Pages/Home";
+import SidebarFloat from "components/Submodules/SidebarFloat";
+import NotFound404 from "components/Pages/NotFound404";
+import TopContainer from "components/Modules/TopContainer";
+import Sidebar from "components/Submodules/Sidebar";
+
+const Routes: FC<{}> = () => {
+	return (
+		<BrowserRouter>
+			<Switch>
+				{/* Authenticated routes */}
+				<AuthenticatedRoute exact path='/'>
+					<TopContainer sidebar={<Sidebar />} page={<Home />} />
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/search'>
+					<></>
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/notifications'>
+					<></>
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/saved'>
+					<></>
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/profil'>
+					<></>
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/messages'>
+					<></>
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/settings'>
+					<></>
+				</AuthenticatedRoute>
+
+				{/* Unauthenticated routes */}
+				<UnauthenticatedRoute exact path='/login'>
+					<></>
+				</UnauthenticatedRoute>
+				<UnauthenticatedRoute exact path='/register'>
+					<></>
+				</UnauthenticatedRoute>
+
+				{/* Admin routes */}
+				<Route path='/admin'>
+					<Switch>
+						<AdminAuthenticatedRoute exact path='/admin/users'>
+							<></>
+						</AdminAuthenticatedRoute>
+						<AdminAuthenticatedRoute exact path='/admin/user/create'>
+							<></>
+						</AdminAuthenticatedRoute>
+						<AdminAuthenticatedRoute exact path='/admin/user/:username'>
+							<></>
+						</AdminAuthenticatedRoute>
+						<AdminAuthenticatedRoute exact path='/admin/user/:username/edit'>
+							<></>
+						</AdminAuthenticatedRoute>
+
+						<AdminAuthenticatedRoute exact path='/admin/statuses'>
+							<></>
+						</AdminAuthenticatedRoute>
+
+						<AdminAuthenticatedRoute path='*'>
+							<></>
+						</AdminAuthenticatedRoute>
+					</Switch>
+				</Route>
+
+				{/* Public routes */}
+				<Route path='/verify_email'>
+					<></>
+				</Route>
+
+				{/* No match */}
+				<Route path='/'>
+					<NotFound404 />
+				</Route>
+			</Switch>
+			<SidebarFloat />
+		</BrowserRouter>
+	);
+};
+
+export default Routes;
