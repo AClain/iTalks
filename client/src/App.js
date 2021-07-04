@@ -10,6 +10,10 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import Routes from "routes/Main.routes";
 import { Box } from "@material-ui/core";
+import moment from "moment";
+import "moment/locale/fr";
+
+moment.locale("fr");
 
 export default function App() {
 	const [theme, setTheme] = useState(ThemeProvider.getClientTheme());

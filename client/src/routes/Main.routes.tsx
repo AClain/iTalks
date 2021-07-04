@@ -1,20 +1,23 @@
 import { FC } from "react";
 
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 
 import AuthenticatedRoute from "routes/AuthenticatedRoute";
 import UnauthenticatedRoute from "routes/UnauthenticatedRoute";
 import AdminAuthenticatedRoute from "routes/AdminAuthenticatedRoute";
 
 import Home from "components/Pages/Home";
-import SidebarFloat from "components/Submodules/SidebarFloat";
+import SidebarFloat from "components/Submodules/SidebarFloat/SidebarFloat";
 import NotFound404 from "components/Pages/NotFound404";
 import TopContainer from "components/Modules/TopContainer";
-import Sidebar from "components/Submodules/Sidebar";
+import Sidebar from "components/Submodules/Sidebar/Sidebar";
 
 const Routes: FC<{}> = () => {
+	let location = useLocation();
+	const currentPath = location.pathname;
+
 	return (
-		<BrowserRouter>
+		<>
 			<Switch>
 				{/* Authenticated routes */}
 				<AuthenticatedRoute exact path='/'>
@@ -38,7 +41,6 @@ const Routes: FC<{}> = () => {
 				<AuthenticatedRoute exact path='/settings'>
 					<></>
 				</AuthenticatedRoute>
-
 				{/* Unauthenticated routes */}
 				<UnauthenticatedRoute exact path='/login'>
 					<></>
@@ -46,7 +48,6 @@ const Routes: FC<{}> = () => {
 				<UnauthenticatedRoute exact path='/register'>
 					<></>
 				</UnauthenticatedRoute>
-
 				{/* Admin routes */}
 				<Route path='/admin'>
 					<Switch>
@@ -79,12 +80,16 @@ const Routes: FC<{}> = () => {
 				</Route>
 
 				{/* No match */}
-				<Route path='/'>
+				<Route path='/404' exact>
 					<NotFound404 />
 				</Route>
+
+				<Route path='/'>
+					<Redirect to='/404' />
+				</Route>
 			</Switch>
-			<SidebarFloat />
-		</BrowserRouter>
+			<SidebarFloat exclude={["/404"].includes(currentPath)} />
+		</>
 	);
 };
 

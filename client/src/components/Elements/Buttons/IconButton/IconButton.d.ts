@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
 
-declare enum IconButtonTypeEnum {
+export enum IconButtonTypeEnum {
 	Purple = "purple",
 	Info = "info",
 	Success = "success",
@@ -8,29 +8,27 @@ declare enum IconButtonTypeEnum {
 	Danger = "danger",
 }
 
-declare type IconButtonSizeType = {
+export type IconButtonSizeType = {
 	sm: string;
 	md: string;
 	lg: string;
 };
 
-declare enum IconButtonSizeEnum {
+export enum IconButtonSizeEnum {
 	Sm = "sm",
 	Md = "md",
 	Lg = "lg",
 }
 
-declare interface IconButtonProps {
+export interface IconButtonProps {
 	type?: IconButtonTypeEnum;
 	size?: IconButtonSizeEnum;
 	light?: boolean;
 	icon: ReactElement;
 }
 
-declare interface IconButtonStylesProps {
+export interface IconButtonStylesProps {
 	type?: IconButtonTypeEnum;
 	size?: IconButtonSizeEnum;
 	light?: boolean;
 }
-
-export { IconButtonTypeEnum, IconButtonSizeType, IconButtonProps, IconButtonStylesProps };

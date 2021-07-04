@@ -1,12 +1,17 @@
-import { Box } from "@material-ui/core";
-import PostList from "components/Modules/PostList/PostList";
-import CenteredTabs from "components/Submodules/Tabs/CenteredTabs/CenteredTabs";
-import { FC } from "react";
-import { HiTrendingUp, HiLightBulb } from "react-icons/hi";
-import { MdNewReleases } from "react-icons/md";
+import { Story } from "@storybook/react";
 
-const Home: FC<{}> = () => {
-	const fakePosts = [
+import PostList, { PostListProps } from "./PostList";
+
+export default {
+	component: PostList,
+	title: "Modules/PostList",
+};
+
+const Template: Story<PostListProps> = (args) => <PostList {...args} />;
+
+export const Default = Template.bind({});
+Default.args = {
+	posts: [
 		{
 			assiociated_resources: [],
 			created_at: "2021-01-02T23:35:26.000000Z",
@@ -71,20 +76,5 @@ const Home: FC<{}> = () => {
 			},
 			vote_count: 124,
 		},
-	];
-
-	const tabHeaders = [
-		{ title: "Récent", icon: <MdNewReleases fontSize='24px' />, color: "var(--info)" },
-		{ title: "Populaire", icon: <HiTrendingUp fontSize='24px' />, color: "var(--warning)" },
-		{ title: "Publier", icon: <HiLightBulb fontSize='24px' />, color: "var(--success)" },
-	];
-	const tabPanels = [<PostList posts={fakePosts} />, "Populaire", "Publier"];
-
-	return (
-		<Box width='100%'>
-			<CenteredTabs tabHeaders={tabHeaders} tabPanels={tabPanels} fontSize='50px'></CenteredTabs>
-		</Box>
-	);
+	],
 };
-
-export default Home;

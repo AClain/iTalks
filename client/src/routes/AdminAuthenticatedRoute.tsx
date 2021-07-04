@@ -7,7 +7,7 @@ import { Redirect, Route } from "react-router-dom";
 import auth from "api/auth";
 
 interface AdminAuthenticatedRouteProps {
-	children: Array<ReactNode> | ReactNode;
+	children: JSX.Element | JSX.Element[];
 	[x: string]: any;
 }
 

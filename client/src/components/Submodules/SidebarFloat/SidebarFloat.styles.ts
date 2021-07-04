@@ -15,7 +15,7 @@ const useStyles = makeStyles({
 	},
 	subIcon: {
 		fontSize: "35px",
-		background: "var(--info)",
+		background: "rgba(5, 5, 5, 0.3)",
 		color: "var(--text)",
 		borderRadius: "50%",
 		padding: ".25em",

@@ -1,35 +1,40 @@
-declare type ButtonTypeType = {
-	default: string;
+export type ButtonTypeType = {
 	info: string;
 	success: string;
 	warning: string;
 	danger: string;
 };
 
-declare enum ButtonTypeEnum {
-	Default = "default",
+export enum ButtonTypeEnum {
 	Info = "info",
 	Success = "success",
 	Warning = "warning",
 	Danger = "danger",
 }
 
-declare type ButtonSizeType = {
+export type ButtonSizeType = {
 	sm: string;
 	md: string;
 	lg: string;
 };
 
-declare enum ButtonSizeEnum {
+export enum ButtonSizeEnum {
 	Sm = "sm",
 	Md = "md",
 	Lg = "lg",
 }
 
-declare interface ButtonProps {
+export interface ButtonProps {
+	label: string;
+	type?: ButtonTypeEnum;
+	size?: ButtonSizeEnum;
+	fullWidth?: boolean;
+	startIcon?: JSX.Element;
+	endIcon?: JSX.Element;
+}
+
+export interface ButtonStylesProps {
 	type?: ButtonTypeEnum;
 	size?: ButtonSizeEnum;
 	fullWidth?: boolean;
 }
-
-export { ButtonTypeType, ButtonSizeType, ButtonProps };

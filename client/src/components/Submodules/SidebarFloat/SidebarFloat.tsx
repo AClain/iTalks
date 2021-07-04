@@ -13,7 +13,11 @@ import { useStyles } from "./SidebarFloat.styles";
 // Icons
 import { HiCog, HiOutlineX, HiOutlineSun, HiMoon, HiStatusOnline } from "react-icons/hi";
 
-const SidebarFloat: FC<{}> = () => {
+interface SidebarFloatProps {
+	exclude: boolean;
+}
+
+const SidebarFloat: FC<SidebarFloatProps> = ({ exclude }) => {
 	const styles = useStyles();
 
 	const context = useContext(ThemeContext);
@@ -31,6 +35,10 @@ const SidebarFloat: FC<{}> = () => {
 			localStorage.setItem("theme", "dark");
 		}
 	};
+
+	if (exclude) {
+		return <></>;
+	}
 
 	return (
 		<Box display='flex' flexDirection='column' alignItems='center' position='absolute' bottom='25px' right='25px'>

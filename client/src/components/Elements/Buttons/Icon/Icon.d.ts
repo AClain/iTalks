@@ -1,12 +1,10 @@
 import { ReactElement } from "react";
 
-declare interface IconProps {
+export interface IconProps {
 	active?: boolean;
 	icon: ReactElement;
 }
 
-declare interface IconStylesProps {
+export interface IconStylesProps {
 	active?: boolean;
 }
-
-export { IconProps, IconStylesProps };

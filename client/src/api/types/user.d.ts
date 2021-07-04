@@ -5,8 +5,8 @@ declare type UserProfil = {
 	id: number;
 	username: string;
 	email: string;
-	created_at: Date;
-	updated_at: Date;
+	created_at: string;
+	updated_at: string;
 	role: string;
 	avatar: string;
 	status: string;
@@ -16,8 +16,8 @@ declare type UserProfil = {
 declare type User = {
 	id: number;
 	username: string;
-	created_at: Date;
-	updated_at: Date;
+	created_at: string;
+	updated_at: string;
 	role: string;
 	avatar: string;
 };
@@ -45,6 +45,7 @@ declare type UserUpdate = {
 declare type UserShort = {
 	id: number;
 	username: string;
+	feedback?: boolean | null;
 };
 
 export { UserProfil, User, UserSearch, UserCreate, UserUpdate, UserShort };

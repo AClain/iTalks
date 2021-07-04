@@ -5,6 +5,7 @@ const useStyles = makeStyles({
 		fontSize: "35px",
 		margin: "5px 0px",
 		transition: "all .1s ease-in",
+		color: "var(--text)",
 		"&:hover": {
 			cursor: "pointer",
 			color: "var(--purple)",

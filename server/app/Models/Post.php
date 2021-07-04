@@ -65,9 +65,11 @@ class Post extends Model
     public function getUserAttribute()
     {
         $user = User::find($this->user_id);
+        $feedback = Feedback::where('user_id', $this->user_id)->where('entity_id', $this->id)->first();
         return [
             'id' => $user->id,
             'username' => $user->username,
+            'feedback' => $feedback ? $feedback->positive : null
         ];
     }
 

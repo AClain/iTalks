@@ -1,5 +1,8 @@
+import { Story } from "@storybook/react";
 import { Button } from "./Button";
-import { ButtonProps } from "./Button.d";
+import { ButtonProps, ButtonSizeEnum, ButtonTypeEnum } from "./Button.d";
+
+import { HiLogin } from "react-icons/hi";
 
 export default {
 	component: Button,
@@ -14,6 +17,18 @@ export default {
 	},
 };
 
-const Template = (args: ButtonProps) => <Button {...args}></Button>;
+const Template: Story<ButtonProps> = (args) => <Button {...args} />;
 
 export const Default = Template.bind({});
+Default.args = {
+	label: "Button",
+	type: ButtonTypeEnum.Success,
+	size: ButtonSizeEnum.Sm,
+};
+
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+	label: "Retour",
+	type: ButtonTypeEnum.Info,
+	startIcon: <HiLogin />,
+};

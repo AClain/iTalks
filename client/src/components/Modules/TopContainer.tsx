@@ -10,9 +10,9 @@ declare interface TopContainerProps {
 
 const TopContainer: FC<TopContainerProps> = ({ sidebar, page }) => {
 	return (
-		<Box display='flex' height='100%'>
+		<Box display='flex' height='100%' width='100%'>
 			{sidebar}
-			<Box display='flex' m='50px'>
+			<Box display='flex' m='50px' flexGrow={1}>
 				{page}
 			</Box>
 		</Box>
