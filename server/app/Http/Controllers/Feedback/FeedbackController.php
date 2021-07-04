@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Feedback;
 
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SearchOptionsController;
 use App\Models\Comment;
 use App\Models\Feedback;
 use App\Models\Post;
@@ -80,15 +81,20 @@ class FeedbackController extends Controller
         $post_feedbacks = $user->voted_posts;
         $voted_posts = [];
 
+        $searchOptions = new SearchOptionsController($request);
+
         foreach ($post_feedbacks as $feedback) {
             $post = Post::find($feedback->entity_id);
             $post->vote = $feedback->positive;
             $voted_posts[] = $post;
+
         }
+
+        $voted_posts = Post::find($feedback->entity_id)->limit($searchOptions->getLimit())->offset($searchOptions->getOffset())->get();
 
         return response()->json([
             'posts' => $voted_posts
-        ]);
+        ], 201);
     }
 
     public function voted_comments(Request $request)
@@ -98,12 +104,16 @@ class FeedbackController extends Controller
 
         $comment_feedbacks = $user->voted_comments;
         $voted_comments = [];
+        $searchOptions = new SearchOptionsController($request);
 
         foreach ($comment_feedbacks as $feedback) {
             $comment = Comment::find($feedback->entity_id);
             $comment->vote = $feedback->positive;
             $voted_comments[] = $comment;
         }
+
+        $voted_comments = Comment::find($feedback->entity_id)->limit($searchOptions->getLimit())->offset($searchOptions->getOffset())->get();
+
 
         return response()->json([
             'comments' => $voted_comments
