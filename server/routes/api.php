@@ -32,7 +32,7 @@ use App\Http\Controllers\User\UserController;
 // Admin routes
 
 Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authenticated.admin'] */], function () {
-    Route::get('users', [AdminUserController::class, 'list'])->name('getAllUser');
+    Route::get('users', [UserController::class, 'list'])->name('getAllUser');
     Route::post('users', [AdminUserController::class, 'store'])->name('createUser');
     Route::get('user/id/{id}', [AdminUserController::class, 'get'])->name('getUserById');
     Route::get('user/username/{username}', [AdminUserController::class, 'getByUsername'])->name('getUserByUsername');

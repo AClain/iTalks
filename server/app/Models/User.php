@@ -97,7 +97,7 @@ class User extends Model
 
     public function getAvatarAttribute()
     {
-        return Resource::find($this->resource_id)->link;
+        return Resource::find($this->resource_id)->link ?? null;
     }
 
     public function getStatusAttribute()
