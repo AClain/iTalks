@@ -1,10 +1,10 @@
 class Auth {
 	isAuthenticated() {
-		return true;
+		return false;
 	}
 
 	isUnauthenticated() {
-		return false;
+		return true;
 	}
 
 	isAdmin() {

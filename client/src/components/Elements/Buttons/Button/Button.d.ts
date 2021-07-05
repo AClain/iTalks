@@ -26,15 +26,16 @@ export enum ButtonSizeEnum {
 
 export interface ButtonProps {
 	label: string;
-	type?: ButtonTypeEnum;
+	variant?: ButtonTypeEnum;
 	size?: ButtonSizeEnum;
 	fullWidth?: boolean;
 	startIcon?: JSX.Element;
 	endIcon?: JSX.Element;
+	[x: string]: any;
 }
 
 export interface ButtonStylesProps {
-	type?: ButtonTypeEnum;
+	variant?: ButtonTypeEnum;
 	size?: ButtonSizeEnum;
 	fullWidth?: boolean;
 }

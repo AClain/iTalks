@@ -14,6 +14,7 @@ import { useStyles } from "./SidebarFloat.styles";
 import { HiCog, HiOutlineX, HiOutlineSun, HiMoon, HiStatusOnline } from "react-icons/hi";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
+import auth from "api/auth";
 
 interface SidebarFloatProps {
 	exclude: boolean;
@@ -53,17 +54,21 @@ const SidebarFloat: FC<SidebarFloatProps> = ({ exclude }) => {
 				/>
 			) : (
 				<>
-					<ResetLink to='/notifications'>
-						<HiStatusOnline className={`${styles.subIcon} ${styles.notifications}`} />
-					</ResetLink>
+					{auth.isAuthenticated() && (
+						<>
+							<ResetLink to='/logout'>
+								<AiOutlinePoweroff className={`${styles.subIcon} ${styles.logoutIcon}`} />
+							</ResetLink>
+							<ResetLink to='/notifications'>
+								<HiStatusOnline className={`${styles.subIcon} ${styles.notifications}`} />
+							</ResetLink>
+						</>
+					)}
 					{context.theme === "dark" ? (
 						<HiOutlineSun className={`${styles.subIcon} ${styles.lightTheme}`} onClick={changeMode} />
 					) : (
 						<HiMoon className={`${styles.subIcon} ${styles.darkTheme}`} onClick={changeMode} />
 					)}
-					<ResetLink to='/logout'>
-						<AiOutlinePoweroff className={`${styles.subIcon} ${styles.logoutIcon}`} />
-					</ResetLink>
 					<HiOutlineX
 						className={styles.default}
 						onClick={() => {

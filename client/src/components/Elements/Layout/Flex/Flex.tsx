@@ -28,6 +28,8 @@ export interface FlexProps {
 	justify?: FlexJustifyEnum;
 	align?: FlexAlignEnum;
 	centered?: boolean;
+	fullWidth?: boolean;
+	width?: string;
 	[x: string]: any;
 }
 
@@ -36,7 +38,7 @@ const DIRECTIONS = {
 	vertical: "column",
 };
 
-const Flex: FC<FlexProps> = ({ direction, justify, align, centered, children, ...rest }) => {
+const Flex: FC<FlexProps> = ({ direction, justify, align, centered, fullWidth, width, children, ...rest }) => {
 	return (
 		<Box
 			{...rest}
@@ -45,6 +47,7 @@ const Flex: FC<FlexProps> = ({ direction, justify, align, centered, children, ..
 			alignItems={centered ? "center" : align}
 			flexDirection={DIRECTIONS[direction]}
 			color='var(--text)'
+			width={fullWidth ? "100%" : width}
 		>
 			{children}
 		</Box>

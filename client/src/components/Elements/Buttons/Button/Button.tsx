@@ -5,8 +5,8 @@ import { Button as MaterialButton } from "@material-ui/core";
 import { ButtonProps } from "./Button.d";
 import { useStyles } from "./Button.styles";
 
-const Button: FC<ButtonProps> = ({ label, type, size, fullWidth, startIcon, endIcon, ...rest }) => {
-	const styles = useStyles({ type, size, fullWidth });
+const Button: FC<ButtonProps> = ({ label, variant, size, fullWidth, startIcon, endIcon, ...rest }) => {
+	const styles = useStyles({ variant, size, fullWidth });
 
 	return (
 		<MaterialButton className={styles.default} startIcon={startIcon} endIcon={endIcon} {...rest}>

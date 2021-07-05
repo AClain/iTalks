@@ -14,9 +14,9 @@ const useStyles = makeStyles({
 		color: "var(--text)",
 		fontSize: (props: ButtonStylesProps) => (props.size ? SIZES[props.size] : "16px"),
 		width: (props: ButtonStylesProps) => (props.fullWidth ? "100%" : "max-content"),
-		background: (props: ButtonStylesProps) => (props.type ? `var(--${props.type})` : "var(--purple)"),
+		background: (props: ButtonStylesProps) => (props.variant ? `var(--${props.variant})` : "var(--purple)"),
 		"&:hover": {
-			background: (props: ButtonStylesProps) => (props.type ? `var(--${props.type}-focus)` : "var(--purple)"),
+			background: (props: ButtonStylesProps) => (props.variant ? `var(--${props.variant}-focus)` : "var(--purple)"),
 		},
 	},
 });

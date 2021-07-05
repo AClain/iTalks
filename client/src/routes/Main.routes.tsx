@@ -12,6 +12,7 @@ import NotFound404 from "components/Pages/NotFound404";
 import TopContainer from "components/Modules/TopContainer";
 import Sidebar from "components/Submodules/Sidebar/Sidebar";
 import Logout from "components/Pages/Logout";
+import Login from "components/Pages/Login";
 
 const Routes: FC<{}> = () => {
 	let location = useLocation();
@@ -48,7 +49,7 @@ const Routes: FC<{}> = () => {
 
 				{/* Unauthenticated routes */}
 				<UnauthenticatedRoute exact path='/login'>
-					<></>
+					<TopContainer page={<Login />} />
 				</UnauthenticatedRoute>
 				<UnauthenticatedRoute exact path='/register'>
 					<></>
