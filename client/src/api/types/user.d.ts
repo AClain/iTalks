@@ -22,11 +22,6 @@ declare type User = {
 	avatar: string;
 };
 
-declare type UserSearch = {
-	options: Search;
-	username?: string;
-};
-
 declare type UserCreate = {
 	username: string;
 	email: string;

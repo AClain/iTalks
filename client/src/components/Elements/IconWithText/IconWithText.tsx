@@ -3,7 +3,7 @@ import { FC } from "react";
 
 import { useStyles } from "./IconWithText.styles";
 
-import Flex, { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "../Layout/Flex/Flex";
+import Flex, { FlexAlignEnum, FlexDirectionEnum } from "../Layout/Flex/Flex";
 
 export interface IconWithTextProps {
 	icon: JSX.Element;

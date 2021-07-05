@@ -11,6 +11,7 @@ import SidebarFloat from "components/Submodules/SidebarFloat/SidebarFloat";
 import NotFound404 from "components/Pages/NotFound404";
 import TopContainer from "components/Modules/TopContainer";
 import Sidebar from "components/Submodules/Sidebar/Sidebar";
+import Logout from "components/Pages/Logout";
 
 const Routes: FC<{}> = () => {
 	let location = useLocation();
@@ -41,6 +42,10 @@ const Routes: FC<{}> = () => {
 				<AuthenticatedRoute exact path='/settings'>
 					<></>
 				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/logout'>
+					<TopContainer page={<Logout />} />
+				</AuthenticatedRoute>
+
 				{/* Unauthenticated routes */}
 				<UnauthenticatedRoute exact path='/login'>
 					<></>
@@ -48,6 +53,7 @@ const Routes: FC<{}> = () => {
 				<UnauthenticatedRoute exact path='/register'>
 					<></>
 				</UnauthenticatedRoute>
+
 				{/* Admin routes */}
 				<Route path='/admin'>
 					<Switch>

@@ -76,12 +76,13 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('followers/{user_id}', [FollowController::class, 'getFollowers'])->name('followers');
     Route::get('followings/{user_id}', [FollowController::class, 'getFollowings'])->name('followings');
 
-    Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
-    Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
-    Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');
-
     Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
+    Route::get('/posts/recent', [PostController::class, 'recent'])->name('recentPosts');
+    Route::get('/posts/popular', [PostController::class, 'popular'])->name('popularPosts');
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
+    Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
+    Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');
+    Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
 

@@ -20,6 +20,7 @@ type ListDataResponse<T> = {
 type Search = {
 	page: number;
 	limit: number;
+	search: string;
 };
 
 export { SingleDataResponse, ApiResult, ListDataResponse, Search };

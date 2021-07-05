@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\SearchOptionsController;
-
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Carbon;
@@ -15,6 +15,15 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function feed(Request $request)
+    {
+        $posts = Post::all();
+
+        return response()->json([
+            'posts' => $posts
+        ]);
+    }
+
     public function profil(Request $request)
     {
         $token = TokenController::parseToken($request->cookie('token'));

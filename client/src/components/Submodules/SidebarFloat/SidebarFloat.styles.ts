@@ -20,8 +20,29 @@ const useStyles = makeStyles({
 		borderRadius: "50%",
 		padding: ".25em",
 		margin: "5px 0px",
+		transition: "all .2s ease-in",
 		"&:hover": {
 			cursor: "pointer",
+		},
+	},
+	notifications: {
+		"&:hover": {
+			color: "var(--info)",
+		},
+	},
+	lightTheme: {
+		"&:hover": {
+			color: "#F9D71C",
+		},
+	},
+	darkTheme: {
+		"&:hover": {
+			color: "white",
+		},
+	},
+	logoutIcon: {
+		"&:hover": {
+			color: "var(--danger)",
 		},
 	},
 });

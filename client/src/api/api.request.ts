@@ -1,19 +1,23 @@
 import axios, { AxiosInstance } from "axios";
-import UserRequest from "./user.request";
+import UserRequest from "api/modules/user.request";
+import PostRequest from "./modules/post.requests";
 
-export default class Api {
+class Api {
 	public url: string;
 	private instance: AxiosInstance;
 
 	public user: UserRequest;
+	public post: PostRequest;
 
 	constructor() {
-		this.url = process.env.REACT_APP_SERVER_URL!;
+		console.log(process.env.REACT_APP_SERVER_URL);
+		this.url = process.env.REACT_APP_SERVER_URL! + "/api";
 		this.instance = axios.create({
 			baseURL: this.url,
 			withCredentials: true,
 		});
 		this.user = new UserRequest(this.instance);
+		this.post = new PostRequest(this.instance);
 	}
 }
 

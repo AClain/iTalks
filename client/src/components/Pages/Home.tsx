@@ -1,7 +1,10 @@
 import { Box } from "@material-ui/core";
+import { api } from "api/api.request";
+import { Search } from "api/types/api";
+import { AxiosError } from "axios";
 import PostList from "components/Modules/PostList/PostList";
 import CenteredTabs from "components/Submodules/Tabs/CenteredTabs/CenteredTabs";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { HiTrendingUp, HiLightBulb } from "react-icons/hi";
 import { MdNewReleases } from "react-icons/md";
 
@@ -79,6 +82,24 @@ const Home: FC<{}> = () => {
 		{ title: "Publier", icon: <HiLightBulb fontSize='24px' />, color: "var(--success)" },
 	];
 	const tabPanels = [<PostList posts={fakePosts} />, "Populaire", "Publier"];
+
+	const [posts, setPosts] = useState([]);
+	const [options, setOptions] = useState<Search>({
+		page: 1,
+		limit: 25,
+		search: "",
+	});
+
+	useEffect(() => {
+		api.post
+			.recent(options)
+			.then((res) => console.log(res))
+			.catch((err: AxiosError) => console.error(err));
+
+		return () => {
+			setPosts([]);
+		};
+	}, [options]);
 
 	return (
 		<Box width='100%'>

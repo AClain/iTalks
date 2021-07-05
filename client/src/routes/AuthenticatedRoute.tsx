@@ -1,6 +1,6 @@
 // React libraries
 
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 import { Redirect, Route } from "react-router-dom";
 
 // Api interface
