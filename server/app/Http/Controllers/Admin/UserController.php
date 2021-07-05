@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\SearchOptionsController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Http\UploadedFile;
 
 class UserController extends Controller
@@ -78,18 +78,8 @@ class UserController extends Controller
 
     public function list(Request $request)
     {
-        $searchOptions = new SearchOptionsController($request);
-        $users = User::where('username', 'LIKE', '%' . $searchOptions->getSearch() . '%')->limit($searchOptions->getLimit())->offset($searchOptions->getOffset())->get();
-
-        foreach ($users as $user) {
-            $user->avatar = Resource::find($user->avatar_resource_id);
-            $user->role = Role::find($user->role_id);
-            $user->status = Status::find($user->status_id);
-
-            unset($user->avatar_resource_id);
-            unset($user->role_id);
-            unset($user->status_id);
-        }
+        $searchOptions = new SearchController($request);
+        $users = User::where('username', 'LIKE', '%' . $searchOptions->getSearch() . '%')->get();
 
         return response()->json([
             'users' => $users,

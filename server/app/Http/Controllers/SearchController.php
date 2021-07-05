@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class SearchOptionsController extends Controller
+class SearchController extends Controller
 {
     public function __construct(Request $request)
     {
@@ -31,5 +32,16 @@ class SearchOptionsController extends Controller
     public function getOffset()
     {
         return $this->limit * ($this->page - 1);
+    }
+
+    public function searchResponse(Builder $items)
+    {
+
+
+        return response()->json([
+            "total" => $items->count(),
+            "count" => sizeof($items->limit($this->getLimit())->offset($this->getOffset())->get()),
+            "items" => $items->limit($this->getLimit())->offset($this->getOffset())->get(),
+        ], 200);
     }
 }
