@@ -1,16 +1,9 @@
 <?php
 
-use App\Http\Controllers\BadgeController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\FeedbackController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\UserBadgeController;
-
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Resources\ResourceController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,20 +19,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/users', [UserController::class,'index']);
+Route::get('/swagger', function () {
+    return view('swagger');
+});
 
-Route::get('/roles', [RoleController::class,'index']);
-
-Route::get('/posts', [PostController::class,'index']);
-
-Route::get('/categories', [CategoryController::class,'index']);
-
-Route::get('/comments', [CommentController::class,'index']);
-
-Route::get('/badges', [BadgeController::class,'index']);
-
-Route::get('/notifications', [NotificationController::class,'index']);
-
-Route::get('/feedback', [FeedbackController::class,'index']);
-
-Route::get('/userbadges', [UserBadgeController::class,'index']);
+Route::get('/swagger/get', [ResourceController::class, 'swagger']);
