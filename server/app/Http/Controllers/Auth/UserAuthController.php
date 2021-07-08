@@ -87,7 +87,9 @@ class UserAuthController extends Controller
             'identifier' => 'required',
             'password' => 'required'
         ], [
-            'type.regex' => 'Le type d\'identification doit être "email" ou "username".'
+            'type.regex' => 'Le type d\'identification doit être "email" ou "username".',
+            'identifier.required' => 'Un identifiant est requis.',
+            'password.required' => 'Veuillez indiquer votre mot de passe.'
         ]);
 
         if ($validatorFirst->fails()) {
@@ -98,19 +100,11 @@ class UserAuthController extends Controller
 
         $validatorSecond = null;
 
-        if (request('type') === 'username') {
-            $validatorSecond = Validator::make($request->all(), [
-                'identifier' => 'exists:users,username',
-            ], [
-                'identifier.exists' => "Mauvais nom d'utilisateur."
-            ]);
-        } else if (request('type') === 'email') {
-            $validatorSecond = Validator::make($request->all(), [
-                'identifier' => 'exists:users,email',
-            ], [
-                'identifier.exists' => "Mauvaise adresse email."
-            ]);
-        }
+        $validatorSecond = Validator::make($request->all(), [
+            'identifier' => 'exists:users,' . request('type'),
+        ], [
+            'identifier.exists' => "Mauvaise combinaison d'identifiants."
+        ]);
 
         if ($validatorSecond->fails()) {
             return response()->json([
@@ -129,7 +123,7 @@ class UserAuthController extends Controller
         }
 
         return response()->json([
-            'errors' => ['password' => 'Votre mot de passe ne correspond pas.']
+            'errors' => ['identifier' => "Mauvaise combinaison d'identifiants."]
         ], 400);
     }
 }

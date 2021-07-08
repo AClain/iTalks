@@ -31,6 +31,7 @@ export interface ButtonProps {
 	fullWidth?: boolean;
 	startIcon?: JSX.Element;
 	endIcon?: JSX.Element;
+	className?: string;
 	[x: string]: any;
 }
 

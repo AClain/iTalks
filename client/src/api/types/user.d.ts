@@ -29,6 +29,12 @@ declare type UserCreate = {
 	password_confirmation: string;
 };
 
+declare type UserLogin = {
+	type: string;
+	identifier: string;
+	password: string;
+};
+
 declare type UserUpdate = {
 	id: number;
 	username: string;
@@ -43,4 +49,4 @@ declare type UserShort = {
 	feedback?: boolean | null;
 };
 
-export { UserProfil, User, UserSearch, UserCreate, UserUpdate, UserShort };
+export { UserProfil, User, UserLogin, UserCreate, UserUpdate, UserShort };

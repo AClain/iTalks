@@ -1,12 +1,20 @@
 import { AxiosInstance } from "axios";
 import { ApiResult, ListDataResponse, Search, SingleDataResponse } from "api/types/api";
-import { User, UserCreate, UserProfil, UserUpdate } from "api/types/user";
+import { User, UserCreate, UserLogin, UserProfil, UserUpdate } from "api/types/user";
 
 class UserRequest {
 	instance: AxiosInstance;
 
 	constructor(instance: AxiosInstance) {
 		this.instance = instance;
+	}
+
+	async login(user: UserLogin): Promise<ApiResult> {
+		return this.instance.post("/login", user);
+	}
+
+	async register(user: UserCreate): Promise<ApiResult> {
+		return this.instance.post("/register", user);
 	}
 
 	async get(id: number): Promise<SingleDataResponse<UserProfil>> {
@@ -19,10 +27,6 @@ class UserRequest {
 
 	async search(search: Search): Promise<ListDataResponse<User>> {
 		return this.instance.post("/users/search", search);
-	}
-
-	async create(user: UserCreate): Promise<ApiResult> {
-		return this.instance.post("/users", user);
 	}
 
 	async update(user: UserUpdate): Promise<ApiResult> {

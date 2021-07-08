@@ -4,9 +4,13 @@ type SingleDataResponse<T> = {
 	data: T;
 };
 
+type Error = {
+	[x: string]: any;
+};
+
 type ServiceResponse = {
 	success: boolean;
-	message: string;
+	errors?: Array<Error>;
 };
 
 type ApiResult = AxiosResponse<ServiceResponse>;
@@ -20,7 +24,7 @@ type ListDataResponse<T> = {
 type Search = {
 	page: number;
 	limit: number;
-	search: string;
+	search?: string;
 };
 
 export { SingleDataResponse, ApiResult, ListDataResponse, Search };
