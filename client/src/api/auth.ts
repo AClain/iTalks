@@ -1,8 +1,9 @@
+import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
 
 class Auth {
 	base_url: string = process.env.REACT_APP_SERVER_URL + "/api";
-	token: string = localStorage.getItem("token")!;
+	token: string = Cookies.get("token")!;
 
 	isAuthenticated() {
 		return typeof this.token !== "undefined";

@@ -25,21 +25,21 @@ class Authenticated
     public function handle(Request $request, Closure $next)
     {
         // Cookie exists
-        $token = $request->header('Authorization');
+        $token = $request->cookie('token');
         if (!$token || !TokenController::verifyToken($token)) {
-            return $this->unauthorizedCookie('Vous devez être connecté pour effectuer cette action.');
+            return $this->unauthorizedCookie('Session invalide.');
         };
 
         // Cookie is from server and is valid for client
         $claims = TokenController::parseToken($token);
         if ($claims['iss'] !== config('app.url') . config('app.port') || $claims['aud'][0] !== config('app.client_url')) {
-            return $this->unauthorizedCookie('Vous devez être connecté pour effectuer cette action.');
+            return $this->unauthorizedCookie('Session invalide.');
         }
 
         $user = User::where('username', $claims['username'])->first();
 
         if (!isset($user)) {
-            return $this->unauthorizedCookie('Vous devez être connecté pour effectuer cette action.');
+            return $this->unauthorizedCookie('Session invalide.');
         }
 
         // Cookie hasn't expired
@@ -51,7 +51,7 @@ class Authenticated
 
         // User account active ?
         if ($user->status === "supprimé") {
-            return $this->unauthorizedCookie('Ce compte a été suspendu.');
+            return $this->unauthorizedCookie('Ce compte a été supprimé.');
         }
 
         $response = $next($request);
@@ -63,9 +63,9 @@ class Authenticated
         // Update token
         if (!$claims['remember_me']) {
             $token = TokenController::generateToken($user, false);
-            return $response->header('Authorization', 'Bearer' . $token);
+            return $response->cookie('token', $token->toString(), null, null, null, null, false);
         }
-        return $response->header('Authorization', 'Bearer' . $token);
+        return $response->cookie('token', $token, null, null, null, null, false);
     }
 
     /**
@@ -76,9 +76,11 @@ class Authenticated
      */
     private function unauthorizedCookie(string $message)
     {
+        Cookie::queue(Cookie::forget('token'));
+        $cookie = Cookie::make('token', '');
         return response()->json([
             'message' => $message,
             'status' => 401
-        ], 401);
+        ], 401)->withCookie($cookie);
     }
 }

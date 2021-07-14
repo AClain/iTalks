@@ -1,10 +1,11 @@
 "use strict";
 exports.__esModule = true;
+var js_cookie_1 = require("js-cookie");
 var jwt_decode_1 = require("jwt-decode");
 var Auth = /** @class */ (function () {
     function Auth() {
         this.base_url = process.env.REACT_APP_SERVER_URL + "/api";
-        this.token = localStorage.getItem("token");
+        this.token = js_cookie_1["default"].get("token");
     }
     Auth.prototype.isAuthenticated = function () {
         return typeof this.token !== "undefined";

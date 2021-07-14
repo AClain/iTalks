@@ -27,7 +27,6 @@ var Logout = function () {
         api_request_1.api.user
             .logout()
             .then(function (res) {
-            localStorage.setItem("isAuthenticated", "false");
             history.push("/login");
         })["catch"](function (err) {
             console.error(err);

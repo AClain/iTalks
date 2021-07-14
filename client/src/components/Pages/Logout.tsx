@@ -31,7 +31,6 @@ const Logout: FC<{}> = () => {
 		api.user
 			.logout()
 			.then((res) => {
-				localStorage.setItem("isAuthenticated", "false");
 				history.push("/login");
 			})
 			.catch((err: AxiosError) => {
