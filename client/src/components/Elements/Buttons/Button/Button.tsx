@@ -15,4 +15,4 @@ const Button: FC<ButtonProps> = ({ label, variant, size, fullWidth, startIcon, e
 	);
 };
 
-export { Button };
+export default Button;

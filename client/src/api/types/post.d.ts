@@ -12,7 +12,7 @@ declare type Post = {
 	user: UserShort;
 	vote_count: number;
 	comment_count: number;
-	assiociated_resources: Resource[];
+	assiociated_resources?: Resource[];
 };
 
 declare type PostCreate = {

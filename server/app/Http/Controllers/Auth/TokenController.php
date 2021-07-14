@@ -11,6 +11,7 @@ use Lcobucci\JWT\UnencryptedToken;
 use Illuminate\Support\Str;
 
 use DateTimeImmutable;
+use Exception;
 
 class TokenController extends Controller
 {
@@ -106,9 +107,12 @@ class TokenController extends Controller
      */
     public static function verifyToken(string $token)
     {
-        $config = self::getConfig();
-
-        $token = $config->parser()->parse($token);
+        try {
+            $config = self::getConfig();
+            $token = $config->parser()->parse($token);
+        } catch (Exception $e) {
+            return false;
+        }
 
         return assert($token instanceof UnencryptedToken);
     }
@@ -128,19 +132,5 @@ class TokenController extends Controller
         assert($token instanceof UnencryptedToken);
 
         return $token->claims()->all();
-    }
-
-    public function authenticated()
-    {
-        return response()->json([
-            'status' => 201
-        ], 201);
-    }
-
-    public function unauthenticated()
-    {
-        return response()->json([
-            'status' => 201
-        ], 201);
     }
 }

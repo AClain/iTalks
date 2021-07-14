@@ -26,11 +26,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function recent(Request $request)
+    public function feed(Request $request)
     {
-
         $searchController = new SearchController($request);
-        $posts = DB::table('posts');
+        $posts = Post::query();
 
         return $searchController->searchResponse($posts);
     }

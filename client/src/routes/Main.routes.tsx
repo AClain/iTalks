@@ -7,6 +7,7 @@ import UnauthenticatedRoute from "routes/UnauthenticatedRoute";
 import AdminAuthenticatedRoute from "routes/AdminAuthenticatedRoute";
 
 import Home from "components/Pages/Home";
+import Search from "components/Pages/Search";
 import SidebarFloat from "components/Submodules/SidebarFloat/SidebarFloat";
 import NotFound404 from "components/Pages/NotFound404";
 import TopContainer from "components/Modules/TopContainer";
@@ -27,7 +28,7 @@ const Routes: FC<{}> = () => {
 					<TopContainer sidebar={<Sidebar />} page={<Home />} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/search'>
-					<></>
+					<TopContainer sidebar={<Sidebar />} page={<Search />} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/notifications'>
 					<></>

@@ -22,12 +22,13 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 exports.__esModule = true;
-exports.Button = void 0;
 var core_1 = require("@material-ui/core");
-var Button_styles_1 = require("./Button.styles");
-var Button = function (_a) {
-    var label = _a.label, variant = _a.variant, size = _a.size, fullWidth = _a.fullWidth, startIcon = _a.startIcon, endIcon = _a.endIcon, className = _a.className, rest = __rest(_a, ["label", "variant", "size", "fullWidth", "startIcon", "endIcon", "className"]);
-    var styles = Button_styles_1.useStyles({ variant: variant, size: size, fullWidth: fullWidth });
-    return (React.createElement(core_1.Button, __assign({ className: styles["default"] + " " + className, startIcon: startIcon, endIcon: endIcon }, rest), label));
+var DIRECTIONS = {
+    horizontal: "row",
+    vertical: "column"
 };
-exports.Button = Button;
+var Flex = function (_a) {
+    var direction = _a.direction, justify = _a.justify, align = _a.align, centered = _a.centered, fullWidth = _a.fullWidth, width = _a.width, children = _a.children, rest = __rest(_a, ["direction", "justify", "align", "centered", "fullWidth", "width", "children"]);
+    return (React.createElement(core_1.Box, __assign({}, rest, { display: 'flex', justifyContent: centered ? "center" : justify, alignItems: centered ? "center" : align, flexDirection: DIRECTIONS[direction], color: 'var(--text)', width: fullWidth ? "100%" : width }), children));
+};
+exports["default"] = Flex;

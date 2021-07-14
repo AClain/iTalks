@@ -13,8 +13,6 @@ type ServiceResponse = {
 	errors?: Array<Error>;
 };
 
-type ApiResult = AxiosResponse<ServiceResponse>;
-
 type ListDataResponse<T> = {
 	count: number;
 	total: number;
@@ -27,4 +25,7 @@ type Search = {
 	search?: string;
 };
 
-export { SingleDataResponse, ApiResult, ListDataResponse, Search };
+type ApiResult = AxiosResponse<ServiceResponse>;
+type ApiListDataResult<T> = AxiosResponse<ListDataResponse<T>>;
+
+export { SingleDataResponse, ApiResult, ApiListDataResult, Search };

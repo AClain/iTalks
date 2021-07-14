@@ -1,14 +1,24 @@
-import { IconButton } from "@material-ui/core";
-import Loading from "components/Elements/Animations/Loading/Loading";
-import Flex, { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex";
-import Title from "components/Elements/Typograhpy/Title/Title";
-import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
+// React
 import { FC, useEffect, useState } from "react";
-import { HiOutlineRefresh } from "react-icons/hi";
+// Api interface
+import { api } from "api/api.request";
+// Types
+import { AxiosError } from "axios";
+import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
+import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 import { useStyles } from "./Logout.styles";
+// Librairies
+import { useHistory } from "react-router-dom";
+import { IconButton } from "@material-ui/core";
+import { HiOutlineRefresh } from "react-icons/hi";
+// Components
+import Flex from "components/Elements/Layout/Flex/Flex";
+import Title from "components/Elements/Typograhpy/Title/Title";
+import Loading from "components/Elements/Animations/Loading/Loading";
 
 const Logout: FC<{}> = () => {
 	const styles = useStyles();
+	let history = useHistory();
 
 	const [loading, setLoading] = useState(true);
 	const [refresh, setRefresh] = useState(false);
@@ -18,6 +28,15 @@ const Logout: FC<{}> = () => {
 	};
 
 	useEffect(() => {
+		api.user
+			.logout()
+			.then((res) => {
+				localStorage.setItem("isAuthenticated", "false");
+				history.push("/login");
+			})
+			.catch((err: AxiosError) => {
+				console.error(err);
+			});
 		setTimeout(() => {
 			setLoading(false);
 		}, 1500);

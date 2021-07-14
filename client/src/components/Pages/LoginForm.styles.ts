@@ -4,9 +4,14 @@ const useStyles = makeStyles({
 	leftContainer: {
 		width: "50%",
 		background: "var(--text)",
+		position: "relative",
+		zIndex: 99,
+		animation: "$fadeIn 0.3s ease both",
 	},
 	rightContainer: {
 		width: "50%",
+		animation: "$fadeInFromLeft 0.6s ease both",
+		transform: "translateX(-50%)",
 	},
 	form: {
 		display: "flex",
@@ -30,8 +35,33 @@ const useStyles = makeStyles({
 	checkbox: {
 		color: "var(--text)!important",
 	},
-	submit: {
+	submitContainer: {
 		marginTop: "15px",
+	},
+	registerLink: {
+		marginLeft: "15px",
+	},
+
+	"@keyframes fadeInFromLeft": {
+		from: {
+			opacity: 0,
+			visibility: "hidden",
+		},
+		to: {
+			opacity: 1,
+			visibility: "visible",
+			transform: "translateX(0%)",
+		},
+	},
+	"@keyframes fadeIn": {
+		from: {
+			opacity: 0.5,
+			visibility: "hidden",
+		},
+		to: {
+			opacity: 1,
+			visibility: "visible",
+		},
 	},
 });
 

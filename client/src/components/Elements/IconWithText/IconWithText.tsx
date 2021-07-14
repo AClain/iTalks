@@ -1,9 +1,12 @@
-import { Typography } from "@material-ui/core";
+// React
 import { FC } from "react";
-
+// Librairies
+import { Typography } from "@material-ui/core";
+// Types
+import { FlexAlignEnum, FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { useStyles } from "./IconWithText.styles";
-
-import Flex, { FlexAlignEnum, FlexDirectionEnum } from "../Layout/Flex/Flex";
+// Components
+import Flex from "components/Elements/Layout/Flex/Flex";
 
 export interface IconWithTextProps {
 	icon: JSX.Element;

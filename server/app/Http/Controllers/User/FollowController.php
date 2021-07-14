@@ -89,7 +89,7 @@ class FollowController extends Controller
             ], 400);
         }
 
-        if ($follow->destroy()) {
+        if ($follow->delete()) {
             return response()->json([
                 'message' => 'Vous ne suivez plus ' . $following->username . '.',
             ], 400);

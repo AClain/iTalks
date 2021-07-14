@@ -1,5 +1,4 @@
 import { Story } from "@storybook/react";
-
 import Post, { PostProps } from "./Post";
 
 export default {
@@ -12,7 +11,6 @@ const Template: Story<PostProps> = (args) => <Post {...args} />;
 export const Default = Template.bind({});
 Default.args = {
 	post: {
-		assiociated_resources: [],
 		created_at: "2021-01-02T23:35:26.000000Z",
 		updated_at: "2021-01-02T23:35:26.000000Z",
 		is_edited: false,
@@ -34,7 +32,6 @@ Default.args = {
 export const Positive = Template.bind({});
 Positive.args = {
 	post: {
-		assiociated_resources: [],
 		created_at: "2021-07-02T23:35:26.000000Z",
 		updated_at: "2021-07-02T23:35:26.000000Z",
 		is_edited: false,
@@ -56,7 +53,6 @@ Positive.args = {
 export const Negative = Template.bind({});
 Negative.args = {
 	post: {
-		assiociated_resources: [],
 		created_at: "2021-06-28T23:35:26.000000Z",
 		updated_at: "2021-06-28T23:35:26.000000Z",
 		is_edited: false,

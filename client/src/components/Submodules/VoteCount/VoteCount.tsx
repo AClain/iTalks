@@ -1,6 +1,7 @@
 import { FC } from "react";
 
-import Flex, { FlexAlignEnum, FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex";
+import Flex from "components/Elements/Layout/Flex/Flex";
+import { FlexAlignEnum, FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { IconButton, Typography } from "@material-ui/core";
 import { HiChevronDoubleDown, HiChevronDoubleUp, HiChevronDown, HiChevronUp } from "react-icons/hi";
 

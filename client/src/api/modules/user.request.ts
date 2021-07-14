@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { ApiResult, ListDataResponse, Search, SingleDataResponse } from "api/types/api";
+import { ApiResult, ApiListDataResult, Search, SingleDataResponse } from "api/types/api";
 import { User, UserCreate, UserLogin, UserProfil, UserUpdate } from "api/types/user";
 
 class UserRequest {
@@ -17,6 +17,10 @@ class UserRequest {
 		return this.instance.post("/register", user);
 	}
 
+	async logout(): Promise<ApiResult> {
+		return this.instance.get("/logout");
+	}
+
 	async get(id: number): Promise<SingleDataResponse<UserProfil>> {
 		return this.instance.get(`/profil/${id}`);
 	}
@@ -25,7 +29,7 @@ class UserRequest {
 		return this.instance.get(`/profil/`);
 	}
 
-	async search(search: Search): Promise<ListDataResponse<User>> {
+	async search(search: Search): Promise<ApiListDataResult<User>> {
 		return this.instance.post("/users/search", search);
 	}
 

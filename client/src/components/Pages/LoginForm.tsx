@@ -1,16 +1,24 @@
-import { FormControlLabel, IconButton, Checkbox } from "@material-ui/core";
-import { api } from "api/api.request";
-import { Button } from "components/Elements/Buttons/Button/Button";
-import FormControl from "components/Elements/Form/FormControl/FormControl";
-import Flex, { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex";
-import Title from "components/Elements/Typograhpy/Title/Title";
-import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
+// React
 import { FC, useState } from "react";
+// Api interface
+import { api } from "api/api.request";
+// Types
+import { AxiosError } from "axios";
+import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
+import { FlexDirectionEnum, FlexAlignEnum } from "components/Elements/Layout/Flex/Flex.d";
+import { useStyles } from "./LoginForm.styles";
+// Librairies
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { FormControlLabel, IconButton, Checkbox } from "@material-ui/core";
 import { FaUserCircle } from "react-icons/fa";
 import { HiAtSymbol, HiEye, HiEyeOff } from "react-icons/hi";
-import { useStyles } from "./LoginForm.styles";
-import { AxiosError } from "axios";
+// Components
+import Flex from "components/Elements/Layout/Flex/Flex";
+import Title from "components/Elements/Typograhpy/Title/Title";
+import Button from "components/Elements/Buttons/Button/Button";
+import FormControl from "components/Elements/Form/FormControl/FormControl";
+import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
 
 interface LoginError {
 	identifier?: string;
@@ -20,6 +28,8 @@ interface LoginError {
 
 const LoginForm: FC<{}> = () => {
 	const styles = useStyles();
+	// Router
+	let history = useHistory();
 	// Hook form
 	const { register, handleSubmit } = useForm();
 	// States
@@ -29,12 +39,14 @@ const LoginForm: FC<{}> = () => {
 	const [loading, setLoading] = useState(false);
 	// Custom methods
 	const onSubmit = (data: any) => {
-		console.log(data);
 		setLoading(true);
 		api.user
 			.login(data)
 			.then((res) => {
-				console.log(res);
+				if (res.status === 201) {
+					localStorage.setItem("isAuthenticated", "true");
+					history.push("/");
+				}
 			})
 			.catch((err: AxiosError) => {
 				if (err.response?.data.errors) {
@@ -109,7 +121,16 @@ const LoginForm: FC<{}> = () => {
 						endIcon={<PasswordIcon />}
 					></FormControl>
 					<span className={styles.error}>{errors.password}</span>
-					<Button className={styles.submit} disabled={loading} label="S'identifier" type='submit' />
+					<Flex
+						className={styles.submitContainer}
+						direction={FlexDirectionEnum.Horizontal}
+						align={FlexAlignEnum.Center}
+					>
+						<Button disabled={loading} label="S'identifier" type='submit' />{" "}
+						<ResetLink className={styles.registerLink} to='/register'>
+							Pas encore de compte ?
+						</ResetLink>
+					</Flex>
 				</form>
 			</Flex>
 		</Flex>

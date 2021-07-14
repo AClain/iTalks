@@ -3,7 +3,7 @@ import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { FC } from "react";
 import { useStyles } from "./NotFound404.styles";
-import { Button } from "components/Elements/Buttons/Button/Button";
+import Button from "components/Elements/Buttons/Button/Button";
 import { HiLogin } from "react-icons/hi";
 import { ButtonTypeEnum } from "components/Elements/Buttons/Button/Button.d";
 import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";

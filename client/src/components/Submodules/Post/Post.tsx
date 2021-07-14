@@ -8,7 +8,8 @@ import { useStyles } from "./Post.styles";
 import moment from "moment";
 import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
 import { RiChat4Line } from "react-icons/ri";
-import Flex, { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex";
+import Flex from "components/Elements/Layout/Flex/Flex";
+import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
 import IconWithText from "components/Elements/IconWithText/IconWithText";
 import VoteCount from "../VoteCount/VoteCount";
 
@@ -49,7 +50,7 @@ const Post: FC<PostProps> = ({ post }) => {
 					</Box>
 				</Flex>
 			</Flex>
-			{post.assiociated_resources[0] ? (
+			{post.assiociated_resources ? (
 				<img src={post.assiociated_resources[0].link} alt='post img' className={styles.image} />
 			) : null}
 		</Flex>

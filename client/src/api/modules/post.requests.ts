@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { ApiResult, ListDataResponse, Search, SingleDataResponse } from "api/types/api";
+import { ApiResult, ApiListDataResult, Search, SingleDataResponse } from "api/types/api";
 import { Post, PostCreate, PostUpdate } from "api/types/post";
 
 class PostRequest {
@@ -13,11 +13,11 @@ class PostRequest {
 		return this.instance.get(`/post/${id}`);
 	}
 
-	async recent(search: Search): Promise<ListDataResponse<Post>> {
-		return this.instance.get("/posts/recent", { params: search });
+	async feed(search: Search): Promise<ApiListDataResult<Post>> {
+		return this.instance.get("/posts/feed", { params: search });
 	}
 
-	async search(search: Search): Promise<ListDataResponse<Post>> {
+	async search(search: Search): Promise<ApiListDataResult<Post>> {
 		return this.instance.get("/posts/search", { params: search });
 	}
 

@@ -1,5 +1,5 @@
 import { Story } from "@storybook/react";
-import { Button } from "./Button";
+import Button from "./Button";
 import { ButtonProps, ButtonSizeEnum, ButtonTypeEnum } from "./Button.d";
 
 import { HiLogin } from "react-icons/hi";

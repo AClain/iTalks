@@ -1,4 +1,5 @@
-import Flex, { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex";
+import Flex from "components/Elements/Layout/Flex/Flex";
+import { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { FC } from "react";
 
 import { useStyles } from "./Loading.styles";

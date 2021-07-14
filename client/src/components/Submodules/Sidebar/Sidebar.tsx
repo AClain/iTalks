@@ -19,7 +19,8 @@ import auth from "api/auth";
 
 import { useStyles } from "./Sidebar.styles";
 import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
-import Flex, { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex";
+import Flex from "components/Elements/Layout/Flex/Flex";
+import { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 
 const Sidebar: FC<{}> = () => {
 	const styles = useStyles();
