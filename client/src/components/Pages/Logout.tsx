@@ -31,7 +31,7 @@ const Logout: FC<{}> = () => {
 		api.user
 			.logout()
 			.then((res) => {
-				history.push("/login");
+				document.location.href = "/login";
 			})
 			.catch((err: AxiosError) => {
 				console.error(err);

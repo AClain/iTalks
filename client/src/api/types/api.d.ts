@@ -9,8 +9,7 @@ type Error = {
 };
 
 type ServiceResponse = {
-	success: boolean;
-	errors?: Array<Error>;
+	[x: string]: any;
 };
 
 type ListDataResponse<T> = {

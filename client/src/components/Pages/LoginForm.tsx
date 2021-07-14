@@ -8,7 +8,8 @@ import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 import { FlexDirectionEnum, FlexAlignEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { useStyles } from "./LoginForm.styles";
 // Librairies
-import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
+import { useHistory, Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FormControlLabel, IconButton, Checkbox } from "@material-ui/core";
 import { FaUserCircle } from "react-icons/fa";
@@ -44,14 +45,15 @@ const LoginForm: FC<{}> = () => {
 			.login(data)
 			.then((res) => {
 				if (res.status === 201) {
-					localStorage.setItem("isAuthenticated", "true");
-					history.push("/");
+					document.location.href = "/";
 				}
+				return false;
 			})
 			.catch((err: AxiosError) => {
 				if (err.response?.data.errors) {
 					setErrors(err.response?.data.errors);
 				}
+				return false;
 			})
 			.finally(() => {
 				setLoading(false);

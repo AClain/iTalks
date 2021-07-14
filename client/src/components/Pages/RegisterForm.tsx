@@ -42,8 +42,8 @@ const RegisterForm: FC<{}> = () => {
 			.register(data)
 			.then((res) => {
 				if (res.status === 201) {
+					document.location.href = "/";
 				}
-				console.log(res);
 			})
 			.catch((err: AxiosError) => {
 				if (err.response?.data.errors) {

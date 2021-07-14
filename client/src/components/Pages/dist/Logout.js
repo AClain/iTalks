@@ -27,7 +27,7 @@ var Logout = function () {
         api_request_1.api.user
             .logout()
             .then(function (res) {
-            history.push("/login");
+            document.location.href = "/login";
         })["catch"](function (err) {
             console.error(err);
         });

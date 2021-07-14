@@ -18,7 +18,6 @@ var api_request_1 = require("api/api.request");
 var Title_d_1 = require("components/Elements/Typograhpy/Title/Title.d");
 var Flex_d_1 = require("components/Elements/Layout/Flex/Flex.d");
 var LoginForm_styles_1 = require("./LoginForm.styles");
-// Librairies
 var react_router_dom_1 = require("react-router-dom");
 var react_hook_form_1 = require("react-hook-form");
 var core_1 = require("@material-ui/core");
@@ -48,14 +47,15 @@ var LoginForm = function () {
             .login(data)
             .then(function (res) {
             if (res.status === 201) {
-                localStorage.setItem("isAuthenticated", "true");
-                history.push("/");
+                document.location.href = "/";
             }
+            return false;
         })["catch"](function (err) {
             var _a, _b;
             if ((_a = err.response) === null || _a === void 0 ? void 0 : _a.data.errors) {
                 setErrors((_b = err.response) === null || _b === void 0 ? void 0 : _b.data.errors);
             }
+            return false;
         })["finally"](function () {
             setLoading(false);
         });
