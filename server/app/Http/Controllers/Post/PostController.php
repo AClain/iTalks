@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SearchController;
 use App\Models\Category;
 use App\Models\Post;
@@ -28,9 +29,10 @@ class PostController extends Controller
      */
     public function feed(Request $request)
     {
-        $posts = new SearchController($request, Post::query());
+        $posts =
+            $posts = new SearchController($request, Post::query());
 
-        return $searchController->searchResponse($posts);
+        return $this->toJson($posts->getResults());
     }
 
     /**
