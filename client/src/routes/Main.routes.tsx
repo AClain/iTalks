@@ -8,6 +8,11 @@ import AdminAuthenticatedRoute from "routes/AdminAuthenticatedRoute";
 
 import Home from "components/Pages/Home";
 import Search from "components/Pages/Search";
+import Notifications from "components/Pages/Notifications";
+import Saved from "components/Pages/Saved";
+import Profile from "components/Pages/Profile";
+import Messages from "components/Pages/Messages";
+import Settings from "components/Pages/Settings";
 import SidebarFloat from "components/Submodules/SidebarFloat/SidebarFloat";
 import NotFound404 from "components/Pages/NotFound404";
 import TopContainer from "components/Modules/TopContainer";
@@ -31,19 +36,19 @@ const Routes: FC<{}> = () => {
 					<TopContainer sidebar={<Sidebar />} page={<Search />} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/notifications'>
-					<></>
+					<TopContainer sidebar={<Sidebar />} page={<Notifications />} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/saved'>
-					<></>
+					<TopContainer sidebar={<Sidebar />} page={<Saved />} />
 				</AuthenticatedRoute>
-				<AuthenticatedRoute exact path='/profil'>
-					<></>
+				<AuthenticatedRoute exact path='/profile'>
+					<TopContainer sidebar={<Sidebar />} page={<Profile />} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/messages'>
-					<></>
+					<TopContainer sidebar={<Sidebar />} page={<Messages />} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/settings'>
-					<></>
+					<TopContainer sidebar={<Sidebar />} page={<Settings />} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/logout'>
 					<TopContainer page={<Logout />} />

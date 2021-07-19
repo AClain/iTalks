@@ -39,13 +39,13 @@ const Sidebar: FC<{}> = () => {
 			<Link to='/saved'>
 				<Icon icon={<HiBookmark />} active={currentPath.includes("saved")} />
 			</Link>
-			<Link to='/profil'>
-				<Icon icon={<HiOutlineUserCircle />} active={currentPath.includes("profil")} />
+			<Link to='/profile'>
+				<Icon icon={<HiOutlineUserCircle />} active={currentPath.includes("profile")} />
 			</Link>
-			<Link to='/profil'>
+			<Link to='/messages'>
 				<Icon icon={<HiChatAlt2 />} active={currentPath.includes("messages")} />
 			</Link>
-			<Link to='/profil'>
+			<Link to='/settings'>
 				<Icon icon={<HiAdjustments />} active={currentPath.includes("settings")} />
 			</Link>
 			<Divider light style={{ width: "55%", background: "var(--text)", margin: "10px 0px" }} />

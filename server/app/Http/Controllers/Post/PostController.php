@@ -28,8 +28,7 @@ class PostController extends Controller
      */
     public function feed(Request $request)
     {
-        $searchController = new SearchController($request);
-        $posts = Post::query();
+        $posts = new SearchController($request, Post::query());
 
         return $searchController->searchResponse($posts);
     }

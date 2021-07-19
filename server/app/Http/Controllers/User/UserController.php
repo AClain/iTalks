@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\TokenController;
+use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SearchOptionsController;
 use App\Models\Post;
@@ -61,12 +62,10 @@ class UserController extends Controller
 
     public function list(Request $request)
     {
-        $searchOptions = new SearchController($request);
-        $users = User::where('username', 'LIKE', '%' . $searchOptions->getSearch() . '%')->limit($searchOptions->getLimit())->offset($searchOptions->getOffset())->get();
+        $users = new SearchController($request, User::query());
+        $users = $users->addWhere('username', 'LIKE', '%' . $users->getSearch() . '%');
 
-        return response()->json([
-            'users' => $users,
-        ], 201);
+        return new ResponseController::toJson($users->getResults());
     }
 
     public function verifyEmail(Request $request, string $token)

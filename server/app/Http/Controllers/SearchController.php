@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
-    public function __construct(Request $request)
+    public function __construct(Request $request, $query)
     {
         $this->limit = $request->query('limit', 15);
         $this->page = $request->query('page', 1);
         $this->search = $request->query('search', "");
+        $this->query = $query;
     }
 
     public function getLimit()
@@ -35,20 +36,20 @@ class SearchController extends Controller
         return $this->limit * ($this->page - 1);
     }
 
-    /**
-     * 
-     *
-     * @param Builder|QueryBuilder $items
-     * @return void
-     */
-    public function searchResponse($items)
+    public function addWhere(
+        $column,
+        $operator = null,
+        $value = null
+    ) {
+        return $this->query->where($column, $operator, $value);
+    }
+
+    public function getResults()
     {
-
-
-        return response()->json([
-            "total" => $items->count(),
-            "count" => sizeof($items->limit($this->getLimit())->offset($this->getOffset())->get()),
-            "items" => $items->limit($this->getLimit())->offset($this->getOffset())->get(),
-        ], 200);
+        return [
+            "total" => $this->query->count(),
+            "count" => sizeof($this->query->limit($this->getLimit())->offset($this->getOffset())->get()),
+            "items" => $this->query->limit($this->getLimit())->offset($this->getOffset())->get(),
+        ];
     }
 }
