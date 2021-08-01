@@ -47,7 +47,7 @@ class MessageController extends Controller
         ]);
 
         if ($message) {
-            $mhUpdate = $this->update_message_history($receiver, $sender);
+            $mhUpdate = $this->updateMessageHistory($receiver, $sender);
 
             return response()->json([
                 'message' => $message
@@ -59,7 +59,7 @@ class MessageController extends Controller
         ], 500);
     }
 
-    public function get_message_history(Request $request)
+    public function getMessageHistory(Request $request)
     {
         $token = TokenController::parseToken($request->cookie('token'));
 
@@ -72,7 +72,7 @@ class MessageController extends Controller
         ], 200);
     }
 
-    public function close_message_history(Request $request, int $id)
+    public function closeMessageHistory(Request $request, int $id)
     {
         $token = TokenController::parseToken($request->cookie('token'));
 
@@ -100,7 +100,7 @@ class MessageController extends Controller
         ], 500);
     }
 
-    public function get_messages_with(Request $request, int $id)
+    public function getMessagesWith(Request $request, int $id)
     {
         $token = TokenController::parseToken($request->cookie('token'));
 
@@ -123,7 +123,7 @@ class MessageController extends Controller
         ], 200);
     }
 
-    private function update_message_history(User $receiver, User $sender)
+    private function updateMessageHistory(User $receiver, User $sender)
     {
         try {
             $mhSender = MessageHistory::firstOrCreate([

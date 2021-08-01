@@ -4,15 +4,18 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\TokenController;
-
+use App\Models\Category;
+use App\Models\CategoryFollow;
 use Illuminate\Http\Request;
 
-use App\Models\Follow;
 use App\Models\User;
+use App\Models\UserFollow;
+use Illuminate\Support\Facades\DB;
+use Validator;
 
 class FollowController extends Controller
 {
-    public function getFollowers(Request $request, int $user_id)
+    public function getFollowersOf(Request $request, int $user_id)
     {
         $user = User::find($user_id);
 
@@ -22,14 +25,14 @@ class FollowController extends Controller
             ], 404);
         }
 
-        $followers = $user->followers->append('follower')->toArray();
+        $categories = $user->categories_followed;
 
         return response()->json([
-            'followers' => $followers
+            'categories' => $categories
         ]);
     }
 
-    public function getFollowings(Request $request, int $user_id)
+    public function getFollowingsOf(Request $request, int $user_id)
     {
         $user = User::find($user_id);
 
@@ -46,28 +49,39 @@ class FollowController extends Controller
         ]);
     }
 
-    public function follow(Request $request, $following_id)
+    public function follow(Request $request, int $following_id)
     {
-        $token = TokenController::parseToken($request->cookie('token'));
-        $following = User::findOrFail($following_id);
+        $validator = Validator::make($request->all(), [
+            'type' => ['required', 'regex:/(^user$)|(^category$)/'],
+        ]);
 
-        $follow = Follow::where('follower_id', $token["uid"])->where('following_id', $following_id)->first();
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        };
+
+        $token = TokenController::parseToken($request->cookie('token'));
+        $follower = User::find($token['uid']);
+        $following = request('type') === "user" ? User::findOrFail($following_id) : Category::findOrFail($following_id);
+
+        $follow = DB::table(request('type') . '_follows')->where('follower_id', $token["uid"])->where(request('type') . '_id', $following_id)->first();
 
         if ($follow) {
             return response()->json([
-                'message' => 'Vous suivez déjà ' . $following->username . '.',
+                'message' => 'Vous suivez déjà ' . ($following->username ?? 'la catégorie ' . $following->name) . '.',
             ], 400);
         }
 
-        $follow = new Follow();
+        if (request('type') === "user") {
+            $follow = $this->newUserFollow($follower, $following);
+        } else {
+            $follow = $this->newCategoryFollow($follower, $following);
+        }
 
-        $follow->follower_id = $token["uid"];
-        $follow->following_id = $following_id;
-        $follow->has_notifications = $request->query('has_notifications') ? 1 : 0;
-
-        if ($follow->save()) {
+        if ($follow) {
             return response()->json([
-                'message' => 'Vous suivez maintenant ' . $following->username . '.',
+                'message' => 'Vous suivez maintenant ' . ($following->username ?? 'la catégorie ' . $following->name) . '.',
             ], 400);
         }
 
@@ -76,22 +90,58 @@ class FollowController extends Controller
         ], 500);
     }
 
-    public function unfollow(Request $request, $following_id)
+    private function newUserFollow(User $follower, User $following)
     {
-        $token = TokenController::parseToken($request->cookie('token'));
-        $following = User::findOrFail($following_id);
+        $follow = UserFollow::create([
+            'follower_id' => $follower->id,
+            "user_id" => $following->id,
+            'has_notifications' => false
+        ]);
 
-        $follow = Follow::where('follower_id', $token["uid"])->where('following_id', $following_id);
+        return $follow;
+    }
+
+    private function newCategoryFollow(User $follower, Category $following)
+    {
+        $follow = CategoryFollow::create([
+            'follower_id' => $follower->id,
+            "category_id" => $following->id,
+            'has_notifications' => false
+        ]);
+
+        return $follow;
+    }
+
+    public function unfollow(Request $request, int $following_id)
+    {
+        $validator = Validator::make($request->all(), [
+            'type' => ['required', 'regex:/(^user$)|(^category$)/'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        };
+
+        $token = TokenController::parseToken($request->cookie('token'));
+        $following = request('type') === "user" ? User::findOrFail($following_id) : Category::findOrFail($following_id);
+
+        if (request('type') === 'user') {
+            $follow = UserFollow::where('follower_id', $token["uid"])->where('user_id', $following_id)->first();
+        } else {
+            $follow = CategoryFollow::where('follower_id', $token["uid"])->where('category_id', $following_id)->first();
+        }
 
         if (!$follow) {
             return response()->json([
-                'message' => 'Vous ne suivez pas ' . $following->username . '.',
+                'message' => 'Vous ne suivez pas ' . ($following->username ?? 'la catégorie ' . $following->name) . '.',
             ], 400);
         }
 
         if ($follow->delete()) {
             return response()->json([
-                'message' => 'Vous ne suivez plus ' . $following->username . '.',
+                'message' => 'Vous ne suivez plus ' . ($following->username ?? 'la catégorie ' . $following->name) . '.',
             ], 400);
         }
 

@@ -32,14 +32,19 @@ class User extends Model
         return $this->hasMany(Feedback::class);
     }
 
-    public function followings()
+    public function users_following()
     {
-        return $this->hasMany(Follow::class, 'follower_id', 'id');
+        return $this->hasMany(UserFollow::class, 'user_id', 'id');
     }
 
-    public function followers()
+    public function users_followed()
     {
-        return $this->hasMany(Follow::class, 'following_id', 'id');
+        return $this->hasMany(UserFollow::class, 'follower_id', 'id');
+    }
+
+    public function categories_followed()
+    {
+        return $this->hasMany(CategoryFollow::class, 'follower_id', 'id');
     }
 
     public function status()

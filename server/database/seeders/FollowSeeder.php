@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
-use App\Models\Follow;
+use App\Models\UserFollow;
+use App\Models\CategoryFollow;
 
 class FollowSeeder extends Seeder
 {
@@ -16,9 +17,17 @@ class FollowSeeder extends Seeder
     public function run()
     {
         foreach (User::all()->skip(1) as $user) {
-            Follow::create([
+            UserFollow::create([
                 'follower_id' => $user->id,
-                'following_id' => \random_int(2, 11),
+                'user_id' => \random_int(2, 11),
+                'has_notifications' => \random_int(0, 1)
+            ]);
+        };
+
+        foreach (User::all()->skip(1) as $user) {
+            CategoryFollow::create([
+                'follower_id' => $user->id,
+                'category_id' => \random_int(1, 6),
                 'has_notifications' => \random_int(0, 1)
             ]);
         };

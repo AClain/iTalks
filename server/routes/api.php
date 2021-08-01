@@ -77,8 +77,8 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('profil/posts', [UserController::class, 'profilPosts'])->name('profilPosts');
     Route::get('profil/comments', [UserController::class, 'profilComments'])->name('profilComments');
 
-    Route::get('followers/{user_id}', [FollowController::class, 'getFollowers'])->name('followers');
-    Route::get('followings/{user_id}', [FollowController::class, 'getFollowings'])->name('followings');
+    Route::get('followers/{user_id}', [FollowController::class, 'getFollowersOf'])->name('followers');
+    Route::get('followings/{user_id}', [FollowController::class, 'getFollowingsOf'])->name('followings');
 
     Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
     Route::get('/posts/feed', [PostController::class, 'feed'])->name('feed');
@@ -101,10 +101,10 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('votes/{type}/{id}', [FeedbackController::class, 'get'])->name('getEntityVotes');
     Route::post('vote/{id}', [FeedbackController::class, 'vote'])->name('vote');
 
-    Route::get('messages', [MessageController::class, 'get_message_history'])->name('getMessageHistory');
-    Route::get('messages/{id}', [MessageController::class, 'get_messages_with'])->name('getMessagesWith');
+    Route::get('messages', [MessageController::class, 'getMessageHistory'])->name('getMessageHistory');
+    Route::get('messages/{id}', [MessageController::class, 'getMessagesWith'])->name('getMessagesWith');
     Route::post('message/send/{id}', [MessageController::class, 'send'])->name('sendMessage');
-    Route::delete('messages/close/{id}', [MessageController::class, 'close_message_history'])->name('closeHistory');
+    Route::delete('messages/close/{id}', [MessageController::class, 'closeMessageHistory'])->name('closeHistory');
 
     Route::get('follow/{following_id}', [FollowController::class, 'follow'])->name('follow');
     Route::get('unfollow/{following_id}', [FollowController::class, 'unfollow'])->name('unfollow');
