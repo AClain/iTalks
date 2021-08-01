@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -11,8 +10,8 @@ class Post extends Model
 
     protected $table = "posts";
     protected $fillable = ['title', 'text', 'is_edited', 'user_id', 'status_id'];
-    protected $appends = ['status', 'user', 'vote_count'];
-    protected $hidden = ['user_id', 'status_id', 'votes'];
+    protected $appends = ['status', 'user', 'vote_count', 'comment_count', 'associated_resources'];
+    protected $hidden = ['user_id', 'status_id', 'votes', 'comments', 'resources'];
 
     // Relationship methods
 
@@ -66,13 +65,15 @@ class Post extends Model
     public function getUserAttribute()
     {
         $user = User::find($this->user_id);
+        $feedback = Feedback::where('user_id', $this->user_id)->where('entity_id', $this->id)->first();
         return [
             'id' => $user->id,
             'username' => $user->username,
+            'feedback' => $feedback ? $feedback->positive : null
         ];
     }
 
-    public function getCommentsCountAttribute()
+    public function getCommentCountAttribute()
     {
         return $this->comments->count();
     }

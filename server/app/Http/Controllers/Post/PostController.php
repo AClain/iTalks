@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\ResponseController;
+use App\Http\Controllers\SearchController;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostCategory;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\File;
 
 use App\Models\Status;
 use App\Models\User;
+use DB;
 
 class PostController extends Controller
 {
@@ -24,7 +27,20 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function feed(Request $request)
+    {
+        $posts =
+            $posts = new SearchController($request, Post::query());
+
+        return $this->toJson($posts->getResults());
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function popular()
     {
         $posts = Post::all();
 

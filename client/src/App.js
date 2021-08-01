@@ -1,38 +1,32 @@
-require("dotenv").config();
+// React
+import { useState } from "react";
+
+// Providers
+import { HelmetProvider } from "react-helmet-async";
+import { ThemeContext } from "providers/ThemeContext";
+import ThemeProvider from "providers/ThemeProvider";
+
+import { BrowserRouter as Router } from "react-router-dom";
+
+import Routes from "routes/Main.routes";
+import { Box } from "@material-ui/core";
+import moment from "moment";
 import "moment/locale/fr";
 
-import { useState } from "react";
-import { HelmetProvider } from "react-helmet-async";
+moment.locale("fr");
 
-import { ChakraProvider } from "@chakra-ui/react";
-
-import { GlobalContext } from "./providers/GlobalContext";
-import GlobalProvider from "./providers/GlobalProvider";
-
-import { Box } from "@chakra-ui/react";
-
-import Routes from "./routes/Main.routes";
-
-const App = () => {
-	const [alert, setAlert] = useState({
-		message: "Succes!",
-		status: "success",
-		shouldDisplay: false,
-	});
-
-	const [theme, setTheme] = useState(GlobalProvider.getClientTheme());
+export default function App() {
+	const [theme, setTheme] = useState(ThemeProvider.getClientTheme());
 
 	return (
 		<HelmetProvider>
-			<ChakraProvider>
-				<GlobalContext.Provider value={{ alert, setAlert, theme, setTheme }}>
-					<Box className={`${theme}`} h='100vh' minH='500px' overflowY='auto'>
+			<ThemeContext.Provider value={{ theme, setTheme }}>
+				<Box className={`${theme}`} height='100vh' minHeight='500px' overflow='auto'>
+					<Router>
 						<Routes />
-					</Box>
-				</GlobalContext.Provider>
-			</ChakraProvider>
+					</Router>
+				</Box>
+			</ThemeContext.Provider>
 		</HelmetProvider>
 	);
-};
-
-export default App;
+}

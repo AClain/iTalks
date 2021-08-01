@@ -12,7 +12,7 @@ class Resource extends Model
     protected $table = 'resources';
     protected $fillable = ['link', 'name', 'status_id'];
     protected $appends = ['status'];
-    protected $hidden = ['status_id'];
+    protected $hidden = ['status_id', 'pivot'];
 
     // Relationship methods
 

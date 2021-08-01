@@ -56,6 +56,10 @@ class Authenticated
 
         $response = $next($request);
 
+        if (isset($response->original["no-cookie"])) {
+            return $response;
+        }
+
         // Update token
         if (!$claims['remember_me']) {
             $token = TokenController::generateToken($user, false);

@@ -28,7 +28,7 @@ class AdminAuthenticated
 
         // Use is admin ?
         if ($user->role === "admin") {
-            return $this->forbiddenCookie('Vous devez être administrateur pour accèder à ce contenu.');
+            return $this->forbiddenCookie('Vous n\'avez pas les autorisations nécessaires pour accèder à ce contenu.');
         }
 
         return $next($request);

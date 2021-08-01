@@ -8,11 +8,13 @@ use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use App\Http\Controllers\Admin\BadgeController as AdminBadgeController;
 use App\Http\Controllers\Admin\UserBadgeController as AdminUserBadgeController;
 use App\Http\Controllers\Admin\RoleController as AdminRoleController;
-use App\Http\Controllers\Auth\UserAuthController;
 // User controllers
+use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Post\PostController;
+use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\Feedback\FeedbackController;
+use App\Http\Controllers\Message\MessageController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\User\FollowController;
 use App\Http\Controllers\User\PasswordResetController;
@@ -69,22 +71,26 @@ Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authent
 // Authenticated routes
 
 Route::middleware(['authenticated'])->group(function () {
-    Route::get('profil', [UserController::class, 'profil'])->name('profil');
-    Route::get('profil/comments', [UserController::class, 'profilComments'])->name('profilComments');
+    Route::get('logout', [UserAuthController::class, 'logout'])->name('logout');
 
-    Route::get('/search/users', [UserController::class, 'list'])->name('userList');
+    Route::get('profil', [UserController::class, 'profil'])->name('profil');
+    Route::get('profil/posts', [UserController::class, 'profilPosts'])->name('profilPosts');
+    Route::get('profil/comments', [UserController::class, 'profilComments'])->name('profilComments');
 
     Route::get('followers/{user_id}', [FollowController::class, 'getFollowers'])->name('followers');
     Route::get('followings/{user_id}', [FollowController::class, 'getFollowings'])->name('followings');
 
-    Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
-    Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
-    Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');
-
     Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
+    Route::get('/posts/feed', [PostController::class, 'feed'])->name('feed');
+    Route::get('/posts/popular', [PostController::class, 'popular'])->name('popular');
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
+    Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
+    Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');
+    Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
+
+    Route::get('/categories', [CategoryController::class, 'all'])->name('getAllCategory');
 
     Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
@@ -94,6 +100,11 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('votes/comments', [FeedbackController::class, 'voted_comments'])->name('getVotedComments');
     Route::get('votes/{type}/{id}', [FeedbackController::class, 'get'])->name('getEntityVotes');
     Route::post('vote/{id}', [FeedbackController::class, 'vote'])->name('vote');
+
+    Route::get('messages', [MessageController::class, 'get_message_history'])->name('getMessageHistory');
+    Route::get('messages/{id}', [MessageController::class, 'get_messages_with'])->name('getMessagesWith');
+    Route::post('message/send/{id}', [MessageController::class, 'send'])->name('sendMessage');
+    Route::delete('messages/close/{id}', [MessageController::class, 'close_message_history'])->name('closeHistory');
 
     Route::get('follow/{following_id}', [FollowController::class, 'follow'])->name('follow');
     Route::get('unfollow/{following_id}', [FollowController::class, 'unfollow'])->name('unfollow');

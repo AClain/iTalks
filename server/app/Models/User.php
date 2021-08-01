@@ -8,8 +8,7 @@ class User extends Model
 {
     protected $table = "users";
     protected $fillable = ['username', 'email', 'password', 'email_verified', 'email_token', 'role_id', 'resource_id', 'status_id'];
-    protected $appends = ['role', 'avatar', 'status'];
-    protected $hidden = ['password', 'email_token', 'role_id', 'resource_id', 'feedbacks', 'status_id'];
+    protected $hidden = ['password', 'email_token', 'role_id', 'resource_id', 'feedbacks', 'status_id', 'email_verified'];
 
     // Relationship methods
 
@@ -73,7 +72,12 @@ class User extends Model
         return $this->hasMany(PostSaved::class);
     }
 
-    public function messages()
+    public function received_messages()
+    {
+        return $this->hasMany(Message::class, 'receiver', 'id');
+    }
+
+    public function sent_messages()
     {
         return $this->hasMany(Message::class, 'sender_id', 'id');
     }

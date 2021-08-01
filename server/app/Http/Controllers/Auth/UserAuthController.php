@@ -12,6 +12,7 @@ use App\Models\Status;
 
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cookie;
 
 use App\Http\Controllers\Auth\TokenController;
 use Illuminate\Support\Facades\Mail;
@@ -31,6 +32,15 @@ class UserAuthController extends Controller
             'username' => 'required|min:3|max:25|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/|confirmed',
+        ], [
+            'username.required' => "Un nom d'utilisateur est requis.",
+            'username.min' => "Le nom d'utilisateur doit faire minimum 3 caractères.",
+            'username.max' => "Le nom d'utilisateur ne peut pas excéder 25 caractères.",
+            'email.required' => "Une adresse mail est requise.",
+            'email.email' => "Format incorrect.",
+            'password.required' => "Un mot de passe est requis.",
+            'password.confirmed' => "Les mots de passe ne correspondent pas.",
+            'password.regex' => "Format incorrect."
         ]);
 
         if ($validator->fails()) {
@@ -87,7 +97,9 @@ class UserAuthController extends Controller
             'identifier' => 'required',
             'password' => 'required'
         ], [
-            'type.regex' => 'Le type d\'identification doit être "email" ou "username".'
+            'type.regex' => 'Le type d\'identification doit être "email" ou "username".',
+            'identifier.required' => 'Un identifiant est requis.',
+            'password.required' => 'Veuillez indiquer votre mot de passe.'
         ]);
 
         if ($validatorFirst->fails()) {
@@ -98,19 +110,11 @@ class UserAuthController extends Controller
 
         $validatorSecond = null;
 
-        if (request('type') === 'username') {
-            $validatorSecond = Validator::make($request->all(), [
-                'identifier' => 'exists:users,username',
-            ], [
-                'identifier.exists' => "Mauvais nom d'utilisateur."
-            ]);
-        } else if (request('type') === 'email') {
-            $validatorSecond = Validator::make($request->all(), [
-                'identifier' => 'exists:users,email',
-            ], [
-                'identifier.exists' => "Mauvaise adresse email."
-            ]);
-        }
+        $validatorSecond = Validator::make($request->all(), [
+            'identifier' => 'exists:users,' . request('type'),
+        ], [
+            'identifier.exists' => "Mauvaise combinaison d'identifiants."
+        ]);
 
         if ($validatorSecond->fails()) {
             return response()->json([
@@ -129,7 +133,24 @@ class UserAuthController extends Controller
         }
 
         return response()->json([
-            'errors' => ['password' => 'Votre mot de passe ne correspond pas.']
+            'errors' => ['identifier' => "Mauvaise combinaison d'identifiants."]
         ], 400);
+    }
+
+    /**
+     * Login the user. Returns a JWT token for authorized requests
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function logout(Request $request)
+    {
+        Cookie::queue(Cookie::forget('token'));
+        $cookie = Cookie::make('token', '');
+        return response()->json([
+            'message' => "Déconnexion effectuée.",
+            'no-cookie' => true,
+            'status' => 201
+        ], 201)->withCookie($cookie);
     }
 }

@@ -18,7 +18,6 @@ class CreateMessagesTable extends Migration
             $table->foreignId('sender_id');
             $table->foreignId('receiver_id');
             $table->text('message');
-            $table->boolean(('is_open'))->default(true);
             $table->foreignId('status_id');
             $table->timestamps();
         });
