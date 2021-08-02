@@ -11,9 +11,10 @@ const FormControl: FC<FormControlProps> = ({
 	register,
 	startIcon,
 	endIcon,
+	fullWidth,
 	...rest
 }) => {
-	const styles = useStyles();
+	const styles = useStyles({ fullWidth: fullWidth });
 
 	let dynamicProp: any = [];
 	if (defaultValue) {

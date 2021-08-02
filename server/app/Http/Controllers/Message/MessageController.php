@@ -114,7 +114,10 @@ class MessageController extends Controller
         }
 
         $messages = Message::where('sender_id', $user->id)
-            ->where('receiver_id', $to->id)
+            ->orWhere('receiver_id', $to->id)
+            ->orWhere('sender_id', $to->id)
+            ->orWhere('receiver_id', $user->id)
+            ->limit(25)
             ->latest()
             ->get();
 

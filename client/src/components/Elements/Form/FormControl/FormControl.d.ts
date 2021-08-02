@@ -6,5 +6,6 @@ export interface FormControlProps {
 	register?: any;
 	startIcon?: JSX.Element;
 	endIcon?: JSX.Element;
+	fullWidth?: boolean;
 	[x: string]: any;
 }
