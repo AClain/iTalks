@@ -8,58 +8,51 @@ iTalks est une plateforme d'échange d'avis et de conseil sur des produits allan
 
 ### Cloner le projet
 
-Via ssh
+Via ssh [(comment configurer sa clé SSH)](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 
 ```
-> git clone git@github.com:AClain/italks.git
+$ git clone git@github.com:AClain/italks.git
 ```
 
 Via https
 
 ```
-> git clone https://github.com/AClain/italks.git
+$ git clone https://github.com/AClain/italks.git
 ```
 
 ### Modifier les variables d'environnement
 
 - Modifier les variables d'environnements
 
-Variables d'environnement importantes à modifier dans /.env :
-_(ce fichier n'étant pas présent lors de la première copie du repo, il vous faudra faire une copie de /.env.example)_
+Variables d'environnement importantes à modifier/ajouter dans /client :
+_(ce fichier n'étant pas présent lors de la première copie du repo, il vous faudra faire une copie de /client/.env.example)_
 
 ```
-MYSQL_USER
-MYSQL_PASSWORD
+REACT_APP_SERVER_URL=http://localhost:8000
 ```
 
-Variables d'environnement importantes à modifier dans /server/.env
+Variables d'environnement importantes à modifier dans /server
 _(ce fichier n'étant pas présent lors de la première copie du repo, il vous faudra faire une copie de /server/.env.example)_
 
 ```
-DB_USERNAME
-DB_PASSWORD
-```
+APP_PORT=8000
+SERVER_PORT=8000
 
-Les paires suivantes doivent être identiques :
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=italks
+DB_USERNAME=root
+DB_PASSWORD=
 
-```
-MYSQL_DATABASE <=> DB_DATABASE
-MYSQL_USER <=> DB_USERNAME
-MYSQL_PASSWORD <=> DB_PASSWORD
-```
+MAIL_MAILER=smtp
+MAIL_HOST=localhost
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=no-reply@italks.com
 
-- Construire les images
-
-```
-> cd quantify
-> docker-compose up -d
-mysql uses an image, skipping
-Building laravel
-(...)
-Building nginx
-(...)
-Building react
-(...)
+JWT_SECRET=IpZHKZADOFqgY64ap7tiIvOlGXqyKgjsas2FYDQu1O8=
 ```
 
 - Côté serveur (Laravel)
@@ -67,49 +60,60 @@ Building react
 Installer les dépendances :
 
 ```
-> docker exec -it laravel /bin/bash
-# composer install
-Installing dependencies from lock file (including require-dev)
-Generating optimized autoload files
+$ cd server
+$ composer install
+// Commande requise deux fois d$u à certains packects
+$ composer install
+```
+
+Générer une clé secrète :
+
+```
+$ php artisan key:generate
+Application key set successfully.
 ```
 
 Créer le lien symbolique pour le dossier `storage` :
 
 ```
-# php artisan storage:link
+$ php artisan storage:link
 The links have been created.
 ```
 
 Effectuer les migrations :
 
 ```
-# php artisan migrate:fresh
+$ php artisan migrate:fresh
 Dropped all tables successfully.
 Migration table created successfully.
 Migrating: ...
 Migrated: ...
 ```
 
-Quitter le conteneur
+- Côté client (React)
 
 ```
-# exit
->
+$ yarn
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+Done in XX.XXs
+$ yarn start
+yarn run vX.XX.XX
+react-scripts start
+Starting the development server...
 ```
 
-- Arrêter docker
+- Configuration de Maildev [(installer Docker)](https://docs.docker.com/get-docker/)
 
 ```
-> docker-compose down
-```
-
-- Lancer / Relancer docker (cela peut prendre quelques secondes)
-
-```
-> docker-compose up -d
+$ docker pull djfarrelly/maildev
+$ docker run -p 1080:80 -p 1025:25 djfarrelly/maildev
 ```
 
 - Accéder aux services
 
-Accéder au client : localhost:13000
-Accéder à l'api : localhost:18080
+Accéder au client : localhost:3000
+Accéder à l'api : localhost:8000/api
+Accèder au serveur mail : localhost:1080
