@@ -21,6 +21,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 import ChatBox from "components/Modules/ChatBox/ChatBox";
 import { Message as MessageType } from "api/types/message";
+import { useParams } from "react-router-dom";
 
 interface SearchError {}
 
@@ -54,38 +55,49 @@ const fakeUsers: UserType[] = [
 const fakeMessages: MessageType[] = [
 	{
 		id: 1,
-		message: "Yo",
+		message:
+			"Occaecat irure ullamco nostrud nostrud eiusmod sint sunt exercitation. Minim amet velit consequat deserunt sint. Amet aliqua Lorem id magna commodo Lorem. Sint mollit cillum nulla minim aute ex et tempor anim. Aliqua exercitation amet nostrud consequat excepteur dolore incididunt.",
 		sender: {
 			id: 1,
 			username: "AClain",
 		},
 		status: "actif",
-		created_at: "",
-		updated_at: "",
+		created_at: "10:30",
+		updated_at: "10:30",
 	},
 	{
 		id: 2,
-		message: "Salut",
+		message:
+			"Occaecat irure ullamco nostrud nostrud eiusmod sint sunt exercitation. Minim amet velit consequat deserunt sint. Amet aliqua Lorem id magna commodo Lorem. Sint mollit cillum nulla minim aute ex et tempor anim. Aliqua exercitation amet nostrud consequat excepteur dolore incididunt.",
 		sender: {
 			id: 3,
 			username: "attzetze",
 		},
 		status: "actif",
-		created_at: "",
-		updated_at: "",
+		created_at: "10:30",
+		updated_at: "10:30",
 	},
 ];
 
+type MessageParams = {
+	id: string;
+};
+
 const Messages: FC<{}> = () => {
 	const styles = useStyles();
+	// React router
+	let { id } = useParams<MessageParams>();
 	// Hook form
 	const { register, handleSubmit } = useForm();
 	// States
+	const [recipientId, setRecipientId] = useState(-1);
 	const [errors, setErrors] = useState<SearchError>({});
 	// Custom methods
 	const handleChange = (e: any) => {
 		console.log(e.target.value);
 	};
+
+	console.log(id);
 
 	return (
 		<Flex className={styles.container} direction={FlexDirectionEnum.Horizontal} width='100%'>
@@ -113,9 +125,9 @@ const Messages: FC<{}> = () => {
 
 				<Divider />
 
-				<UserList users={fakeUsers} />
+				<UserList selectedUserId={id} users={fakeUsers} />
 			</Flex>
-			<ChatBox messages={fakeMessages} />
+			<ChatBox recipientId={id} messages={fakeMessages} />
 		</Flex>
 	);
 };

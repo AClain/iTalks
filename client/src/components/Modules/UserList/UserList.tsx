@@ -1,17 +1,26 @@
 import { FC } from "react";
-import { List } from "@material-ui/core";
+import { List, styled } from "@material-ui/core";
 import { User as UserType } from "api/types/user";
 import User from "components/Submodules/User/User";
+import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
+import { useStyles } from "./UserList.styles";
 
 export interface UserListProps {
 	users: UserType[];
+	selectedUserId: string;
 }
 
-const UserList: FC<UserListProps> = ({ users }) => {
+const UserList: FC<UserListProps> = ({ users, selectedUserId }) => {
+	const styles = useStyles();
+
+	console.log(parseInt(selectedUserId));
+
 	return (
 		<List>
 			{users.map((u, i) => (
-				<User user={u} key={i} />
+				<ResetLink to={`/messages/${u.id}`}>
+					<User className={`${parseInt(selectedUserId) === u.id ? styles.selected : null}`} user={u} key={i} />
+				</ResetLink>
 			))}
 		</List>
 	);
