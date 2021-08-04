@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Resources\ResourceController;
 // Admin controllers
@@ -108,10 +109,13 @@ Route::middleware(['authenticated'])->group(function () {
 
     Route::get('follow/{following_id}', [FollowController::class, 'follow'])->name('follow');
     Route::get('unfollow/{following_id}', [FollowController::class, 'unfollow'])->name('unfollow');
+
+    Route::get('notifications', [NotificationController::class, 'getNotification'])->name('getNotification');
+    Route::put('notification/seen/{id}', [NotificationController::class, 'seen'])->name('seenNotification');
+    Route::delete('notification/{id}', [NotificationController::class, 'DeleteNotification'])->name('DeleteNotification');
 });
 
 // Unauthenticated routes
-
 Route::middleware(['unauthenticated'])->group(function () {
     Route::post('register', [UserAuthController::class, 'register'])->name('register');
     Route::post('login', [UserAuthController::class, 'login'])->name('login');

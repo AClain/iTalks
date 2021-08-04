@@ -46,6 +46,16 @@ class CreateStatusesTable extends Migration
                 'created_at' => now(),
                 'updated_at' => now()
             ],
+            [
+                'name' => 'non-lu',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'name' => 'fermé',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
         ];
 
         foreach ($statuses as $status) {

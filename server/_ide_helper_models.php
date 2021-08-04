@@ -172,15 +172,15 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Status $status
  * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|Notification newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification query()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereStatusId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereText($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NotificationTypes newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|NotificationTypes newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|NotificationTypes query()
+ * @method static \Illuminate\Database\Eloquent\Builder|NotificationTypes whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NotificationTypes whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NotificationTypes whereStatusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NotificationTypes whereText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NotificationTypes whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NotificationTypes whereUserId($value)
  */
 	class Notification extends \Eloquent {}
 }
@@ -404,7 +404,7 @@ namespace App\Models{
  * @property-read int|null $categories_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
  * @property-read int|null $comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Notification[] $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NotificationTypes[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PostCategory[] $post_categories
  * @property-read int|null $post_categories_count
@@ -461,7 +461,7 @@ namespace App\Models{
  * @property-read \App\Models\Status $status
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Message[] $messages
  * @property-read int|null $messages_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Notification[] $notifications
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NotificationTypes[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Models\PasswordReset|null $password_reset
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Post[] $posts
