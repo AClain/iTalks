@@ -33,7 +33,6 @@ use App\Http\Controllers\User\UserController;
 */
 
 // Admin routes
-
 Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authenticated.admin'] */], function () {
     Route::get('users', [AdminUserController::class, 'list'])->name('getAllUser');
     Route::post('users', [AdminUserController::class, 'store'])->name('createUser');
@@ -70,7 +69,6 @@ Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authent
 });
 
 // Authenticated routes
-
 Route::middleware(['authenticated'])->group(function () {
     Route::get('logout', [UserAuthController::class, 'logout'])->name('logout');
 
@@ -125,7 +123,6 @@ Route::middleware(['unauthenticated'])->group(function () {
 });
 
 // Public routes
-
 Route::get('verify_email/{token}', [UserController::class, 'verifyEmail'])->name('verifyEmail');
 
 Route::get('image/placeholder/{image_name}', [ResourceController::class, 'get']);

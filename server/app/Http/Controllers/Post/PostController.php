@@ -137,25 +137,22 @@ class PostController extends Controller
             $Notify_type = NotificationTypes::where('name', 'message')->first();
             $status = Status::where('name', 'non-lu')->first();
 
-            $followerCat = CategoryFollow::where('category_id', $category->id)->get();
-            $followerUser = UserFollow::where('user_id', $token["uid"])->get();
+            $author = User::find($token["uid"]);
 
-            $authorPost = User::findOrFail($token["uid"]);
-
-            foreach($followerCat as $f) {
+            foreach ($category->followers() as $follower) {
                 Notification::create([
-                    'user_id' => $f->follower_id,
+                    'user_id' => $follower->id,
                     'type_id' => $Notify_type->id,
-                    'text' => 'L\'article "'. trim(request('title')) .'" de la catégorie "'. $category->name .'" viens être publié.',
+                    'text' => "L'article ". "<a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a> de la catégorie <a href=" . config('app.client_url') . "/category/" . $category->name . ">". $category->name ."</a>",
                     'status_id' => $status->id,
                 ]);
             }
 
-            foreach($followerUser as $f) {
+            foreach ($author->users_followed() as $follower) {
                 Notification::create([
-                    'user_id' => $f->follower_id,
+                    'user_id' => $follower->id,
                     'type_id' => $Notify_type->id,
-                    'text' => ucfirst($authorPost->username). ' viens de publié l\'article "'. trim(request('title')) .'".',
+                    'text' => "<a href=" . config('app.client_url') . "/user/" . $author->id . ">" . ucfirst($author->username) . "</a> viens de publié l\'article <a href=" . config('app.client_url') . "/post/" . $post->id . ">". trim(request('title')) ."</a>",
                     'status_id' => $status->id,
                 ]);
             }

@@ -15,9 +15,9 @@ class Category extends Model
         return $this->hasMany(Post::class);
     }
 
-    public function follows()
+    public function followers()
     {
-        return $this->morphMany(Follow::class, 'followable');
+        return $this->hasMany(CategoryFollow::class, 'user_id', 'id');
     }
 
     public function status()
