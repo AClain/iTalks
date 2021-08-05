@@ -5,6 +5,9 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\TokenController;
 
+use App\Models\Notification;
+use App\Models\NotificationTypes;
+use App\Models\Status;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Hash;
@@ -50,6 +53,19 @@ class PasswordResetController extends Controller
                     'reason' => 'user.password_reset',
                 ])
             );
+
+            $Notify_type = NotificationTypes::where('name', 'message')->first();
+            $status = Status::where('name', 'non-lu')->first();
+
+            // Notify Password reset
+            $password_reset_notify = new Notification();
+
+            $password_reset_notify->user_id = $user->id;
+            $password_reset_notify->type_id = $Notify_type->id;
+            $password_reset_notify->text = 'Vous avez fait une demande de réinitialisation de votre mot de passe.';
+            $password_reset_notify->status_id = $status->id;
+
+            $password_reset_notify->save();
 
             return response()->json([
                 'message' => 'Un email a été envoyé à l\'adresse indiquée.'

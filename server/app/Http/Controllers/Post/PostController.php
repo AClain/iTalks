@@ -7,10 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SearchController;
 use App\Models\Category;
+use App\Models\CategoryFollow;
+use App\Models\Notification;
+use App\Models\NotificationTypes;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\PostResource;
 use App\Models\Resource;
+use App\Models\UserFollow;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Validator;
@@ -130,6 +134,29 @@ class PostController extends Controller
                 'status_id' => $status->id,
             ]);
 
+            $Notify_type = NotificationTypes::where('name', 'message')->first();
+            $status = Status::where('name', 'non-lu')->first();
+
+            $author = User::find($token["uid"]);
+
+            foreach ($category->followers() as $follower) {
+                Notification::create([
+                    'user_id' => $follower->id,
+                    'type_id' => $Notify_type->id,
+                    'text' => "L'article ". "<a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a> de la catégorie <a href=" . config('app.client_url') . "/category/" . $category->name . ">". $category->name ."</a>",
+                    'status_id' => $status->id,
+                ]);
+            }
+
+            foreach ($author->users_followed() as $follower) {
+                Notification::create([
+                    'user_id' => $follower->id,
+                    'type_id' => $Notify_type->id,
+                    'text' => "<a href=" . config('app.client_url') . "/user/" . $author->id . ">" . ucfirst($author->username) . "</a> viens de publié l\'article <a href=" . config('app.client_url') . "/post/" . $post->id . ">". trim(request('title')) ."</a>",
+                    'status_id' => $status->id,
+                ]);
+            }
+
             return response()->json([
                 'message' => 'Le post a été créé avec succès!'
             ], 201);
@@ -198,6 +225,32 @@ class PostController extends Controller
             $postCategory->status_id = $status->id;
 
             $saveCategory = $post->save();
+
+            $Notify_type = NotificationTypes::where('name', 'message')->first();
+            $status = Status::where('name', 'non-lu')->first();
+
+            $followerCat = CategoryFollow::where('category_id', $category->id)->get();
+            $followerUser = UserFollow::where('user_id', $token["uid"])->get();
+
+            $authorPost = User::findOrFail($token["uid"]);
+
+            foreach($followerCat as $f) {
+                Notification::create([
+                    'user_id' => $f->follower_id,
+                    'type_id' => $Notify_type->id,
+                    'text' => 'L\'article "'. trim(request('title')) .'" de la catégorie "'. $category->name .'" viens être publié.',
+                    'status_id' => $status->id,
+                ]);
+            }
+
+            foreach($followerUser as $f) {
+                Notification::create([
+                    'user_id' => $f->follower_id,
+                    'type_id' => $Notify_type->id,
+                    'text' => ucfirst($authorPost->username). ' viens de publié l\'article "'. trim(request('title')) .'".',
+                    'status_id' => $status->id,
+                ]);
+            }
 
             return response()->json([
                 'message' => 'Le post a été créé avec succès!'
