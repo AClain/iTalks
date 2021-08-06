@@ -30,7 +30,7 @@ class UserBadgeController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Mauvais format de données.'
+                'errors' => $validator->errors()
             ], 400);
         }
 
@@ -45,9 +45,14 @@ class UserBadgeController extends Controller
         $errors = [];
 
         foreach (request('badges') as $badge) {
+            return response()->json(
+                $badge
+            );
             $validator = Validator::make($badge, [
-                "badge" => 'required|exists:badges,name',
+                "name" => 'required|exists:badges,name',
                 'status' => 'required|exists:statuses,name'
+            ], [
+                "name.exists" => "Le badge " . $badge->name . "n'éxiste pas."
             ]);
 
             if ($validator->fails()) {
@@ -55,7 +60,7 @@ class UserBadgeController extends Controller
                 continue;
             }
 
-            $badge = Badge::where('name', $badge->badge)->first();
+            $badge = Badge::where('name', $badge->name)->first();
             $status = Status::where('name', $badge->status)->first();
 
             $badgeAlreadyLinked = UserBadge::where('user_id', $user_id)

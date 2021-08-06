@@ -8,6 +8,7 @@ use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\UnencryptedToken;
+use App\Models\User;
 use Illuminate\Support\Str;
 
 use DateTimeImmutable;
@@ -36,7 +37,7 @@ class TokenController extends Controller
      * @param User $user
      * @return \Lcobucci\JWT\Token\Plain
      */
-    public static function generateToken($user, $remember_me)
+    public static function generateToken(User $user, $remember_me)
     {
         $config = self::getConfig();
 
@@ -51,6 +52,7 @@ class TokenController extends Controller
             ->withClaim('username', $user->username)
             ->withClaim('role', $user->role)
             ->withClaim('status', $user->status)
+            ->withClaim('avatar', $user->avatar->link ?? null)
             ->withClaim('remember_me', $remember_me ? true : false)
             ->getToken($config->signer(), $config->signingKey());
 

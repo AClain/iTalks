@@ -5,6 +5,10 @@ const useStyles = makeStyles({
 		border: "solid 1.25px rgba(255, 255, 255, 0.35)",
 		boxShadow: "var(--medium-box-shadow)",
 	},
+	userListContainer: {
+		width: "30%",
+		borderRight: "solid 1.25px rgba(255, 255, 255, 0.35)",
+	},
 });
 
 export { useStyles };

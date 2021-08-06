@@ -4,9 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\TokenController;
-use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SearchOptionsController;
+use App\Models\Badge;
+use App\Models\Notification;
+use App\Models\NotificationTypes;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -87,8 +88,22 @@ class UserController extends Controller
         $user->email_token = null;
 
         if ($user->save()) {
+            $badge = Badge::where('name', 'Email vérifié')->first();
+
+            UserBadge::create([
+                'user_id' => $token['uid'],
+                'badge_id' => $badge->id,
+            ]);
+
+            Notification::create([
+                "user_id" => $user->id,
+                "type_id" => NotificationTypes::where('name', 'message')->first()->id,
+                "text" => 'Vous avez obtenu le badge ' . $badge->name . '.',
+                "status_id" => Status::where('name', 'non-lu')->first()->id,
+            ]);
+
             return response()->json([
-                'message' => 'Votre adresse mail a bien été confirmée!'
+                'message' => 'Votre adresse mail a bien été confirmée.'
             ], 201);
         }
 

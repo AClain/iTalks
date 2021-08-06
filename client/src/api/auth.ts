@@ -1,11 +1,14 @@
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
+import { User } from "./types/user";
 
 class Auth {
 	base_url: string = process.env.REACT_APP_SERVER_URL + "/api";
 	token: string = Cookies.get("token")!;
 
 	isAuthenticated() {
+		console.log(this.decodedToken());
+
 		return typeof this.token !== "undefined";
 	}
 
@@ -17,6 +20,18 @@ class Auth {
 		var decoded = jwt_decode(this.token);
 
 		return decoded;
+	}
+
+	getUserId(): number {
+		return this.decodedToken()["uid"];
+	}
+
+	getUsername(): string {
+		return this.decodedToken()["username"];
+	}
+
+	getAvatarLink(): string {
+		return this.decodedToken()["avatar"];
 	}
 
 	isAdmin() {

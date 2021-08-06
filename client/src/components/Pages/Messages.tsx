@@ -6,12 +6,12 @@ import {
 	ListItemIcon,
 	ListItemText,
 	Divider,
-	Avatar,
 	FormControl,
 	InputLabel,
 	Input,
 	InputAdornment,
 } from "@material-ui/core";
+import Avatar from "components/Elements/Avatar/Avatar";
 import { useStyles } from "./Messages.styles";
 import UserList from "components/Modules/UserList/UserList";
 import { User as UserType } from "api/types/user";
@@ -21,6 +21,7 @@ import { HiOutlineSearch } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 import ChatBox from "components/Modules/ChatBox/ChatBox";
 import { Message as MessageType } from "api/types/message";
+import auth from "api/auth";
 
 interface SearchError {}
 
@@ -60,8 +61,8 @@ const fakeMessages: MessageType[] = [
 			username: "AClain",
 		},
 		status: "actif",
-		created_at: "",
-		updated_at: "",
+		created_at: "2021-07-06T20:29:26.000000Z",
+		updated_at: "2021-07-06T20:29:26.000000Z",
 	},
 	{
 		id: 2,
@@ -71,8 +72,8 @@ const fakeMessages: MessageType[] = [
 			username: "attzetze",
 		},
 		status: "actif",
-		created_at: "",
-		updated_at: "",
+		created_at: "2021-07-06T20:29:26.000000Z",
+		updated_at: "2021-07-06T20:29:26.000000Z",
 	},
 ];
 
@@ -89,12 +90,12 @@ const Messages: FC<{}> = () => {
 
 	return (
 		<Flex className={styles.container} direction={FlexDirectionEnum.Horizontal} width='100%'>
-			<Flex direction={FlexDirectionEnum.Vertical} width='30%'>
+			<Flex className={styles.userListContainer} direction={FlexDirectionEnum.Vertical}>
 				<ListItem button key='RemySharp'>
 					<ListItemIcon>
-						<Avatar alt='Remy Sharp' src='https://material-ui.com/static/images/avatar/1.jpg' />
+						<Avatar username={auth.getUsername()} link={auth.getAvatarLink()} />
 					</ListItemIcon>
-					<ListItemText primary='John Wick'></ListItemText>
+					<ListItemText>{auth.getUsername()}</ListItemText>
 				</ListItem>
 
 				<Divider />

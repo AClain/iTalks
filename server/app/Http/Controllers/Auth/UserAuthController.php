@@ -124,6 +124,12 @@ class UserAuthController extends Controller
 
         $user = User::where(request('type'), request('identifier'))->first();
 
+        if (!$user->email_verified) {
+            return response()->json([
+                'errors' => ['identifier' => "Votre tentative de connexion a été refusée, merci de confirmer votre email."]
+            ], 400);
+        }
+
         if (Hash::check(request('password'), $user->password)) {
             $token = TokenController::generateToken($user, request('remember_me'));
 

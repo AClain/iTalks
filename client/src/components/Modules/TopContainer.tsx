@@ -6,13 +6,15 @@ import { Box } from "@material-ui/core";
 declare interface TopContainerProps {
 	sidebar?: ReactElement;
 	page: ReactElement;
+	sideMargin?: number;
 }
 
-const TopContainer: FC<TopContainerProps> = ({ sidebar, page }) => {
+const TopContainer: FC<TopContainerProps> = ({ sidebar, page, sideMargin }) => {
+	const margin = sideMargin ? "50px " + sideMargin + "px" : "50px";
 	return (
 		<Box display='flex' height='100%' width='100%'>
 			{sidebar}
-			<Box display='flex' m='50px' flexGrow={1}>
+			<Box display='flex' m={margin} flexGrow={1}>
 				{page}
 			</Box>
 		</Box>
