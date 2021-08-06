@@ -5,6 +5,7 @@ import Avatar from "components/Elements/Avatar/Avatar";
 
 export interface UserProps {
 	user: UserType;
+	[x: string]: any;
 }
 
 const User: FC<UserProps> = ({ user }) => {
