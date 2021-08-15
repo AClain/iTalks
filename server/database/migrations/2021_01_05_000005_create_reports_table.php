@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,9 +16,10 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('reporter_id');
             $table->foreignId('reported_id');
+            $table->foreignIdFor(Status::class, 'status_id');
             $table->string('reason');
+            $table->string('type');
             $table->timestamps();
         });
     }

@@ -54,6 +54,11 @@ class Authenticated
             return $this->unauthorizedCookie('Ce compte a été supprimé.');
         }
 
+        // User account banni ?
+        if ($user->status === "banni") {
+            return $this->unauthorizedCookie('Vous compte a été suspendu.');
+        }
+
         $response = $next($request);
 
         if (isset($response->original["no-cookie"])) {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Mod\ReportController;
 use App\Http\Controllers\User\NotificationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Resources\ResourceController;
@@ -68,6 +69,16 @@ Route::group(['prefix' => 'admin', /* 'middleware' => ['authenticated', 'authent
     Route::delete('role/{id}', [AdminRoleController::class, 'destroy'])->name('deleteRole');
 });
 
+// Mod routes
+Route::group(['prefix' => 'mod', /* 'middleware' => ['authenticated', 'authenticated.mod'] */], function () {
+    Route::get('reports', [ReportController::class, 'index'])->name('getAllReport');
+    Route::get('report/{id}', [ReportController::class, 'get'])->name('getReport');
+    Route::delete('report/{id}', [ReportController::class, 'destroy'])->name('deleteReport');
+    Route::get('report/warn/{id}', [ReportController::class, 'warn'])->name('warn');
+    Route::get('report/ignored/{id}', [ReportController::class, 'ignored'])->name('ignored');
+    Route::get('ban/{id}', [ReportController::class, 'ban'])->name('ban');
+});
+
 // Authenticated routes
 Route::middleware(['authenticated'])->group(function () {
     Route::get('logout', [UserAuthController::class, 'logout'])->name('logout');
@@ -110,7 +121,9 @@ Route::middleware(['authenticated'])->group(function () {
 
     Route::get('notifications', [NotificationController::class, 'getNotification'])->name('getNotification');
     Route::put('notification/seen/{id}', [NotificationController::class, 'seen'])->name('seenNotification');
-    Route::delete('notification/{id}', [NotificationController::class, 'DeleteNotification'])->name('DeleteNotification');
+    Route::delete('notification/{id}', [NotificationController::class, 'deleteNotification'])->name('deleteNotification');
+
+    Route::post('report/{id}', [ReportController::class, 'store'])->name('createReport');
 });
 
 // Unauthenticated routes

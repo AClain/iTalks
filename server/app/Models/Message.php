@@ -14,7 +14,7 @@ class Message extends Model
     protected $appends = ['sender', 'receiver', 'status'];
     protected $hidden = ['id', 'sender_id', 'receiver_id', 'status_id'];
 
-    public function sender()
+    public function user()
     {
         return $this->belongsTo(User::class, 'id', 'sender_id');
     }

@@ -31,7 +31,7 @@ class UserAuthController extends Controller
         $validator = Validator::make($request->all(), [
             'username' => 'required|min:3|max:25|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$/|confirmed',
+            'password' => 'required|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/|confirmed',
         ], [
             'username.required' => "Un nom d'utilisateur est requis.",
             'username.min' => "Le nom d'utilisateur doit faire minimum 3 caractères.",

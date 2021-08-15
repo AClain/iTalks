@@ -20,6 +20,7 @@ class Unauthenticated
      */
     public function handle(Request $request, Closure $next)
     {
+
         // Cookie exists
         $token = $request->cookie('token');
         if (!$token || !TokenController::verifyToken($token)) {

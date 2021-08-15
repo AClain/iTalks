@@ -3,21 +3,17 @@
 namespace App\Http\Middleware;
 
 use App\Http\Controllers\Auth\TokenController;
-
+use App\Models\User;
+use Closure;
 use Illuminate\Http\Request;
 
-use App\Models\User;
-
-use Closure;
-
-
-class AdminAuthenticated
+class ModAuthenticated
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
@@ -28,7 +24,10 @@ class AdminAuthenticated
 
         // Use is admin ?
         if ($user->role != "admin") {
-            return $this->forbiddenCookie('Vous n\'avez pas les autorisations nécessaires pour accèder à ce contenu.');
+            // Use is mod ?
+            if ($user->role != "modérateur") {
+                return $this->forbiddenCookie('Vous n\'avez pas les autorisations nécessaires pour accèder à ce contenu.');
+            }
         }
 
         return $next($request);

@@ -71,4 +71,10 @@ class Status extends Model
     {
         return $this->hasMany(UserBadge::class);
     }
+
+    public function report()
+    {
+        return $this->hasMany(Report::class);
+    }
+
 }
