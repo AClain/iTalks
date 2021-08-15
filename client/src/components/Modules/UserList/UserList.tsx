@@ -18,8 +18,8 @@ const UserList: FC<UserListProps> = ({ users, selectedUserId }) => {
 	return (
 		<List>
 			{users.map((u, i) => (
-				<ResetLink to={`/messages/${u.id}`}>
-					<User className={`${parseInt(selectedUserId) === u.id ? styles.selected : null}`} user={u} key={i} />
+				<ResetLink key={i} to={`/messages/${u.id}`}>
+					<User className={`${parseInt(selectedUserId) === u.id ? styles.selected : null}`} user={u} />
 				</ResetLink>
 			))}
 		</List>

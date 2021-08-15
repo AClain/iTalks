@@ -36,7 +36,7 @@ const Avatar: FC<AvatarProps> = ({ username, link, size }) => {
 	return link ? (
 		<MUIAvatar className={styles.avatar} alt={username} src={link}>
 			<svg viewBox='0 0 35 35'>
-				<text fill='white' text-anchor='middle' dominant-baseline='middle' x='50%' y='50%'>
+				<text fill='white' textAnchor='middle' dominantBaseline='middle' x='50%' y='50%'>
 					{username.substring(0, 1).toUpperCase()}
 				</text>
 			</svg>
@@ -44,7 +44,7 @@ const Avatar: FC<AvatarProps> = ({ username, link, size }) => {
 	) : (
 		<MUIAvatar className={`${styles.noLink} ${styles.avatar}`} alt={username}>
 			<svg viewBox='0 0 35 35'>
-				<text fill='white' text-anchor='middle' dominant-baseline='middle' x='50%' y='50%'>
+				<text fill='white' textAnchor='middle' dominantBaseline='middle' x='50%' y='50%'>
 					{username.substring(0, 1).toUpperCase()}
 				</text>
 			</svg>

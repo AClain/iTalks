@@ -1,5 +1,5 @@
 // React
-import { FC, useState } from "react";
+import { FC, useState, useContext } from "react";
 // Librairies
 import {
 	ListItem,
@@ -23,6 +23,7 @@ import ChatBox from "components/Modules/ChatBox/ChatBox";
 import { Message as MessageType } from "api/types/message";
 import auth from "api/auth";
 import { useParams } from "react-router-dom";
+import { EventContext } from "providers/EventContext";
 
 interface SearchError {}
 
@@ -85,20 +86,30 @@ type MessageParams = {
 };
 
 const Messages: FC<{}> = () => {
+	const context: any = useContext(EventContext);
+
 	const styles = useStyles();
 	// React router
 	let { id } = useParams<MessageParams>();
 	// Hook form
 	const { register, handleSubmit } = useForm();
 	// States
-	const [recipientId, setRecipientId] = useState(-1);
 	const [errors, setErrors] = useState<SearchError>({});
+	const [messages, setMessages] = useState(fakeMessages);
 	// Custom methods
 	const handleChange = (e: any) => {
 		console.log(e.target.value);
 	};
 
-	console.log(id);
+	const eventChannel = "Sender_" + auth.getUserId() + "_Receiver_" + id;
+
+	console.log(eventChannel);
+
+	context.Echo.channel(eventChannel).listen("RealTimeMessage", (e: any) => {
+		setMessages((messages) => [...messages, JSON.parse(e.message)]);
+
+		return true;
+	});
 
 	return (
 		<Flex className={styles.container} direction={FlexDirectionEnum.Horizontal} width='100%'>

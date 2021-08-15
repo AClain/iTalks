@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Message;
 
+use App\Events\RealTimeMessage;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
@@ -48,6 +49,12 @@ class MessageController extends Controller
 
         if ($message) {
             $mhUpdate = $this->updateMessageHistory($receiver, $sender);
+
+            $eventChannelSender = 'Sender_' . $sender->id . "_Receiver_" . $receiver->id;
+            $eventChannelReceiver = 'Sender_' . $receiver->id . "_Receiver_" . $sender->id;
+
+            event(new RealTimeMessage($message, $eventChannelSender));
+            event(new RealTimeMessage($message, $eventChannelReceiver));
 
             return response()->json([
                 'message' => $message

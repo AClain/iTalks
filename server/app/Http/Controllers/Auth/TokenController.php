@@ -52,7 +52,7 @@ class TokenController extends Controller
             ->withClaim('username', $user->username)
             ->withClaim('role', $user->role)
             ->withClaim('status', $user->status)
-            ->withClaim('avatar', $user->avatar->link ?? null)
+            ->withClaim('avatar', $user->avatar->link ??     null)
             ->withClaim('remember_me', $remember_me ? true : false)
             ->getToken($config->signer(), $config->signingKey());
 

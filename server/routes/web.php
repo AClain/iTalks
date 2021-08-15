@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Resources\ResourceController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Route::get('/swagger', function () {
 });
 
 Route::get('/swagger/get', [ResourceController::class, 'swagger']);
+
+Route::get('/real-time-event', [TestController::class, 'index']);
