@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\MessageHistory;
+use App\Models\Notification;
+use App\Models\NotificationTypes;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -46,6 +48,22 @@ class MessageController extends Controller
             'receiver_id' => $receiver->id,
             'status_id' => $status->id
         ]);
+
+        // notify
+        $Notify_type = NotificationTypes::where('name', 'message')->first();
+        $status = Status::where('name', 'non-lu')->first();
+
+        $Sender = User::findOrFail($token["uid"]);
+
+        // Notify Password reset
+        $message_notify = new Notification();
+
+        $message_notify->user_id = $token["uid"];
+        $message_notify->type_id = $Notify_type->id;
+        $message_notify->text = ucfirst($Sender->username) . ' vient de vous envoyer un message.';
+        $message_notify->status_id = $status->id;
+
+        $message_notify->save();
 
         if ($message) {
             $mhUpdate = $this->updateMessageHistory($receiver, $sender);

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
+use App\Models\NotificationTypes;
 use App\Models\User;
 use App\Models\Status;
 use App\Models\Badge;
 use App\Models\UserBadge;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -60,7 +63,7 @@ class UserBadgeController extends Controller
                 continue;
             }
 
-            $badge = Badge::where('name', $badge->name)->first();
+            $badge = Badge::where('name', $badge['badge'])->first();
             $status = Status::where('name', $badge->status)->first();
 
             $badgeAlreadyLinked = UserBadge::where('user_id', $user_id)
@@ -73,11 +76,25 @@ class UserBadgeController extends Controller
             $userBadge = new UserBadge();
             $userBadge->user_id = $user->id;
             $userBadge->badge_id = $badge->id;
-            $userBadge->status_id = $status->id;
+            // $userBadge->status_id = $status->id;
             $save = $userBadge->save();
 
+            // notify
+            $Notify_type = NotificationTypes::where('name', 'message')->first();
+            $status = Status::where('name', 'non-lu')->first();
+
+            // Notify Password reset
+            $badge_notify = new Notification();
+
+            $badge_notify->user_id = $user->id;
+            $badge_notify->type_id = $Notify_type->id;
+            $badge_notify->text = 'Vous avez obtenu le badge ' . $badge->name . '.';
+            $badge_notify->status_id = $status->id;
+
+            $badge_notify->save();
+
             if (!$save) {
-                $errors[] = 'Une erreur s\'est produite, le badge "' + $badge->badge + '" n\'a pas pu être lié, veuillez réessayer.';
+                $errors[] = 'Une erreur s\'est produite, le badge "' + $badge->name + '" n\'a pas pu être lié, veuillez réessayer.';
             }
 
             if (!$user) {

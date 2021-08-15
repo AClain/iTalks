@@ -12,7 +12,7 @@ class CategoryFollow extends Model
     protected $table = "category_follows";
     protected $fillable = ['follower_id', 'category_id', 'has_notifications'];
     protected $appends = ['category', 'since'];
-    protected $hidden = ['id', 'follower_id', 'category_id', 'created_at', 'updated_at'];
+    protected $hidden = ['id', 'category_id', 'created_at', 'updated_at'];
 
     // Relationship methods
 

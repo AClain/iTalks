@@ -112,6 +112,13 @@ $ docker pull djfarrelly/maildev
 $ docker run -p 1080:80 -p 1025:25 djfarrelly/maildev
 ```
 
+- Lancer le serveur websocket
+
+```
+$ cd server
+$ php artisan websocket:serve
+```
+
 - Accéder aux services
 
 Accéder au client : localhost:3000
