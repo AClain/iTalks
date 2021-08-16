@@ -13,7 +13,6 @@ class SearchController extends Controller
     {
         $this->limit = $request->query('limit', 15);
         $this->page = $request->query('page', 1);
-        $this->search = $request->query('search', "");
         $this->query = $query;
     }
 
@@ -42,7 +41,8 @@ class SearchController extends Controller
         $operator = null,
         $value = null
     ) {
-        return $this->query->where($column, $operator, $value);
+         $this->query->where($column, $operator, $value);
+         return $this;
     }
 
     public function orderBy($column, $direction = 'asc')

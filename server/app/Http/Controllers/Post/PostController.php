@@ -8,6 +8,7 @@ use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SearchController;
 use App\Models\Category;
 use App\Models\CategoryFollow;
+use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\NotificationTypes;
 use App\Models\Post;
@@ -15,8 +16,10 @@ use App\Models\PostCategory;
 use App\Models\PostResource;
 use App\Models\Resource;
 use App\Models\UserFollow;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 
@@ -29,20 +32,31 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function feed(Request $request)
     {
-        $posts =
-            $posts = new SearchController($request, Post::query());
 
-        return $this->toJson($posts->getResults());
+        $token = TokenController::parseToken($request->cookie('token'));
+
+        $user = User::find($token['uid']);
+
+        $Usersfollow = UserFollow::where('follower_id', $user->id)->get();
+
+        $posts = Post::query();
+
+        $posts->where('user_id', $Usersfollow->follower_id);
+
+
+        return response()->json([
+            'posts' => $posts
+        ], 201);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function popular()
     {
@@ -54,10 +68,10 @@ class PostController extends Controller
     }
 
     /**
-     * Return the status for the given id
+     * Return the all posts for the given id
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function get($id)
     {
@@ -77,8 +91,83 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
+     */
+    public function storeSingle(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:100',
+            'text' => 'required|max:1000',
+            'category' => 'required|exists:categories,name'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $post = new Post();
+
+        $token = TokenController::parseToken($request->cookie('token'));
+        $status = Status::where('name', 'actif')->first();
+
+        $post->title = trim(request('title'));
+        $post->text = request('text');
+        $post->user_id = $token["uid"];
+        $post->status_id = $status->id;
+
+        if ($post->save()) {
+
+            $category = Category::where('name', request('category'))->first();
+
+            PostCategory::create([
+                'post_id' => $post->id,
+                'category_id' => $category->id,
+                'status_id' => $status->id,
+            ]);
+
+
+            $Notify_type = NotificationTypes::where('name', 'message')->first();
+            $status = Status::where('name', 'non-lu')->first();
+
+            $author = User::find($token["uid"]);
+
+            foreach ($category->followers() as $follower) {
+                Notification::create([
+                    'user_id' => $follower->id,
+                    'type_id' => $Notify_type->id,
+                    'text' => "L'article ". "<a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a> de la catégorie <a href=" . config('app.client_url') . "/category/" . $category->name . ">". $category->name ."</a>",
+                    'status_id' => $status->id,
+                ]);
+            }
+
+
+            foreach ($author->users_followed() as $follower) {
+                Notification::create([
+                    'user_id' => $follower->id,
+                    'type_id' => $Notify_type->id,
+                    'text' => "<a href=" . config('app.client_url') . "/user/" . $author->id . ">" . ucfirst($author->username) . "</a> viens de publié l\'article <a href=" . config('app.client_url') . "/post/" . $post->id . ">". trim(request('title')) ."</a>",
+                    'status_id' => $status->id,
+                ]);
+            }
+
+            return response()->json([
+                'message' => 'Le post a été créé avec succès!'
+            ], 201);
+        }
+
+        return response()->json([
+            'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
+        ], 500);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return Response
      */
     public function storeSingleImage(Request $request)
     {
@@ -170,8 +259,8 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function storeSingleVideo(Request $request)
     {
@@ -262,6 +351,13 @@ class PostController extends Controller
         ], 500);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param $file
+     * @param $post
+     * @return Response
+     */
     private function storeImage($file, $post)
     {
         $file_extention = $file->getClientOriginalExtension();
@@ -317,11 +413,28 @@ class PostController extends Controller
     }
 
     /**
+     * Store - get all comment by id post
+     *
+     */
+    public function getComments(int $id, Request $request) {
+
+        $post = Post::find($id);
+
+        $comments = new SearchController($request, Comment::query()->with('childrenComment'));
+
+        $comments->addWhere('post_id', '=', $post->id)->addWhere('parent_id', '=');
+
+        return response()->json([
+            'comments' => $comments->getResults()
+        ], 201);
+    }
+
+    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -361,8 +474,8 @@ class PostController extends Controller
         $post->is_edited = true;
 
         if ($post->save()) {
-            $post->user = User::select('id', 'username', 'role', 'status')->where('id', $user->id)->first();
-            $post->status = Status::find($post->status_id);
+            $post->user_id = User::select('id', 'username', 'role', 'status')->where('id', $user->id)->first();
+            $post->status_id = Status::find($post->status_id);
             $post->category = Category::find($post->category_id);
 
             unset($post->user_id);
@@ -384,7 +497,7 @@ class PostController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id, Request $request)
     {
@@ -435,4 +548,5 @@ class PostController extends Controller
 
         return false;
     }
+
 }

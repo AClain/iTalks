@@ -83,15 +83,17 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('/posts/feed', [PostController::class, 'feed'])->name('feed');
     Route::get('/posts/popular', [PostController::class, 'popular'])->name('popular');
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
+    Route::post('posts', [PostController::class, 'storeSingle'])->name('createSinglePost');
     Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
     Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');
     Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
+    Route::get('post/comments/{id}', [PostController::class, 'getComments'])->name('getComments');
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
 
     Route::get('/categories', [CategoryController::class, 'all'])->name('getAllCategory');
 
-    Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
+    Route::post('comment/{postId}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
     Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');
 

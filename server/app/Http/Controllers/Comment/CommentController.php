@@ -53,7 +53,7 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, int $post_id)
+    public function store(Request $request, int $postId)
     {
         $validator = Validator::make($request->all(), [
             'text' => 'required|max:1000',
@@ -70,7 +70,7 @@ class CommentController extends Controller
 
         $token = TokenController::parseToken($request->cookie('token'));
         $status = Status::where('name', 'actif')->first();
-        $post = Post::find($post_id);
+        $post = Post::find($postId);
         $parent = Comment::where('id', request('parent'))->first();
 
         $comment->text = request('text');

@@ -12,7 +12,7 @@ class Comment extends Model
 
     protected $table = "comments";
     protected $fillable = ['user_id', 'post_id', 'text', 'is_edited', 'parent_id', 'status_id'];
-    protected $appends = ['status', 'user', 'vote_count'];
+    protected $appends = ['status', 'user', 'vote_count', 'childrenCommentCount'];
     protected $hidden = ['user_id', 'post_id', 'parent_id', 'status_id', 'votes'];
 
     public function user()
@@ -32,12 +32,12 @@ class Comment extends Model
 
     public function parentComment()
     {
-        return $this->belongsTo(Comment::class, 'parent_id', 'id');
+        return $this->belongsTo(Comment::class, 'id', 'parent_id');
     }
 
     public function childrenComment()
     {
-        return $this->hasMany(Comment::class, 'id', 'parent_id');
+        return $this->hasMany(Comment::class, 'parent_id', 'id');
     }
 
     // Accessor methods
@@ -45,6 +45,10 @@ class Comment extends Model
     public function getStatusAttribute()
     {
         return Status::find($this->status_id)->name;
+    }
+
+    public function getChildrenCommentCountAttribute() {
+        return Comment::where('parent_id', $this->id)->count();
     }
 
     public function getVoteCountAttribute()
