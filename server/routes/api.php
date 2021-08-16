@@ -82,6 +82,7 @@ Route::middleware(['authenticated'])->group(function () {
     Route::post('users/search', [UserController::class, 'search'])->name('searchUsers');
 
     Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
+    Route::post('posts/search', [PostController::class, 'search'])->name('searchPosts');
     Route::get('posts/feed', [PostController::class, 'feed'])->name('feed');
     Route::get('posts/popular', [PostController::class, 'popular'])->name('popular');
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');

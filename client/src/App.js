@@ -14,6 +14,8 @@ import moment from "moment";
 import "moment/locale/fr";
 import { EventContext } from "providers/EventContext";
 import EventProvider from "providers/EventProvider";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
 moment.locale("fr");
 
@@ -22,16 +24,18 @@ export default function App() {
 	const Echo = EventProvider.defaultEchoEvent();
 
 	return (
-		<HelmetProvider>
-			<ThemeContext.Provider value={{ theme, setTheme }}>
-				<EventContext.Provider value={{ Echo }}>
-					<Box className={`${theme}`} height='100vh' minHeight='500px' overflow='auto'>
-						<Router>
-							<Routes />
-						</Router>
-					</Box>
-				</EventContext.Provider>
-			</ThemeContext.Provider>
-		</HelmetProvider>
+		<MuiPickersUtilsProvider utils={DateFnsUtils}>
+			<HelmetProvider>
+				<ThemeContext.Provider value={{ theme, setTheme }}>
+					<EventContext.Provider value={{ Echo }}>
+						<Box className={`${theme}`} height='100vh' minHeight='500px' overflow='auto'>
+							<Router>
+								<Routes />
+							</Router>
+						</Box>
+					</EventContext.Provider>
+				</ThemeContext.Provider>
+			</HelmetProvider>
+		</MuiPickersUtilsProvider>
 	);
 }
