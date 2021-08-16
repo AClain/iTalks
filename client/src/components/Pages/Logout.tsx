@@ -8,7 +8,6 @@ import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/El
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 import { useStyles } from "./Logout.styles";
 // Librairies
-import { useHistory } from "react-router-dom";
 import { IconButton } from "@material-ui/core";
 import { HiOutlineRefresh } from "react-icons/hi";
 // Components
@@ -18,7 +17,6 @@ import Loading from "components/Elements/Animations/Loading/Loading";
 
 const Logout: FC<{}> = () => {
 	const styles = useStyles();
-	let history = useHistory();
 
 	const [loading, setLoading] = useState(true);
 	const [refresh, setRefresh] = useState(false);

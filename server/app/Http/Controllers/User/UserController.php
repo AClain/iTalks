@@ -4,9 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\TokenController;
-use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SearchOptionsController;
 use App\Models\Badge;
 use App\Models\Notification;
 use App\Models\NotificationTypes;
@@ -107,18 +105,26 @@ class UserController extends Controller
 
             $badge_notify->user_id = $token['uid'];
             $badge_notify->type_id = $Notify_type->id;
-            $badge_notify->text = 'Vous avez obtenu le badge '. $badgeVerify->name .'.';
+            $badge_notify->text = 'Vous avez obtenu le badge ' . $badgeVerify->name . '.';
             $badge_notify->status_id = $status->id;
 
             $badge_notify->save();
 
             return response()->json([
-                'message' => 'Votre adresse mail a bien été confirmée!'
+                'message' => 'Votre adresse mail a bien été confirmée.'
             ], 201);
         }
 
         return response()->json([
             'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
         ], 500);
+    }
+
+    public function search(Request $request)
+    {
+        $search = new SearchController($request, User::query());
+        $search->addWhere('username', "LIKE", $search->getSearch() . "%");
+
+        return response()->json($search->getResults());
     }
 }

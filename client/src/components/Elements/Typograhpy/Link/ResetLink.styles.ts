@@ -13,7 +13,7 @@ const useStyles = makeStyles({
 		padding: "0px",
 		textDecoration: "none",
 		"&:hover": {
-			color: (props: ResetLinkStylesProps) => (props.color ? darken(props.color, 0.5) : "var(--purple-focus)"),
+			color: (props: ResetLinkStylesProps) => (props.color ? props.color : "var(--purple-focus)"),
 		},
 		"&:visited": {
 			color: "inherit",

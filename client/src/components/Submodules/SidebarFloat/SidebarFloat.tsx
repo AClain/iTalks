@@ -44,7 +44,7 @@ const SidebarFloat: FC<SidebarFloatProps> = ({ exclude }) => {
 	}
 
 	return (
-		<Box display='flex' flexDirection='column' alignItems='center' position='absolute' bottom='25px' right='25px'>
+		<Box display='flex' flexDirection='column' alignItems='center' position='absolute' bottom='15px' right='15px'>
 			{hidden ? (
 				<HiCog
 					className={`${styles.default} ${styles.open}`}

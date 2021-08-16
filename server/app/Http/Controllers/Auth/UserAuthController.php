@@ -124,9 +124,9 @@ class UserAuthController extends Controller
 
         $user = User::where(request('type'), request('identifier'))->first();
 
-        if($user->email_verified == false) {
+        if ($user->email_verified === false) {
             return response()->json([
-                'errors' => ['verify.email' => "Votre tentative de connexion a été refusée, merci de confirmer votre email."]
+                'errors' => ['identifier' => "Votre tentative de connexion a été refusée, merci de confirmer votre email."]
             ], 400);
         }
 

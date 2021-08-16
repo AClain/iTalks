@@ -138,7 +138,7 @@ class PostController extends Controller
                 Notification::create([
                     'user_id' => $follower->id,
                     'type_id' => $Notify_type->id,
-                    'text' => "L'article ". "<a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a> de la catégorie <a href=" . config('app.client_url') . "/category/" . $category->name . ">". $category->name ."</a>",
+                    'text' => "L'article " . "<a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a> de la catégorie <a href=" . config('app.client_url') . "/category/" . $category->name . ">" . $category->name . "</a>",
                     'status_id' => $status->id,
                 ]);
             }
@@ -148,7 +148,7 @@ class PostController extends Controller
                 Notification::create([
                     'user_id' => $follower->id,
                     'type_id' => $Notify_type->id,
-                    'text' => "<a href=" . config('app.client_url') . "/user/" . $author->id . ">" . ucfirst($author->username) . "</a> viens de publié l\'article <a href=" . config('app.client_url') . "/post/" . $post->id . ">". trim(request('title')) ."</a>",
+                    'text' => "<a href=" . config('app.client_url') . "/user/" . $author->id . ">" . ucfirst($author->username) . "</a> viens de publié l\'article <a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a>",
                     'status_id' => $status->id,
                 ]);
             }
@@ -232,7 +232,7 @@ class PostController extends Controller
                 Notification::create([
                     'user_id' => $follower->id,
                     'type_id' => $Notify_type->id,
-                    'text' => "L'article ". "<a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a> de la catégorie <a href=" . config('app.client_url') . "/category/" . $category->name . ">". $category->name ."</a>",
+                    'text' => "L'article " . "<a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a> de la catégorie <a href=" . config('app.client_url') . "/category/" . $category->name . ">" . $category->name . "</a>",
                     'status_id' => $status->id,
                 ]);
             }
@@ -241,7 +241,7 @@ class PostController extends Controller
                 Notification::create([
                     'user_id' => $follower->id,
                     'type_id' => $Notify_type->id,
-                    'text' => "<a href=" . config('app.client_url') . "/user/" . $author->id . ">" . ucfirst($author->username) . "</a> viens de publié l\'article <a href=" . config('app.client_url') . "/post/" . $post->id . ">". trim(request('title')) ."</a>",
+                    'text' => "<a href=" . config('app.client_url') . "/user/" . $author->id . ">" . ucfirst($author->username) . "</a> viens de publié l\'article <a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a>",
                     'status_id' => $status->id,
                 ]);
             }
@@ -323,20 +323,20 @@ class PostController extends Controller
 
             $authorPost = User::findOrFail($token["uid"]);
 
-            foreach($followerCat as $f) {
+            foreach ($followerCat as $f) {
                 Notification::create([
                     'user_id' => $f->follower_id,
                     'type_id' => $Notify_type->id,
-                    'text' => 'L\'article "'. trim(request('title')) .'" de la catégorie "'. $category->name .'" viens être publié.',
+                    'text' => 'L\'article "' . trim(request('title')) . '" de la catégorie "' . $category->name . '" viens être publié.',
                     'status_id' => $status->id,
                 ]);
             }
 
-            foreach($followerUser as $f) {
+            foreach ($followerUser as $f) {
                 Notification::create([
                     'user_id' => $f->follower_id,
                     'type_id' => $Notify_type->id,
-                    'text' => ucfirst($authorPost->username). ' viens de publié l\'article "'. trim(request('title')) .'".',
+                    'text' => ucfirst($authorPost->username) . ' viens de publié l\'article "' . trim(request('title')) . '".',
                     'status_id' => $status->id,
                 ]);
             }
@@ -416,7 +416,8 @@ class PostController extends Controller
      * Store - get all comment by id post
      *
      */
-    public function getComments(int $id, Request $request) {
+    public function getComments(int $id, Request $request)
+    {
 
         $post = Post::find($id);
 
@@ -549,4 +550,14 @@ class PostController extends Controller
         return false;
     }
 
+    public function search(Request $request)
+    {
+        $posts = Post::where("title", "LIKE", "%" . $request->search . "%")->where('status_id', 1);
+
+        $search = new SearchController($request, $posts);
+
+        return response()->json(
+            $search->getResults()
+        );
+    }
 }

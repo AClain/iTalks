@@ -4,6 +4,9 @@ namespace Database\Seeders;
 
 use App\Models\Post;
 use App\Models\PostCategory;
+use App\Models\User;
+use Faker\Factory;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -16,11 +19,15 @@ class PostSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0; $i < 10; $i++) {
+        $faker = Factory::create();
+
+        for ($i = 0; $i < 150; $i++) {
+            $user = User::inRandomOrder()->first();
+
             $post = Post::create([
-                'title' => Str::random(5),
-                'text' => Str::random(20),
-                'user_id' => random_int(1, 10),
+                'title' => "Post de " . $user->username,
+                'text' => $faker->realText(),
+                'user_id' => $user->id,
                 'status_id' => 1,
                 'is_edited' => false
             ]);

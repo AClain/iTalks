@@ -19,6 +19,18 @@ class Auth {
 		return decoded;
 	}
 
+	getUserId(): number {
+		return this.decodedToken()["uid"];
+	}
+
+	getUsername(): string {
+		return this.decodedToken()["username"];
+	}
+
+	getAvatarLink(): string {
+		return this.decodedToken()["avatar"];
+	}
+
 	isAdmin() {
 		if (this.isUnauthenticated()) {
 			return false;

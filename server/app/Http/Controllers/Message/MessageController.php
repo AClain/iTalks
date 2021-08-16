@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Message;
 
+use App\Events\RealTimeMessage;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
@@ -48,24 +49,14 @@ class MessageController extends Controller
             'status_id' => $status->id
         ]);
 
-        // notify
-        $Notify_type = NotificationTypes::where('name', 'message')->first();
-        $status = Status::where('name', 'non-lu')->first();
-
-        $Sender = User::findOrFail($token["uid"]);
-
-        // Notify Password reset
-        $message_notify = new Notification();
-
-        $message_notify->user_id = $token["uid"];
-        $message_notify->type_id = $Notify_type->id;
-        $message_notify->text = ucfirst($Sender->username) . ' vient de vous envoyer un message.';
-        $message_notify->status_id = $status->id;
-
-        $message_notify->save();
-
         if ($message) {
             $mhUpdate = $this->updateMessageHistory($receiver, $sender);
+
+            $eventChannelSender = 'Sender_' . $sender->id . "_Receiver_" . $receiver->id;
+            $eventChannelReceiver = 'Sender_' . $receiver->id . "_Receiver_" . $sender->id;
+
+            event(new RealTimeMessage($message, $eventChannelSender), true);
+            event(new RealTimeMessage($message, $eventChannelReceiver), true);
 
             return response()->json([
                 'message' => $message
@@ -83,10 +74,12 @@ class MessageController extends Controller
 
         $user = User::find($token['uid']);
 
-        $mh = MessageHistory::where('receiver_id', $user->id)->orWhere('sender_id', $user->id)->where('is_open', true)->orderBy('updated_at', 'DESC')->get();
+        $mh = MessageHistory::where('sender_id', $user->id)->where('is_open', true)->orderBy('updated_at', 'DESC');
 
         return response()->json([
-            "history" => $mh
+            "total" => $mh->count(),
+            "count" => sizeof($mh->get()),
+            "items" => $mh->get()->pluck("receiver")->all(),
         ], 200);
     }
 
@@ -131,13 +124,17 @@ class MessageController extends Controller
             ], 404);
         }
 
-        $messages = Message::where('sender_id', $user->id)
-            ->where('receiver_id', $to->id)
-            ->latest()
-            ->get();
+        $messagesTo = Message::where('sender_id', $user->id)
+            ->where('receiver_id', $to->id);
+
+        $messages = Message::where('receiver_id', $user->id)->where('sender_id', $to->id)->union($messagesTo)
+            ->limit(25)
+            ->latest();
 
         return response()->json([
-            'messages' => $messages
+            "total" => $messages->count(),
+            'count' => sizeof($messages->get()),
+            'items' => $messages->get()
         ], 200);
     }
 

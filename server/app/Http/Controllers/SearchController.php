@@ -11,8 +11,9 @@ class SearchController extends Controller
 {
     public function __construct(Request $request, Builder $query)
     {
-        $this->limit = $request->query('limit', 15);
-        $this->page = $request->query('page', 1);
+        $this->limit = $request->limit ?? 15;
+        $this->page = $request->page ?? 1;
+        $this->search = $request->search ?? "";
         $this->query = $query;
     }
 
@@ -41,8 +42,8 @@ class SearchController extends Controller
         $operator = null,
         $value = null
     ) {
-         $this->query->where($column, $operator, $value);
-         return $this;
+        $this->query->where($column, $operator, $value);
+        return $this;
     }
 
     public function orderBy($column, $direction = 'asc')

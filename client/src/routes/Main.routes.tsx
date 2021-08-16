@@ -44,8 +44,8 @@ const Routes: FC<{}> = () => {
 				<AuthenticatedRoute exact path='/profile'>
 					<TopContainer sidebar={<Sidebar />} page={<Profile />} />
 				</AuthenticatedRoute>
-				<AuthenticatedRoute exact path='/messages'>
-					<TopContainer sidebar={<Sidebar />} page={<Messages />} />
+				<AuthenticatedRoute exact path={["/messages", "/messages/:id"]}>
+					<TopContainer sidebar={<Sidebar />} page={<Messages />} sideMargin={70} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/settings'>
 					<TopContainer sidebar={<Sidebar />} page={<Settings />} />

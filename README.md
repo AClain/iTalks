@@ -29,6 +29,9 @@ _(ce fichier n'étant pas présent lors de la première copie du repo, il vous f
 
 ```
 REACT_APP_SERVER_URL=http://localhost:8000
+
+REACT_APP_MIX_PUSHER_APP_KEY=12345
+REACT_APP_MIX_PUSHER_APP_CLUSTER=mt1
 ```
 
 Variables d'environnement importantes à modifier dans /server
@@ -44,6 +47,12 @@ DB_DATABASE=italks
 DB_USERNAME=root
 DB_PASSWORD=
 
+BROADCAST_DRIVER=pusher
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+
 MAIL_MAILER=smtp
 MAIL_HOST=localhost
 MAIL_PORT=1025
@@ -51,6 +60,11 @@ MAIL_USERNAME=null
 MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=no-reply@italks.com
+
+PUSHER_APP_ID=12345
+PUSHER_APP_KEY=12345
+PUSHER_APP_SECRET=12345
+PUSHER_APP_CLUSTER=mt1
 
 JWT_SECRET=IpZHKZADOFqgY64ap7tiIvOlGXqyKgjsas2FYDQu1O8=
 ```
@@ -110,6 +124,13 @@ Starting the development server...
 ```
 $ docker pull djfarrelly/maildev
 $ docker run -p 1080:80 -p 1025:25 djfarrelly/maildev
+```
+
+- Lancer le serveur websocket
+
+```
+$ cd server
+$ php artisan websocket:serve
 ```
 
 - Accéder aux services

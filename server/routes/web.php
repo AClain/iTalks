@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Resources\ResourceController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,9 +16,3 @@ use App\Http\Controllers\Resources\ResourceController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/swagger', function () {
-    return view('swagger');
-});
-
-Route::get('/swagger/get', [ResourceController::class, 'swagger']);

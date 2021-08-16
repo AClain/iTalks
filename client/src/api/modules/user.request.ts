@@ -25,7 +25,7 @@ class UserRequest {
 		return this.instance.get(`/profil/${id}`);
 	}
 
-	async profil(): Promise<SingleDataResponse<UserProfil>> {
+	async profil(): Promise<ApiListDataResult<UserProfil>> {
 		return this.instance.get(`/profil/`);
 	}
 
