@@ -1,16 +1,7 @@
 // React
-import { FC, useState, useContext } from "react";
+import { FC, useEffect, useState } from "react";
 // Librairies
-import {
-	ListItem,
-	ListItemIcon,
-	ListItemText,
-	Divider,
-	FormControl,
-	InputLabel,
-	Input,
-	InputAdornment,
-} from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText, Divider, InputAdornment, TextField } from "@material-ui/core";
 import Avatar from "components/Elements/Avatar/Avatar";
 import { useStyles } from "./Messages.styles";
 import UserList from "components/Modules/UserList/UserList";
@@ -18,98 +9,73 @@ import { User as UserType } from "api/types/user";
 import Flex from "components/Elements/Layout/Flex/Flex";
 import { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { HiOutlineSearch } from "react-icons/hi";
-import { useForm } from "react-hook-form";
 import ChatBox from "components/Modules/ChatBox/ChatBox";
-import { Message as MessageType } from "api/types/message";
 import auth from "api/auth";
-import { useParams } from "react-router-dom";
-import { EventContext } from "providers/EventContext";
-
-interface SearchError {}
-
-const fakeUsers: UserType[] = [
-	{
-		id: 1,
-		username: "AClain",
-		role: "basic",
-		avatar: "https://material-ui.com/static/images/avatar/1.jpg",
-		created_at: "",
-		updated_at: "",
-	},
-	{
-		id: 2,
-		username: "JFlacher",
-		role: "admin",
-		avatar: "https://material-ui.com/static/images/avatar/1.jpg",
-		created_at: "",
-		updated_at: "",
-	},
-	{
-		id: 3,
-		username: "ARoth",
-		role: "basic",
-		avatar: "https://material-ui.com/static/images/avatar/1.jpg",
-		created_at: "",
-		updated_at: "",
-	},
-];
-
-const fakeMessages: MessageType[] = [
-	{
-		id: 1,
-		message:
-			"Occaecat irure ullamco nostrud nostrud eiusmod sint sunt exercitation. Minim amet velit consequat deserunt sint. Amet aliqua Lorem id magna commodo Lorem. Sint mollit cillum nulla minim aute ex et tempor anim. Aliqua exercitation amet nostrud consequat excepteur dolore incididunt.",
-		sender: {
-			id: 1,
-			username: "AClain",
-		},
-		status: "actif",
-		created_at: "2021-07-06T20:29:26.000000Z",
-		updated_at: "2021-07-06T20:29:26.000000Z",
-	},
-	{
-		id: 2,
-		message:
-			"Occaecat irure ullamco nostrud nostrud eiusmod sint sunt exercitation. Minim amet velit consequat deserunt sint. Amet aliqua Lorem id magna commodo Lorem. Sint mollit cillum nulla minim aute ex et tempor anim. Aliqua exercitation amet nostrud consequat excepteur dolore incididunt.",
-		sender: {
-			id: 3,
-			username: "attzetze",
-		},
-		status: "actif",
-		created_at: "2021-07-06T20:29:26.000000Z",
-		updated_at: "2021-07-06T20:29:26.000000Z",
-	},
-];
+import { useParams, useHistory } from "react-router-dom";
+import { api } from "api/api.request";
+import _ from "lodash";
+import FormControl from "components/Elements/Form/FormControl/FormControl";
+import { Search } from "api/types/api";
 
 type MessageParams = {
 	id: string;
 };
 
 const Messages: FC<{}> = () => {
-	const context: any = useContext(EventContext);
-
 	const styles = useStyles();
 	// React router
+	const history = useHistory();
 	let { id } = useParams<MessageParams>();
-	// Hook form
-	const { register, handleSubmit } = useForm();
 	// States
-	const [errors, setErrors] = useState<SearchError>({});
-	const [messages, setMessages] = useState(fakeMessages);
-	// Custom methods
-	const handleChange = (e: any) => {
-		console.log(e.target.value);
+	const [users, setUsers] = useState<UserType[]>([]);
+	const [searchUsers, setSearchUsers] = useState<UserType[]>([]);
+	const [fetchingUsers, setFetchingUsers] = useState(true);
+
+	const handleSearch = (e: any): any => {
+		const search: Search = {
+			limit: 10,
+			page: 1,
+			search: e.target.value,
+		};
+
+		if (e.target.value.length > 1) {
+			api.user
+				.search(search)
+				.then((res) => {
+					console.log(res.data.items);
+					setSearchUsers(res.data.items);
+				})
+				.catch((err) => {
+					console.error(err);
+				});
+
+			return true;
+		}
+
+		setSearchUsers([]);
+
+		return false;
 	};
 
-	const eventChannel = "Sender_" + auth.getUserId() + "_Receiver_" + id;
+	useEffect(() => {
+		setFetchingUsers(true);
 
-	console.log(eventChannel);
-
-	context.Echo.channel(eventChannel).listen("RealTimeMessage", (e: any) => {
-		setMessages((messages) => [...messages, JSON.parse(e.message)]);
-
-		return true;
-	});
+		api.message
+			.all()
+			.then((res) => {
+				setUsers(res.data.items);
+				console.log(_.findIndex(res.data.items, { id: parseInt(id) }));
+				if (_.findIndex(res.data.items, { id: parseInt(id) }) === -1) {
+					history.push("/messages");
+				}
+			})
+			.catch((err) => {
+				console.error(err);
+			})
+			.finally(() => {
+				setFetchingUsers(false);
+			});
+	}, []);
 
 	return (
 		<Flex className={styles.container} direction={FlexDirectionEnum.Horizontal} width='100%'>
@@ -123,23 +89,20 @@ const Messages: FC<{}> = () => {
 
 				<Divider />
 
-				<FormControl style={{ margin: "15px" }}>
-					<InputLabel htmlFor='search'>Rechercher</InputLabel>
-					<Input
-						id='search'
-						startAdornment={
-							<InputAdornment position='start'>
-								<HiOutlineSearch />
-							</InputAdornment>
-						}
-					/>
-				</FormControl>
+				<FormControl
+					label='Rechercher un utilisateur'
+					type='text'
+					identifier='search'
+					startIcon={<HiOutlineSearch />}
+					onKeyUp={_.debounce(handleSearch, 250)}
+					fullWidth
+				></FormControl>
 
 				<Divider />
 
-				<UserList selectedUserId={id} users={fakeUsers} />
+				<UserList selectedUserId={id} users={searchUsers.length > 0 ? searchUsers : users} />
 			</Flex>
-			<ChatBox recipientId={id} messages={fakeMessages} />
+			<ChatBox fetchingUsers={fetchingUsers} recipientId={parseInt(id)} />
 		</Flex>
 	);
 };

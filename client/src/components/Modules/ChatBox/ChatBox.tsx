@@ -1,16 +1,5 @@
-import { FC } from "react";
-import {
-	List,
-	ListItem,
-	Divider,
-	FormControl,
-	OutlinedInput,
-	InputAdornment,
-	IconButton,
-	ListItemText,
-	Grid,
-	Typography,
-} from "@material-ui/core";
+import { FC, useState, useContext, useEffect, memo } from "react";
+import { Divider, FormControl, OutlinedInput, InputAdornment, IconButton, Typography } from "@material-ui/core";
 import { Message as MessageType } from "api/types/message";
 import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { BiSend } from "react-icons/bi";
@@ -20,22 +9,72 @@ import { useStyles } from "./ChatBox.styles";
 import MessageList from "../MessageList/MessageList";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
+import { EventContext } from "providers/EventContext";
+import auth from "api/auth";
+import { api } from "api/api.request";
+import Loading from "components/Elements/Animations/Loading/Loading";
 
 export interface ChatBoxProps {
-	messages: MessageType[];
-	recipientId: string;
+	fetchingUsers: boolean;
+	recipientId: number;
 }
 
-const ChatBox: FC<ChatBoxProps> = ({ messages, recipientId }) => {
+const ChatBox: FC<ChatBoxProps> = memo(({ fetchingUsers, recipientId }) => {
+	const context: any = useContext(EventContext);
 	const styles = useStyles();
 	// Hook form
-	const { register, handleSubmit, getValues } = useForm();
+	const { register, handleSubmit, getValues, reset } = useForm();
+	// States
+	const [loading, setLoading] = useState(true);
+	const [messages, setMessages] = useState<MessageType[]>([]);
+	const [sending, setSending] = useState(false);
 	// Custom methods
-	const send = (data: any) => {
-		console.log(getValues("message"));
+	const send = () => {
+		if (!sending) {
+			setSending(true);
+
+			api.message
+				.messageTo(recipientId, getValues("message"))
+				.then((res) => {
+					reset();
+				})
+				.catch((err) => {
+					console.error(err);
+				})
+				.finally(() => {
+					setSending(false);
+				});
+		}
+	};
+	const handleKeyDown = (e: any) => {
+		if (e.keyCode === 13 && e.ctrlKey) {
+			send();
+		}
 	};
 
-	console.log(recipientId);
+	useEffect(() => {
+		if (!fetchingUsers && !isNaN(recipientId)) {
+			setLoading(true);
+
+			api.message
+				.get(recipientId)
+				.then((res) => {
+					setMessages(res.data.items.reverse());
+				})
+				.catch((err) => {
+					console.error(err);
+				})
+				.finally(() => {
+					setLoading(false);
+				});
+
+			const eventChannel = "Sender_" + auth.getUserId() + "_Receiver_" + recipientId;
+
+			context.Echo.channel(eventChannel).listen("RealTimeMessage", (e: any) => {
+				setMessages((arr) => [...arr, JSON.parse(e.message)]);
+			});
+		}
+	}, [fetchingUsers, recipientId, context]);
 
 	return (
 		<Flex
@@ -45,28 +84,42 @@ const ChatBox: FC<ChatBoxProps> = ({ messages, recipientId }) => {
 		>
 			{recipientId ? (
 				<>
-					<MessageList messages={messages} />
+					{loading ? (
+						<Flex
+							direction={FlexDirectionEnum.Horizontal}
+							justify={FlexJustifyEnum.Center}
+							align={FlexAlignEnum.Center}
+							height='100%'
+						>
+							<Loading radius={20} />
+						</Flex>
+					) : (
+						<MessageList messages={messages} />
+					)}
 
 					<Divider />
 
-					<form className={styles.form} noValidate autoComplete='off' onSubmit={handleSubmit(send)}>
-						<FormControl className={styles.messageFormControl} variant='outlined'>
-							<OutlinedInput
-								id='message'
-								type='text'
-								multiline
-								{...register("message")}
-								className={styles.messageInput}
-								endAdornment={
-									<InputAdornment position='end'>
-										<IconButton onClick={send}>
-											<BiSend className={styles.messageInputIcon} />
-										</IconButton>
-									</InputAdornment>
-								}
-							/>
-						</FormControl>
-					</form>
+					{!loading && (
+						<form className={styles.form} noValidate autoComplete='off' onSubmit={handleSubmit(send)}>
+							<FormControl className={styles.messageFormControl} variant='outlined'>
+								<OutlinedInput
+									id='message'
+									type='text'
+									multiline
+									{...register("message")}
+									className={styles.messageInput}
+									endAdornment={
+										<InputAdornment position='end'>
+											<IconButton onClick={send}>
+												<BiSend className={styles.messageInputIcon} />
+											</IconButton>
+										</InputAdornment>
+									}
+									onKeyDown={handleKeyDown}
+								/>
+							</FormControl>
+						</form>
+					)}
 				</>
 			) : (
 				<Flex
@@ -81,6 +134,6 @@ const ChatBox: FC<ChatBoxProps> = ({ messages, recipientId }) => {
 			)}
 		</Flex>
 	);
-};
+});
 
 export default ChatBox;

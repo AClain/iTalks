@@ -1,14 +1,11 @@
 import Cookies from "js-cookie";
 import jwt_decode from "jwt-decode";
-import { User } from "./types/user";
 
 class Auth {
 	base_url: string = process.env.REACT_APP_SERVER_URL + "/api";
 	token: string = Cookies.get("token")!;
 
 	isAuthenticated() {
-		console.log(this.decodedToken());
-
 		return typeof this.token !== "undefined";
 	}
 

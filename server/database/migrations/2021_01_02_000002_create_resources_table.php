@@ -25,7 +25,7 @@ class CreateResourcesTable extends Migration
         $resources = [
             [
                 'id' => 1,
-                'link' => config('app.url') . config('app.port') . '/api/image/placeholder/7hpWW7zWFPaHxLc.jpg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/placeholder/7hpWW7zWFPaHxLc.jpg',
                 'name' => '7hpWW7zWFPaHxLc.jpg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -33,7 +33,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 2,
-                'link' => config('app.url') . config('app.port') . '/api/image/placeholder/gl0VDqesT1VRfxA.jpg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/placeholder/gl0VDqesT1VRfxA.jpg',
                 'name' => 'gl0VDqesT1VRfxA.jpg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -41,7 +41,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 3,
-                'link' => config('app.url') . config('app.port') . '/api/image/placeholder/h73SamaIovU09CQ.jpg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/placeholder/h73SamaIovU09CQ.jpg',
                 'name' => 'h73SamaIovU09CQ.jpg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -49,7 +49,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 4,
-                'link' => config('app.url') . config('app.port') . '/api/image/placeholder/OEHOdsVvkQpqCZi.jpg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/placeholder/OEHOdsVvkQpqCZi.jpg',
                 'name' => 'OEHOdsVvkQpqCZi.jpg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -57,7 +57,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 5,
-                'link' => config('app.url') . config('app.port') . '/api/image/placeholder/italks-logo-transparent.png',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/placeholder/italks-logo-transparent.png',
                 'name' => 'italks-logo-transparent.png',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -65,7 +65,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 100,
-                'link' => config('app.url') . config('app.port') . '/api/image/badge/badge_verified.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_verified.svg',
                 'name' => 'badge_verified.svg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -73,7 +73,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 101,
-                'link' => config('app.url') . config('app.port') . '/api/image/badge/badge_alarm.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_alarm.svg',
                 'name' => 'badge_alarm.svg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -81,13 +81,13 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 102,
-                'link' => config('app.url') . config('app.port') . '/api/image/badge/badge_bug_tracker.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_bug_tracker.svg',
                 'name' => 'badge_bug_tracker.svg',
                 'status_id' => 1
             ],
             [
                 'id' => 103,
-                'link' => config('app.url') . config('app.port') . '/api/image/badge/badge_two_auth.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_two_auth.svg',
                 'name' => 'badge_two_auth.svg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -95,7 +95,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 104,
-                'link' => config('app.url') . config('app.port') . '/api/image/badge/badge_chat.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_chat.svg',
                 'name' => 'badge_chat.svg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -103,7 +103,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 105,
-                'link' => config('app.url') . config('app.port') . '/api/image/badge/badge_follows.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_follows.svg',
                 'name' => 'badge_follows.svg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -111,7 +111,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 106,
-                'link' => config('app.url') . config('app.port') . '/api/image/badge/badge_one_year.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_one_year.svg',
                 'name' => 'badge_one_year.svg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -119,7 +119,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 107,
-                'link' => config('app.url') . config('app.port') . '/api/image/badge/badge_two_years.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_two_years.svg',
                 'name' => 'badge_two_years.svg',
                 'status_id' => 1,
                 'created_at' => now(),
@@ -127,7 +127,7 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 108,
-                'link' => config('app.url') . config('app.port') . '/api/image/badge/badge_three_years.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_three_years.svg',
                 'name' => 'badge_three_years.svg',
                 'status_id' => 1,
                 'created_at' => now(),

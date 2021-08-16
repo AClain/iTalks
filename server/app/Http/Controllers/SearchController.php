@@ -11,9 +11,9 @@ class SearchController extends Controller
 {
     public function __construct(Request $request, Builder $query)
     {
-        $this->limit = $request->query('limit', 15);
-        $this->page = $request->query('page', 1);
-        $this->search = $request->query('search', "");
+        $this->limit = $request->limit ?? 15;
+        $this->page = $request->page ?? 1;
+        $this->search = $request->search ?? "";
         $this->query = $query;
     }
 

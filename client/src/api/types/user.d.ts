@@ -1,4 +1,3 @@
-import { Search } from "./api";
 import { Badge } from "./badge";
 
 declare type UserProfil = {

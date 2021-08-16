@@ -26,17 +26,30 @@ const FormControl: FC<FormControlProps> = ({
 			<InputLabel htmlFor={identifier} className={styles.label}>
 				{label}
 			</InputLabel>
-			<FilledInput
-				id={identifier}
-				name={identifier}
-				type={type}
-				className={styles.input}
-				{...dynamicProp}
-				{...register(identifier)}
-				startAdornment={startIcon ? <InputAdornment position='start'>{startIcon}</InputAdornment> : undefined}
-				endAdornment={endIcon ? <InputAdornment position='end'>{endIcon}</InputAdornment> : undefined}
-				{...rest}
-			/>
+			{typeof register === "function" ? (
+				<FilledInput
+					id={identifier}
+					name={identifier}
+					type={type}
+					className={styles.input}
+					{...dynamicProp}
+					{...register(identifier)}
+					startAdornment={startIcon ? <InputAdornment position='start'>{startIcon}</InputAdornment> : undefined}
+					endAdornment={endIcon ? <InputAdornment position='end'>{endIcon}</InputAdornment> : undefined}
+					{...rest}
+				/>
+			) : (
+				<FilledInput
+					id={identifier}
+					name={identifier}
+					type={type}
+					className={styles.input}
+					{...dynamicProp}
+					startAdornment={startIcon ? <InputAdornment position='start'>{startIcon}</InputAdornment> : undefined}
+					endAdornment={endIcon ? <InputAdornment position='end'>{endIcon}</InputAdornment> : undefined}
+					{...rest}
+				/>
+			)}
 		</MFormControl>
 	);
 };

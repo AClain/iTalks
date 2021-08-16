@@ -8,9 +8,9 @@ export interface UserProps {
 	[x: string]: any;
 }
 
-const User: FC<UserProps> = ({ user }) => {
+const User: FC<UserProps> = ({ user, ...rest }) => {
 	return (
-		<ListItem button key={user.id}>
+		<ListItem button key={user.id} {...rest}>
 			<ListItemIcon>
 				<Avatar username={user.username} link={user.avatar} />
 			</ListItemIcon>

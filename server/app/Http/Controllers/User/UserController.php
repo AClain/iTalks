@@ -119,4 +119,12 @@ class UserController extends Controller
             'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
         ], 500);
     }
+
+    public function search(Request $request)
+    {
+        $search = new SearchController($request, User::query());
+        $search->addWhere('username', "LIKE", $search->getSearch() . "%");
+
+        return response()->json($search->getResults());
+    }
 }

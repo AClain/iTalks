@@ -1,20 +1,23 @@
 import { Message } from "api/types/message";
-import { FC } from "react";
-import { List, Grid, ListItem, ListItemText } from "@material-ui/core";
+import { FC, useEffect, useRef } from "react";
+import { ListItemText } from "@material-ui/core";
 import moment from "moment";
 import { useStyles } from "./MessageList.styles";
 import auth from "api/auth";
+import Flex from "components/Elements/Layout/Flex/Flex";
+import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
 
 interface MessageListProps {
 	messages: Message[];
 }
 
 const MessageList: FC<MessageListProps> = ({ messages }) => {
+	// Styles
 	const styles = useStyles();
-
+	// Refs
+	const messagesEndRef = useRef<HTMLDivElement>(null);
+	// Custom methods
 	const displayTime = (timestamp: string) => {
-		console.log(timestamp);
-
 		const timestampFormatted = moment(timestamp).format("DD-MM-YYYY");
 		const nowFormatted = moment().format("DD-MM-YYYY");
 
@@ -24,27 +27,53 @@ const MessageList: FC<MessageListProps> = ({ messages }) => {
 
 		return moment(timestamp).format("kk:mm");
 	};
-
-	console.log(auth.getUserId());
+	const scrollToBottom = () => {
+		if (messagesEndRef.current) {
+			messagesEndRef.current.scrollIntoView();
+		}
+	};
+	// Effects
+	useEffect(() => {
+		scrollToBottom();
+	}, [messages]);
 
 	return (
-		<List>
-			{messages.map((m, k) => (
-				<ListItem key={k}>
-					<Grid container>
-						<Grid item xs={12}>
+		<Flex className={styles.container} direction={FlexDirectionEnum.Vertical} justify={FlexJustifyEnum.End}>
+			{messages.length > 0 ? (
+				<Flex direction={FlexDirectionEnum.Vertical}>
+					{messages.map((m, k) => (
+						<Flex
+							key={k}
+							direction={FlexDirectionEnum.Vertical}
+							fullWidth
+							className={`${auth.getUserId() === m.sender.id ? styles.sender : styles.receiver}`}
+						>
 							<ListItemText
-								secondaryTypographyProps={{ className: styles.timestamp }}
-								secondary={displayTime(m.created_at)}
-								className={`${auth.getUserId() === m.sender.id && styles.sender}`}
+								className={`${auth.getUserId() === m.sender.id ? styles.senderMessage : styles.receiverMessage} ${
+									styles.message
+								}`}
 							>
 								{m.message}
 							</ListItemText>
-						</Grid>
-					</Grid>
-				</ListItem>
-			))}
-		</List>
+							<ListItemText
+								secondaryTypographyProps={{ className: styles.timestamp }}
+								secondary={displayTime(m.created_at)}
+							></ListItemText>
+						</Flex>
+					))}
+					<div ref={messagesEndRef} />
+				</Flex>
+			) : (
+				<Flex
+					direction={FlexDirectionEnum.Horizontal}
+					justify={FlexJustifyEnum.Center}
+					align={FlexAlignEnum.Center}
+					height='100%'
+				>
+					<p>Vous n'avez pas commencé de discussion avec cet utilisateur.</p>
+				</Flex>
+			)}
+		</Flex>
 	);
 };
 

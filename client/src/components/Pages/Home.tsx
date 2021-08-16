@@ -1,6 +1,5 @@
 import { Box } from "@material-ui/core";
 import { api } from "api/api.request";
-import { Search } from "api/types/api";
 import { AxiosError } from "axios";
 import PostList from "components/Modules/PostList/PostList";
 import CenteredTabs from "components/Submodules/Tabs/CenteredTabs/CenteredTabs";
@@ -14,20 +13,19 @@ const Home: FC<{}> = () => {
 		{ title: "Publier", color: "var(--success)" },
 	];
 	const [posts, setPosts] = useState<Post[] | []>([]);
-	const [options, setOptions] = useState<Search>({
-		page: 1,
-		limit: 25,
-		search: "",
-	});
 
 	useEffect(() => {
 		api.post
-			.feed(options)
+			.feed({
+				page: 1,
+				limit: 25,
+				search: "",
+			})
 			.then((res) => setPosts(res.data.items))
 			.catch((err: AxiosError) => console.error(err));
 
 		return () => {};
-	}, [options]);
+	}, []);
 
 	return (
 		<Box width='100%'>

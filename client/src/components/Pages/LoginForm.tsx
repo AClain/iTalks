@@ -8,8 +8,6 @@ import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 import { FlexDirectionEnum, FlexAlignEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { useStyles } from "./LoginForm.styles";
 // Librairies
-import Cookies from "js-cookie";
-import { useHistory, Redirect } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FormControlLabel, IconButton, Checkbox } from "@material-ui/core";
 import { FaUserCircle } from "react-icons/fa";
@@ -29,8 +27,6 @@ interface LoginError {
 
 const LoginForm: FC<{}> = () => {
 	const styles = useStyles();
-	// Router
-	let history = useHistory();
 	// Hook form
 	const { register, handleSubmit } = useForm();
 	// States

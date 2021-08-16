@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\User\NotificationController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Resources\ResourceController;
+use App\Http\Controllers\Resource\ResourceController;
 // Admin controllers
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\StatusController as AdminStatusController;
@@ -79,9 +79,11 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('followers/{user_id}', [FollowController::class, 'getFollowersOf'])->name('followers');
     Route::get('followings/{user_id}', [FollowController::class, 'getFollowingsOf'])->name('followings');
 
+    Route::post('users/search', [UserController::class, 'search'])->name('searchUsers');
+
     Route::get('posts', [PostController::class, 'index'])->name('getAllPost');
-    Route::get('/posts/feed', [PostController::class, 'feed'])->name('feed');
-    Route::get('/posts/popular', [PostController::class, 'popular'])->name('popular');
+    Route::get('posts/feed', [PostController::class, 'feed'])->name('feed');
+    Route::get('posts/popular', [PostController::class, 'popular'])->name('popular');
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
     Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
     Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');
@@ -89,7 +91,7 @@ Route::middleware(['authenticated'])->group(function () {
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
 
-    Route::get('/categories', [CategoryController::class, 'all'])->name('getAllCategory');
+    Route::get('categories', [CategoryController::class, 'all'])->name('getAllCategory');
 
     Route::post('comment/{post_id}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');

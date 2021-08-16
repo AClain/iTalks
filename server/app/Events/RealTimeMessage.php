@@ -16,7 +16,6 @@ class RealTimeMessage implements ShouldBroadcast
     public function __construct(string $message, string $channel)
     {
         $this->message = $message;
-        info($channel);
         $this->channel = $channel;
     }
 
