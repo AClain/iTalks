@@ -37,17 +37,27 @@ class PostController extends Controller
         $token = TokenController::parseToken($request->cookie('token'));
 
         $user = User::find($token['uid']);
-        $posts = Post::query();
+        $postsFollowed = Post::join('post_categories', 'posts.id', '=', 'post_categories.post_id');
 
-        $followedUsers = UserFollow::where('follower_id', $user->id)->first();
-
-        if ($followedUsers) {
-            $posts->where('user_id', $followedUsers->follower_id)->get();
+        foreach ($user->users_followed as $key => $following) {
+            if ($key === 1) {
+                $postsFollowed->where('user_id', $following->id);
+                continue;
+            }
+            $postsFollowed->orWhere('user_id', $following->id);
         }
 
-        return response()->json([
-            'posts' => $posts
-        ], 201);
+        foreach ($user->categories_followed as $key => $category) {
+            if ($key === 1) {
+                $postsFollowed->where('post_categories.category_id', $category->id);
+                continue;
+            }
+            $postsFollowed->orWhere('post_categories.category_id', $category->id);
+        }
+
+        $search = new SearchController($request, $postsFollowed);
+
+        return response()->json($search->getResults());
     }
 
     /**
