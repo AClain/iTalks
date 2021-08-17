@@ -40,6 +40,7 @@ _(ce fichier n'étant pas présent lors de la première copie du repo, il vous f
 ```
 APP_PORT=8000
 SERVER_PORT=8000
+CLIENT_URL=http://localhost:3000
 
 DB_HOST=localhost
 DB_PORT=3306
