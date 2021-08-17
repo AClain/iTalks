@@ -18,7 +18,7 @@ class CreateMessagesTable extends Migration
             $table->foreignId('sender_id');
             $table->foreignId('receiver_id');
             $table->text('message');
-            $table->foreignId('status_id');
+            $table->foreignIdFor(Status::class, 'status_id')->default(1);
             $table->timestamps();
         });
     }

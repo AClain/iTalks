@@ -17,7 +17,6 @@ class CreatePostsSavedTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('post_id');
-            $table->foreignId('status_id');
             $table->timestamps();
         });
     }

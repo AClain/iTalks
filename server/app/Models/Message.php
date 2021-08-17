@@ -11,7 +11,7 @@ class Message extends Model
 
     protected $table = "messages";
     protected $fillable = ['sender_id', 'receiver_id', 'message', 'status_id'];
-    protected $appends = ['sender', 'status'];
+    protected $appends = ['sender_user', 'status'];
     protected $hidden = ['id', 'sender_id', 'receiver_id', 'status_id'];
 
     public function sender()
@@ -26,12 +26,12 @@ class Message extends Model
 
     public function status()
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(Status::class, 'id', 'status_id');
     }
 
-    public function getSenderAttribute()
+    public function getSenderUserAttribute()
     {
-        return User::find($this->sender_id, ['id', 'username']);
+        return User::find($this->sender_id, ['id', 'role_id', 'status_id', 'resource_id', 'username']);
     }
 
     public function getStatusAttribute()

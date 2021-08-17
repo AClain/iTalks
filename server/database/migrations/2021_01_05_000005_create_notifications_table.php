@@ -19,7 +19,7 @@ class CreateNotificationsTable extends Migration
             $table->text('text');
             $table->foreignIdFor(NotificationTypes::class, 'type_id');
             $table->foreignId('user_id');
-            $table->foreignId('status_id');
+            $table->foreignIdFor(Status::class, 'status_id')->default(1);
             $table->timestamps();
         });
     }

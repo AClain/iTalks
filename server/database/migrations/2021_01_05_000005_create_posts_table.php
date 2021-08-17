@@ -19,7 +19,7 @@ class CreatePostsTable extends Migration
             $table->text('text')->nullable();
             $table->foreignId('user_id');
             $table->boolean('is_edited')->default(false);
-            $table->foreignId('status_id');
+            $table->foreignIdFor(Status::class, 'status_id')->default(1);
             $table->timestamps();
         });
     }

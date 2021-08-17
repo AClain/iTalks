@@ -17,7 +17,6 @@ class CreateNotificationTypesTable extends Migration
         Schema::create('notification_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('status_id')->default(1);
 
             $table->timestamps();
         });

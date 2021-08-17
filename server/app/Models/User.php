@@ -8,7 +8,7 @@ class User extends Model
 {
     protected $table = "users";
     protected $fillable = ['username', 'email', 'password', 'email_verified', 'email_token', 'role_id', 'resource_id', 'status_id'];
-    protected $appends = ['status', 'role', 'avatar', 'voted_posts', 'voted_comments'];
+    protected $appends = ['status_name', 'role_name', 'avatar', 'voted_posts', 'voted_comments'];
     protected $hidden = ['password', 'email_token', 'role_id', 'resource_id', 'feedbacks', 'status_id', 'email_verified'];
 
     // Relationship methods
@@ -80,7 +80,7 @@ class User extends Model
 
     public function received_messages()
     {
-        return $this->hasMany(Message::class, 'receiver', 'id');
+        return $this->hasMany(Message::class, 'receiver_id', 'id');
     }
 
     public function sent_messages()
@@ -100,7 +100,7 @@ class User extends Model
 
     // Accesor methods
 
-    public function getRoleAttribute()
+    public function getRoleNameAttribute()
     {
         return Role::find($this->role_id)->name;
     }
@@ -110,7 +110,7 @@ class User extends Model
         return Resource::find($this->resource_id)->link;
     }
 
-    public function getStatusAttribute()
+    public function getStatusNameAttribute()
     {
         return Status::find($this->status_id)->name;
     }

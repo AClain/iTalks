@@ -37,21 +37,6 @@ class Status extends Model
         return $this->hasMany(Notification::class);
     }
 
-    public function post_categories()
-    {
-        return $this->hasMany(PostCategory::class);
-    }
-
-    public function post_resources()
-    {
-        return $this->hasMany(PostResource::class);
-    }
-
-    public function post_saved()
-    {
-        return $this->hasMany(PostSaved::class);
-    }
-
     public function resources()
     {
         return $this->hasMany(Resource::class);
@@ -65,16 +50,6 @@ class Status extends Model
     public function users()
     {
         return $this->hasMany(User::class);
-    }
-
-    public function user_badges()
-    {
-        return $this->hasMany(UserBadge::class);
-    }
-
-    public function user_follows()
-    {
-        return $this->hasMany(UserFollow::class);
     }
 
     public function messages()

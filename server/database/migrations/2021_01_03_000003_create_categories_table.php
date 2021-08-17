@@ -19,7 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->text('description');
             $table->string('color')->default('#A239EA');
-            $table->foreignId('status_id');
+            $table->foreignIdFor(Status::class, 'status_id')->default(1);
             $table->timestamps();
         });
 

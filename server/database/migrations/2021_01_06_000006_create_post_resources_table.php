@@ -18,7 +18,6 @@ class CreatePostResourcesTable extends Migration
             $table->id();
             $table->foreignId('post_id');
             $table->foreignId('resource_id');
-            $table->foreignIdFor(Status::class, 'status_id');
             $table->timestamps();
         });
     }
