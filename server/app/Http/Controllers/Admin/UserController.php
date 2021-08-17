@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\SearchController;
 use App\Models\Resource;
 use App\Models\Role;
 use App\Models\Status;
@@ -14,17 +15,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\SearchOptionsController;
 use Illuminate\Http\UploadedFile;
 
 class UserController extends Controller
 {
     public function store(Request $request)
     {
-        return response()->json([
-            'type' => get_class($request->file('avatar'))
-        ]);
-
         $validator = Validator::make($request->all(), [
             'username' => 'required|min:3|max:25|unique:users,username',
             'email' => 'required|email|unique:users,email',
@@ -78,22 +74,11 @@ class UserController extends Controller
 
     public function list(Request $request)
     {
-        $searchOptions = new SearchOptionsController($request);
-        $users = User::where('username', 'LIKE', '%' . $searchOptions->getSearch() . '%')->limit($searchOptions->getLimit())->offset($searchOptions->getOffset())->get();
+        $search = new SearchController($request, User::query());
 
-        foreach ($users as $user) {
-            $user->avatar = Resource::find($user->avatar_resource_id);
-            $user->role = Role::find($user->role_id);
-            $user->status = Status::find($user->status_id);
+        $users = $search->addWhere('username', 'LIKE', '%' . $search->getSearch() . '%');
 
-            unset($user->avatar_resource_id);
-            unset($user->role_id);
-            unset($user->status_id);
-        }
-
-        return response()->json([
-            'users' => $users,
-        ], 201);
+        return response()->json( $users->getResults(), 201);
     }
 
     public function update(Request $request, string $username)
@@ -141,14 +126,6 @@ class UserController extends Controller
         $update = $user->save();
 
         if ($update) {
-            $user->role = Role::find($user->role_id);
-            $user->status = Status::find($user->status_id);
-            $user->avatar = Resource::find($user->avatar_resource_id);
-
-            unset($user->role_id);
-            unset($user->status_id);
-            unset($user->avatar_resource_id);
-
             return response()->json([
                 'message' => 'Utilisateur mis à jour avec succès!',
                 'user' => $user
@@ -160,38 +137,22 @@ class UserController extends Controller
         }
     }
 
-    public function get(Request $request, string $username)
+    public function get(int $id)
     {
-        $user = User::where('username', $username)->first();
+        $user = User::find($id);
 
         if ($user) {
-            $user->role = Role::find($user->role_id);
-            $user->status = Status::find($user->status_id);
-            $user->avatar = Resource::find($user->avatar_resource_id);
-
-            unset($user->role_id);
-            unset($user->status_id);
-            unset($user->avatar_resource_id);
-
             return response()->json([
                 'user' => $user,
             ], 201);
         }
     }
 
-    public function getByUsername(Request $request, string $username)
+    public function getByUsername(string $username)
     {
         $user = User::where('username', $username)->first();
 
         if ($user) {
-            $user->role = Role::find($user->role_id);
-            $user->status = Status::find($user->status_id);
-            $user->avatar = Resource::find($user->avatar_resource_id);
-
-            unset($user->role_id);
-            unset($user->status_id);
-            unset($user->avatar_resource_id);
-
             return response()->json([
                 'user' => $user,
             ], 201);
@@ -202,21 +163,17 @@ class UserController extends Controller
         ], 404);
     }
 
-    public function delete(string $username)
+    public function destroy(int $id)
     {
-        $user = User::where('username', $username)->first();
+        $user = User::find($id);
 
-        $avatar_delete = $this->deleteAvatarInner($user);
+        $this->deleteAvatarInner($user);
 
-        if (!$avatar_delete) {
-            return response()->json([
-                'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
-            ], 500);
-        }
+        $status = Status::where('name', 'supprimé')->first();
 
-        $delete = $user->delete();
+        $user->status_id = $status->id;
 
-        if ($delete) {
+        if ($user->save()) {
             return response()->json([
                 'message' => 'Utilisateur supprimé avec succès!'
             ], 201);
@@ -250,7 +207,7 @@ class UserController extends Controller
         $avatar->status_id = $status->id;
         $avatar->save();
 
-        $user->avatar_resource_id = $avatar->id;
+        $user->resource_id = $avatar->id;
         $user->save();
     }
 
@@ -268,13 +225,7 @@ class UserController extends Controller
                 ], 400);
             }
 
-            $avatar_delete = $this->deleteAvatarInner($user);
-
-            if (!$avatar_delete) {
-                return response()->json([
-                    'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
-                ], 500);
-            }
+            $this->deleteAvatarInner($user);
 
             $this->storeAvatar($request->file('avatar'), $user);
 
@@ -292,31 +243,33 @@ class UserController extends Controller
     public function deleteAvatarOuter(string $username)
     {
         $user = User::where('username', $username)->first();
-        $user_avatar_resource = Resource::find($user->avatar_resource_id);
+        $user_avatar_resource = Resource::find($user->resource_id);
 
-        if (File::exists(public_path('/storage/images/users/' . $user->id . '/' . $user_avatar_resource->name)) && $user_avatar_resource) {
-            File::delete(public_path('/storage/images/users/' . $user->id . '/' . $user_avatar_resource->name));
-            $delete = $user_avatar_resource->delete();
+        if($user_avatar_resource) {
+            if (File::exists(public_path('/storage/images/users/' . $user->id . '/' . $user_avatar_resource->name)) && $user_avatar_resource) {
+                File::delete(public_path('/storage/images/users/' . $user->id . '/' . $user_avatar_resource->name));
+                $delete = $user_avatar_resource->delete();
 
-            if (!$delete) {
+                if (!$delete) {
+                    return response()->json([
+                        'message' => '500: Erreur serveur. Impossible de supprimer la resource (introuvable ou inexistante).'
+                    ], 500);
+                }
+
+                $user->resource_id = null;
+                $user->save();
+
                 return response()->json([
-                    'message' => '500: Erreur serveur. Impossible de supprimer la resource (introuvable ou inexistante).'
-                ], 500);
+                    'message' => 'L\'image de l\'utilisateur a été supprimée avec succés!'
+                ], 201);
+            } else if (stripos($user_avatar_resource->link, 'placeholder')) {
+                $user->resource_id = null;
+                $user->save();
+
+                return response()->json([
+                    'message' => 'L\'image de l\'utilisateur a été supprimée avec succés!'
+                ], 201);
             }
-
-            $user->avatar_resource_id = null;
-            $user->save();
-
-            return response()->json([
-                'message' => 'L\'image de l\'utilisateur a été supprimée avec succés!'
-            ], 201);
-        } else if (stripos($user_avatar_resource->link, 'placeholder')) {
-            $user->avatar_resource_id = null;
-            $user->save();
-
-            return response()->json([
-                'message' => 'L\'image de l\'utilisateur a été supprimée avec succés!'
-            ], 201);
         }
 
         return response()->json([
@@ -326,7 +279,7 @@ class UserController extends Controller
 
     private function deleteAvatarInner(User $user)
     {
-        $user_avatar_resource = Resource::where('id', $user->avatar_resource_id)->first();
+        $user_avatar_resource = Resource::where('id', $user->resource_id)->first();
 
         if ($user_avatar_resource && File::exists(public_path('/storage/images/users/' . $user->id . '/' . $user_avatar_resource->name))) {
             File::delete(public_path('/storage/images/users/' . $user->id . '/' . $user_avatar_resource->name));

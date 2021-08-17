@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\SearchController;
+use App\Models\UserBadge;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\File;
@@ -18,22 +21,22 @@ class BadgeController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $badges = Badge::all();
+        $search = new SearchController($request, Badge::query());
 
-        return response()->json([
-            'badges' => $badges,
-        ], 201);
+        $Badge = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
+
+        return response()->json( $Badge->getResults(), 201);
     }
 
     /**
      * Return the badge for the given id
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function get($id)
     {
@@ -54,7 +57,7 @@ class BadgeController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -110,7 +113,7 @@ class BadgeController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -166,7 +169,7 @@ class BadgeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {
@@ -184,6 +187,14 @@ class BadgeController extends Controller
             return response()->json([
                 'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
             ], 500);
+        }
+
+        $user = UserBadge::where('badge_id', $badge->id)->first();
+
+        if ($user) {
+            return response()->json([
+                'message' => 'Le badge est lié à un ou plusieurs utilisateur.'
+            ], 404);
         }
 
         $delete = $badge->delete();

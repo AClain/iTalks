@@ -19,6 +19,7 @@ class UserBadgeSeeder extends Seeder
             UserBadge::create([
                 'user_id' => \random_int(1, 10),
                 'badge_id' => \random_int(1, 9),
+                'status_id' => 1
             ]);
         }
     }

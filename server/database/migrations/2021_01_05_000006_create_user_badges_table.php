@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,7 @@ class CreateUserBadgesTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('badge_id');
+            $table->foreignIdFor(Status::class, 'status_id');
             $table->timestamps();
         });
     }

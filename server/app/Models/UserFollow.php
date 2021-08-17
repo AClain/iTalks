@@ -10,7 +10,7 @@ class UserFollow extends Model
     use HasFactory;
 
     protected $table = "user_follows";
-    protected $fillable = ['follower_id', 'user_id', 'has_notifications'];
+    protected $fillable = ['follower_id', 'user_id', 'has_notifications', 'status_id'];
     protected $appends = ['since'];
     protected $hidden = ['id', 'follower_id', 'user_id', 'created_at', 'updated_at'];
 
@@ -24,6 +24,11 @@ class UserFollow extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id', 'user_id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
     }
 
     // Accessor methods

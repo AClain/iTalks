@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,7 @@ class CreateUserFollowsTable extends Migration
             $table->id();
             $table->foreignId('follower_id');
             $table->foreignId('user_id');
+            $table->foreignIdFor(Status::class, 'status_id');
             $table->boolean('has_notifications')->nullabe()->default(false);
             $table->timestamps();
         });

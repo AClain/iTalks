@@ -71,4 +71,9 @@ class Status extends Model
     {
         return $this->hasMany(UserBadge::class);
     }
+
+    public function user_follows()
+    {
+        return $this->hasMany(UserFollow::class);
+    }
 }

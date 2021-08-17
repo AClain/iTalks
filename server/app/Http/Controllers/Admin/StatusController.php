@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\SearchController;
+use App\Models\Category;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Validator;
@@ -15,22 +19,23 @@ class StatusController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
-        $statuses = Status::all();
 
-        return response()->json([
-            'status' => $statuses,
-        ], 201);
+        $search = new SearchController($request, Status::query());
+
+        $Status = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
+
+        return response()->json( $Status->getResults(), 201);
     }
 
     /**
      * Return the status for the given id
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function get($id)
     {
@@ -51,7 +56,7 @@ class StatusController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -85,7 +90,7 @@ class StatusController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
@@ -136,7 +141,7 @@ class StatusController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function destroy($id)
     {
@@ -145,6 +150,27 @@ class StatusController extends Controller
         if (!$status) {
             return response()->json([
                 'message' => 'Le statut n\'a pas été trouvé.'
+            ], 404);
+        }
+
+        $statusRelation = Status::doesntHave('badges')
+            ->doesntHave('posts')
+            ->doesntHave('categories')
+            ->doesntHave('comments')
+            ->doesntHave('notifications')
+            ->doesntHave('post_categories')
+            ->doesntHave('post_resources')
+            ->doesntHave('post_saved')
+            ->doesntHave('resources')
+            ->doesntHave('roles')
+            ->doesntHave('users')
+            ->doesntHave('user_badges')
+            ->doesntHave('user_follows')
+            ->find($id);
+
+        if ($statusRelation) {
+            return response()->json([
+                'message' => 'Le status est lié à un ou plusieurs object.'
             ], 404);
         }
 

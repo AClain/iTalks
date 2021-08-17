@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\StatusController as AdminStatusController;
 use App\Http\Controllers\Admin\BadgeController as AdminBadgeController;
 use App\Http\Controllers\Admin\UserBadgeController as AdminUserBadgeController;
 use App\Http\Controllers\Admin\RoleController as AdminRoleController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 // User controllers
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Post\PostController;
@@ -40,7 +41,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
     Route::get('user/username/{username}', [AdminUserController::class, 'getByUsername'])->name('getUserByUsername');
     Route::post("user/{username}", [AdminUserController::class, 'update'])->name('updateUser');
     Route::post("user/{username}/avatar", [AdminUserController::class, 'updateAvatar'])->name('updateUserAvatar');
-    Route::delete("user/{username}", [AdminUserController::class, 'delete'])->name('deleteUser');
+    Route::delete("user/{id}", [AdminUserController::class, 'destroy'])->name('destroyUser');
     Route::delete("user/{username}/avatar", [AdminUserController::class, 'deleteAvatarOuter'])->name('deleteUserAvatar');
 
     Route::get('statuses', [AdminStatusController::class, 'index'])->name('getAllStatus');
@@ -66,6 +67,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
     Route::get('role/{id}', [AdminRoleController::class, 'get'])->name('getRole');
     Route::put('role/{id}', [AdminRoleController::class, 'update'])->name('updateRole');
     Route::delete('role/{id}', [AdminRoleController::class, 'destroy'])->name('deleteRole');
+
+    Route::get('categories', [AdminCategoryController::class, 'index'])->name('adminGetCategory');
+    Route::post('categories', [AdminCategoryController::class, 'store'])->name('adminCreateCategory');
+    Route::get('category/{id}', [AdminCategoryController::class, 'get'])->name('adminGetCategoryById');
+    Route::put('category/{id}', [AdminCategoryController::class, 'update'])->name('adminUpdateCategory');
+    Route::delete('category/{id}', [AdminCategoryController::class, 'destroy'])->name('adminDeleteCategory');
 });
 
 // Authenticated routes

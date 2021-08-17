@@ -20,7 +20,8 @@ class FollowSeeder extends Seeder
             UserFollow::create([
                 'follower_id' => $user->id,
                 'user_id' => \random_int(2, 11),
-                'has_notifications' => \random_int(0, 1)
+                'has_notifications' => \random_int(0, 1),
+                'status_id' => 1
             ]);
         };
 

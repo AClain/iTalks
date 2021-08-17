@@ -3,18 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-
 use App\Http\Controllers\SearchController;
-use App\Models\User;
+use App\Models\PostCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Validator;
-
-use App\Models\Role;
+use App\Models\Category;
 use App\Models\Status;
 
-class RoleController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,45 +20,47 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $search = new SearchController($request, Role::query());
+        $search = new SearchController($request, Category::query());
 
-        $role = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
+        $category = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
 
-        return response()->json( $role->getResults(), 201);
+        return response()->json( $category->getResults(), 201);
     }
 
     /**
-     * Return the role for the given id
+     * Return the category for the given id
      *
      * @param int $id
      * @return JsonResponse
      */
     public function get($id)
     {
-        $role = Role::find($id);
+        $category = Category::find($id);
 
-        if (!$role) {
+        if (!$category) {
             return response()->json([
-                'message' => 'Le role n\'a pas été trouvé.',
+                'message' => 'La catégorie n\'a pas été trouvé.',
             ], 404);
         }
 
         return response()->json([
-            'role' => $role,
+            'category' => $category,
         ], 201);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return JsonResponse
      */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|min:3|max:20|unique:roles,name',
+            'name' => 'required|min:3|max:20|unique:categories,name',
             'status' => 'required|exists:statuses,name',
+            'color' => ['required', 'regex:/^(#){1}[a-fA-F1-9]{3}|(#){1}[a-fA-F1-9]{6}$/'],
+            'description' => 'required|max:255|'
         ]);
 
         if ($validator->fails()) {
@@ -70,17 +69,18 @@ class RoleController extends Controller
             ], 400);
         }
 
-        $role = new Role();
+        $category = new Category();
 
         $status = Status::where('name', request('status'))->first();
 
-        $role->name = trim(request('name'));
-        $role->status_id = $status->id;
-        $save = $role->save();
+        $category->name = trim(request('name'));
+        $category->status_id = $status->id;
+        $category->color = request('color');
+        $category->description = request('description');
 
-        if ($save) {
+        if ($category->save()) {
             return response()->json([
-                'message' => 'Le role a été créé avec succès!'
+                'message' => 'La catégorie a été créé avec succès!'
             ], 201);
         }
 
@@ -92,14 +92,17 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
      * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'nullable|min:3|max:20'
+            'name' => 'required|min:3|max:20|unique:categories,name',
+            'status' => 'required|exists:statuses,name',
+            'color' => ['required', 'regex:/^(#){1}[a-fA-F1-9]{3}|(#){1}[a-fA-F1-9]{6}$/'],
+            'description' => 'required|max:255|'
         ]);
 
         if ($validator->fails()) {
@@ -108,17 +111,17 @@ class RoleController extends Controller
             ], 400);
         }
 
-        $role = Role::find($id);
+        $category = Category::find($id);
 
-        if (!$role) {
+        if (!$category) {
             return response()->json([
-                'message' => 'Le role n\'a pas été trouvé.',
+                'message' => 'La catégorie n\'a pas été trouvé.',
             ], 404);
         }
 
-        $customExistsName = Role::where('name', request('name'))->first();
+        $customExistsName = Category::where('name', request('name'))->first();
 
-        if (request('name') !== $role->name && $customExistsName) {
+        if (request('name') !== $category->name && $customExistsName) {
             return response()->json([
                 'errors' => [
                     'name' => 'Ce nom est déjà utilisé.'
@@ -126,13 +129,19 @@ class RoleController extends Controller
             ], 400);
         }
 
-        $role->name = request('name') ?? $role->name;
-        $update = $role->save();
+        $status = Status::where('name', request('status'))->first();
+
+        $category->name = trim(request('name')) ?? $category->name;
+        $category->status_id = $status->id ?? $category->status_id;
+        $category->color = request('color') ?? $category->color;
+        $category->description = request('description') ?? $category->description;
+
+        $update = $category->save();
 
         if ($update) {
             return response()->json([
-                'message' => 'Role mis à jour avec succès!',
-                'role' => $role
+                'message' => 'La catégorie mis à jour avec succès!',
+                'category' => $category
             ], 201);
         }
 
@@ -149,28 +158,27 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::find($id);
+        $category = Category::find($id);
 
-
-        if (!$role) {
+        if (!$category) {
             return response()->json([
-                'message' => 'Le role n\'a pas été trouvé.'
+                'message' => 'La catégorie n\'a pas été trouvé.'
             ], 404);
         }
 
-        $user = User::where('role_id', $role->id)->first();
+        $postCategory = PostCategory::where('category_id', $category->id)->first();
 
-        if ($user) {
+        if ($postCategory) {
             return response()->json([
-                'message' => 'Le rôle est lié à un ou plusieurs utilisateur.'
+                'message' => 'La catégorie est lié à un ou plusieurs post.'
             ], 404);
         }
 
-        $delete = $role->delete();
+        $delete = $category->delete();
 
         if ($delete) {
             return response()->json([
-                'message' => 'Role supprimé avec succès!'
+                'message' => 'La catégorie a été supprimé avec succès!'
             ], 201);
         }
 
