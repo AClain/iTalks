@@ -16,6 +16,15 @@ class FollowSeeder extends Seeder
      */
     public function run()
     {
+        for ($i = 1; $i < 25; $i++) {
+            UserFollow::create([
+                'follower_id' => $user->id,
+                'user_id' => \random_int(2, 11),
+                'has_notifications' => \random_int(0, 1),
+                'status_id' => 1
+            ]);
+        }
+
         foreach (User::all()->skip(1) as $user) {
             UserFollow::create([
                 'follower_id' => $user->id,

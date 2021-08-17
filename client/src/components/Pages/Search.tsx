@@ -1,15 +1,7 @@
 // React
 import { FC, useState } from "react";
 // Librairies
-import {
-	Box,
-	Checkbox,
-	FormControl as MUIFormControl,
-	FormControlLabel,
-	FormGroup,
-	FormHelperText,
-	FormLabel,
-} from "@material-ui/core";
+import { Box, Checkbox, FormControlLabel, FormHelperText } from "@material-ui/core";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 import Flex from "components/Elements/Layout/Flex/Flex";

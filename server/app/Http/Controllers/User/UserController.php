@@ -122,7 +122,7 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
-        $search = new SearchController($request, User::select('resource_id', 'id', 'username'));
+        $search = new SearchController($request, User::select('resource_id', 'role_id', 'status_id', 'id', 'username'));
         $search->addWhere('username', "LIKE", $search->getSearch() . "%");
 
         return response()->json($search->getResults());

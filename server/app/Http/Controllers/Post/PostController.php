@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Post;
 
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ResponseController;
 use App\Http\Controllers\SearchController;
 use App\Models\Category;
 use App\Models\CategoryFollow;
@@ -16,7 +15,6 @@ use App\Models\PostCategory;
 use App\Models\PostResource;
 use App\Models\Resource;
 use App\Models\UserFollow;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 use Illuminate\Http\Response;
@@ -25,7 +23,6 @@ use Illuminate\Support\Facades\File;
 
 use App\Models\Status;
 use App\Models\User;
-use DB;
 
 class PostController extends Controller
 {
