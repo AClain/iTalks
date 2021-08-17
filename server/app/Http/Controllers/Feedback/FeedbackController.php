@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Feedback;
 
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
@@ -9,12 +10,20 @@ use App\Models\Feedback;
 use App\Models\Post;
 use App\Models\Status;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 
 class FeedbackController extends Controller
 {
+    /**
+     * vote
+     *
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
+     */
     public function vote(Request $request, int $id)
     {
 
@@ -49,7 +58,7 @@ class FeedbackController extends Controller
         if ($feedback && $feedback->positive !== request('positive')) {
             $feedback->positive = !$feedback->positive;
             $feedback->save();
-
+            LogController::log("Le " . request('type') . " vient d'être voté par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => ucfirst(request('type')) . " voté avec succès."
             ], 201);
@@ -62,6 +71,7 @@ class FeedbackController extends Controller
         $feedback->type = request('type');
 
         if ($feedback->save()) {
+            LogController::log("Le " . request('type') . " vient d'être voté par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => ucfirst(request('type')) . " voté avec succès."
             ], 201);
@@ -72,6 +82,12 @@ class FeedbackController extends Controller
         ], 500);
     }
 
+    /**
+     * vote post
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function voted_posts(Request $request)
     {
         $token = TokenController::parseToken($request->cookie('token'));
@@ -91,6 +107,12 @@ class FeedbackController extends Controller
         ]);
     }
 
+    /**
+     * vote comment
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function voted_comments(Request $request)
     {
         $token = TokenController::parseToken($request->cookie('token'));
@@ -111,10 +133,12 @@ class FeedbackController extends Controller
     }
 
     /**
-     * Return the status for the given id
+     * Return the vote for the given id
      *
+     * @param Request $request
+     * @param string $type
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function get(Request $request, string $type, int $id)
     {

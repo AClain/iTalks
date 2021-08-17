@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 
 use App\Http\Controllers\SearchController;
@@ -79,6 +80,7 @@ class RoleController extends Controller
         $save = $role->save();
 
         if ($save) {
+            LogController::log("Le rôle " . $role->name . " vient d'être ajouté par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Le role a été créé avec succès!'
             ], 201);
@@ -130,6 +132,7 @@ class RoleController extends Controller
         $update = $role->save();
 
         if ($update) {
+            LogController::log("Le rôle " . $role->name . " vient d'être mise à jour par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Role mis à jour avec succès!',
                 'role' => $role
@@ -147,7 +150,7 @@ class RoleController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $role = Role::find($id);
 
@@ -169,6 +172,7 @@ class RoleController extends Controller
         $delete = $role->delete();
 
         if ($delete) {
+            LogController::log("Le rôle " . $role->name . " vient d'être supprimé par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Role supprimé avec succès!'
             ], 201);

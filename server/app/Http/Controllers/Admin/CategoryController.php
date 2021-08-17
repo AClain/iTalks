@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\SearchController;
 use App\Models\PostCategory;
@@ -79,6 +80,7 @@ class CategoryController extends Controller
         $category->description = request('description');
 
         if ($category->save()) {
+            LogController::log("La catégorie " . $category->name . " vient d'être ajouté par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'La catégorie a été créé avec succès!'
             ], 201);
@@ -138,6 +140,8 @@ class CategoryController extends Controller
 
         $update = $category->save();
 
+        LogController::log("La catégorie " . $category->name . " vient d'être mise à jour par " . TokenController::getUserCurrent($request)->username . ".");
+
         if ($update) {
             return response()->json([
                 'message' => 'La catégorie mis à jour avec succès!',
@@ -156,7 +160,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $category = Category::find($id);
 
@@ -175,6 +179,8 @@ class CategoryController extends Controller
         }
 
         $delete = $category->delete();
+
+        LogController::log("La catégorie " . $category->name . " vient d'être supprimé par " . TokenController::getUserCurrent($request)->username . ".");
 
         if ($delete) {
             return response()->json([

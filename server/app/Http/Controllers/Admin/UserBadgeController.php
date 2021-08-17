@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\NotificationTypes;
@@ -48,14 +49,12 @@ class UserBadgeController extends Controller
         $errors = [];
 
         foreach (request('badges') as $badge) {
-            return response()->json(
-                $badge
-            );
+
             $validator = Validator::make($badge, [
                 "name" => 'required|exists:badges,name',
                 'status' => 'required|exists:statuses,name'
             ], [
-                "name.exists" => "Le badge " . $badge->name . "n'éxiste pas."
+                "name.exists" => "Le badge " . $badge['name'] . "n'éxiste pas."
             ]);
 
             if ($validator->fails()) {
@@ -63,7 +62,7 @@ class UserBadgeController extends Controller
                 continue;
             }
 
-            $badge = Badge::where('name', $badge['badge'])->first();
+            $badge = Badge::where('name', $badge['name'])->first();
             $status = Status::where('name', $badge->status)->first();
 
             $badgeAlreadyLinked = UserBadge::where('user_id', $user_id)
@@ -76,8 +75,12 @@ class UserBadgeController extends Controller
             $userBadge = new UserBadge();
             $userBadge->user_id = $user->id;
             $userBadge->badge_id = $badge->id;
-            // $userBadge->status_id = $status->id;
+            $userBadge->status_id = $status->id;
             $save = $userBadge->save();
+
+            $userTarget = User::find($user->id);
+
+            LogController::log("Le badge " . $badge->name . " vient d'être liés a " . $userTarget->username . " par " . TokenController::getUserCurrent($request)->username . ".");
 
             // notify
             $Notify_type = NotificationTypes::where('name', 'message')->first();
@@ -148,7 +151,7 @@ class UserBadgeController extends Controller
                 continue;
             }
 
-            $badge = Badge::where('name', $badge->badge)->first();
+            $badge = Badge::where('name', $badge['badge'])->first();
             $linkedBadge = UserBadge::where('user_id', $user_id)
                 ->where('badge_id', $badge->id)->first();
 
@@ -169,6 +172,8 @@ class UserBadgeController extends Controller
                 'errors' => $errors
             ], 400);
         }
+
+        LogController::log("Le badge " . $badge->name . " vient d'être déliés a " . $user->username . " par " . TokenController::getUserCurrent($request)->username . ".");
 
         return response()->json([
             'message' => 'Les badges ont bien été déliés.'
