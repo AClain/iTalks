@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Http\Request;
-
-use function PHPUnit\Framework\directoryExists;
 
 class SearchController extends Controller
 {
-    public function __construct(Request $request, Builder $query)
+    /**
+     * @param Request $request Description of the argument.
+     * @param EloquentBuilder|QueryBuilder $query Description of the argument.
+     */
+    public function __construct($request,  $query)
     {
         $this->limit = $request->limit ?? 15;
         $this->page = $request->page ?? 1;
@@ -48,7 +51,14 @@ class SearchController extends Controller
 
     public function orderBy($column, $direction = 'asc')
     {
-        return $this->query->orderBy($column, $direction);
+        $this->query->orderBy($column, $direction);
+        return $this;
+    }
+
+    public function only($columns)
+    {
+        $this->query->only($columns);
+        return $this;
     }
 
     public function getResults()

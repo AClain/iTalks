@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 import { ApiResult, ApiListDataResult, Search, SingleDataResponse } from "api/types/api";
-import { User, UserCreate, UserLogin, UserProfil, UserUpdate } from "api/types/user";
+import { UserCreate, UserLogin, UserProfil, UserShort, UserUpdate } from "api/types/user";
 
 class UserRequest {
 	instance: AxiosInstance;
@@ -29,7 +29,7 @@ class UserRequest {
 		return this.instance.get(`/profil/`);
 	}
 
-	async search(search: Search): Promise<ApiListDataResult<User>> {
+	async search(search: Search): Promise<ApiListDataResult<UserShort>> {
 		return this.instance.post("/users/search", search);
 	}
 

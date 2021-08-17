@@ -11,7 +11,7 @@ const useStyles = makeStyles({
 	default: {
 		padding: ".25em 1.25em",
 		fontFamily: "Roboto Black",
-		color: "var(--text)",
+		color: (props: ButtonStylesProps) => (props.color ? props.color : "var(--text)"),
 		fontSize: (props: ButtonStylesProps) => (props.size ? SIZES[props.size] : "16px"),
 		width: (props: ButtonStylesProps) => (props.fullWidth ? "100%" : "max-content"),
 		background: (props: ButtonStylesProps) => (props.variant ? `var(--${props.variant})` : "var(--purple)"),

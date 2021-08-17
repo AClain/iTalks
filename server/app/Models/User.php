@@ -8,6 +8,7 @@ class User extends Model
 {
     protected $table = "users";
     protected $fillable = ['username', 'email', 'password', 'email_verified', 'email_token', 'role_id', 'resource_id', 'status_id'];
+    protected $appends = ['status', 'role', 'avatar', 'voted_posts', 'voted_comments'];
     protected $hidden = ['password', 'email_token', 'role_id', 'resource_id', 'feedbacks', 'status_id', 'email_verified'];
 
     // Relationship methods
@@ -54,7 +55,7 @@ class User extends Model
 
     public function avatar()
     {
-        return $this->hasOne(Resource::class);
+        return $this->hasOne(Resource::class, 'id', 'resource_id');
     }
 
     public function comments()

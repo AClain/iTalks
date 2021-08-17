@@ -1,6 +1,6 @@
-import { AxiosInstance } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 import { ApiResult, ApiListDataResult, Search, SingleDataResponse } from "api/types/api";
-import { Post, PostCreate, PostUpdate } from "api/types/post";
+import { Post, PostCreate, PostUpdate, SearchResult } from "api/types/post";
 
 class PostRequest {
 	instance: AxiosInstance;
@@ -17,8 +17,8 @@ class PostRequest {
 		return this.instance.get("/posts/feed", { params: search });
 	}
 
-	async search(search: Search): Promise<ApiListDataResult<Post>> {
-		return this.instance.get("/posts/search", { params: search });
+	async search(search: Search): Promise<AxiosResponse<SearchResult>> {
+		return this.instance.post("/posts/search", search);
 	}
 
 	async createSingleImage(post: PostCreate): Promise<ApiResult> {

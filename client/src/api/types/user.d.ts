@@ -1,4 +1,5 @@
 import { Badge } from "./badge";
+import { Resource } from "./resource";
 
 declare type UserProfil = {
 	id: number;
@@ -18,7 +19,7 @@ declare type User = {
 	created_at: string;
 	updated_at: string;
 	role: string;
-	avatar: string;
+	avatar: Resource;
 };
 
 declare type UserCreate = {
@@ -46,6 +47,7 @@ declare type UserShort = {
 	id: number;
 	username: string;
 	feedback?: boolean | null;
+	avatar?: string;
 };
 
 export { UserProfil, User, UserLogin, UserCreate, UserUpdate, UserShort };

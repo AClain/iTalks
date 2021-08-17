@@ -22,9 +22,11 @@ type Search = {
 	page: number;
 	limit: number;
 	search?: string;
+	startDate?: Date | null;
+	endDate?: Date | null;
 };
 
 type ApiResult = AxiosResponse<ServiceResponse>;
 type ApiListDataResult<T> = AxiosResponse<ListDataResponse<T>>;
 
-export { SingleDataResponse, ApiResult, ApiListDataResult, Search };
+export { SingleDataResponse, ApiResult, ApiListDataResult, Search, ListDataResponse };

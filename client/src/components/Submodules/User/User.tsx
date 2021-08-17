@@ -1,10 +1,10 @@
 import { FC } from "react";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
-import { User as UserType } from "api/types/user";
+import { UserShort } from "api/types/user";
 import Avatar from "components/Elements/Avatar/Avatar";
 
 export interface UserProps {
-	user: UserType;
+	user: UserShort;
 	[x: string]: any;
 }
 
