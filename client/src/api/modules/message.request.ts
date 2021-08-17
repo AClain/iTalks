@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 import { ApiListDataResult, SingleDataResponse } from "api/types/api";
 import { Message } from "api/types/message";
-import { User } from "api/types/user";
+import { UserShort } from "api/types/user";
 
 class MessageRequest {
 	instance: AxiosInstance;
@@ -10,7 +10,7 @@ class MessageRequest {
 		this.instance = instance;
 	}
 
-	async all(): Promise<ApiListDataResult<User>> {
+	async all(): Promise<ApiListDataResult<UserShort>> {
 		return this.instance.get("/messages");
 	}
 

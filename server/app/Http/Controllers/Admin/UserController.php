@@ -75,10 +75,9 @@ class UserController extends Controller
     public function list(Request $request)
     {
         $search = new SearchController($request, User::query());
+        $search->addWhere('username', 'LIKE', '%' . $search->getSearch() . '%');
 
-        $users = $search->addWhere('username', 'LIKE', '%' . $search->getSearch() . '%');
-
-        return response()->json( $users->getResults(), 201);
+        return response()->json($search->getResults(), 201);
     }
 
     public function update(Request $request, string $username)
@@ -245,7 +244,7 @@ class UserController extends Controller
         $user = User::where('username', $username)->first();
         $user_avatar_resource = Resource::find($user->resource_id);
 
-        if($user_avatar_resource) {
+        if ($user_avatar_resource) {
             if (File::exists(public_path('/storage/images/users/' . $user->id . '/' . $user_avatar_resource->name)) && $user_avatar_resource) {
                 File::delete(public_path('/storage/images/users/' . $user->id . '/' . $user_avatar_resource->name));
                 $delete = $user_avatar_resource->delete();

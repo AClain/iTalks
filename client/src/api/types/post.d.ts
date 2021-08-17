@@ -1,5 +1,7 @@
+import { ListDataResponse } from "./api";
+import { Category } from "./category";
 import { Resource } from "./resource";
-import { UserShort } from "./user";
+import { User, UserShort } from "./user";
 
 declare type Post = {
 	id: number;
@@ -29,4 +31,10 @@ declare type PostUpdate = {
 	assiociated_resources?: File[];
 };
 
-export { Post, PostCreate, PostUpdate };
+declare type SearchResult = {
+	posts: ListDataResponse<Post>;
+	users: ListDataResponse<User>;
+	categories: ListDataResponse<Category>;
+};
+
+export { Post, PostCreate, PostUpdate, SearchResult };

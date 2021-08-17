@@ -9,6 +9,6 @@ export enum TitleVariantEnum {
 
 export interface TitleProps {
 	semantic: TitleVariantEnum;
-	children: JSX.Element | JSX.Element[] | string;
+	children: ReactElement | JSX.Element | JSX.Element[] | string | number | boolean;
 	[x: string]: any;
 }

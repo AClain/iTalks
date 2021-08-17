@@ -40,13 +40,13 @@ class PostController extends Controller
         $token = TokenController::parseToken($request->cookie('token'));
 
         $user = User::find($token['uid']);
-
-        $Usersfollow = UserFollow::where('follower_id', $user->id)->get();
-
         $posts = Post::query();
 
-        $posts->where('user_id', $Usersfollow->follower_id);
+        $followedUsers = UserFollow::where('follower_id', $user->id)->first();
 
+        if ($followedUsers) {
+            $posts->where('user_id', $followedUsers->follower_id)->get();
+        }
 
         return response()->json([
             'posts' => $posts
@@ -553,11 +553,17 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $posts = Post::where("title", "LIKE", "%" . $request->search . "%")->where('status_id', 1);
+        $users = User::where("username", "LIKE", "%" . $request->search . "%")->where('status_id', 1)->with('avatar');
+        $categories = Category::where("name", "LIKE", "%" . $request->search . "%")->where('status_id', 1);
 
-        $search = new SearchController($request, $posts);
+        $searchPost = new SearchController($request, $posts);
+        $searchUser = new SearchController($request, $users);
+        $searchCategory = new SearchController($request, $categories);
 
-        return response()->json(
-            $search->getResults()
-        );
+        return response()->json([
+            "posts" => $searchPost->getResults(),
+            "users" => $searchUser->getResults(),
+            "categories" => $searchCategory->getResults(),
+        ]);
     }
 }

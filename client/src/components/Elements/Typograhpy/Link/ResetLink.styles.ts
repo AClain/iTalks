@@ -1,5 +1,4 @@
 import { makeStyles } from "@material-ui/core";
-import { darken } from "@material-ui/core/styles";
 
 type ResetLinkStylesProps = {
 	color?: string;
@@ -25,5 +24,3 @@ const useStyles = makeStyles({
 });
 
 export { useStyles };
-
-// const darkenedColor50Percent = darken('#4f4', 0.5);

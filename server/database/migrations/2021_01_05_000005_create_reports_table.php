@@ -18,6 +18,7 @@ class CreateReportsTable extends Migration
             $table->foreignId('reporter_id');
             $table->foreignId('reported_id');
             $table->string('reason');
+            $table->foreignId('status_id');
             $table->timestamps();
         });
     }

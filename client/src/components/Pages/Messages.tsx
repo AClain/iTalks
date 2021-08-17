@@ -1,11 +1,11 @@
 // React
 import { FC, useEffect, useState } from "react";
 // Librairies
-import { ListItem, ListItemIcon, ListItemText, Divider, InputAdornment, TextField } from "@material-ui/core";
+import { ListItem, ListItemIcon, ListItemText, Divider } from "@material-ui/core";
 import Avatar from "components/Elements/Avatar/Avatar";
 import { useStyles } from "./Messages.styles";
 import UserList from "components/Modules/UserList/UserList";
-import { User as UserType } from "api/types/user";
+import { UserShort } from "api/types/user";
 import Flex from "components/Elements/Layout/Flex/Flex";
 import { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { HiOutlineSearch } from "react-icons/hi";
@@ -27,8 +27,8 @@ const Messages: FC<{}> = () => {
 	const history = useHistory();
 	let { id } = useParams<MessageParams>();
 	// States
-	const [users, setUsers] = useState<UserType[]>([]);
-	const [searchUsers, setSearchUsers] = useState<UserType[]>([]);
+	const [users, setUsers] = useState<UserShort[]>([]);
+	const [searchUsers, setSearchUsers] = useState<UserShort[]>([]);
 	const [fetchingUsers, setFetchingUsers] = useState(true);
 
 	const handleSearch = (e: any): any => {
@@ -64,7 +64,7 @@ const Messages: FC<{}> = () => {
 			.all()
 			.then((res) => {
 				setUsers(res.data.items);
-				console.log(_.findIndex(res.data.items, { id: parseInt(id) }));
+				console.log(res.data.items);
 				if (_.findIndex(res.data.items, { id: parseInt(id) }) === -1) {
 					history.push("/messages");
 				}

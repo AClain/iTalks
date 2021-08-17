@@ -26,6 +26,7 @@ export enum ButtonSizeEnum {
 
 export interface ButtonProps {
 	label: string;
+	color?: string;
 	variant?: ButtonTypeEnum;
 	size?: ButtonSizeEnum;
 	fullWidth?: boolean;
@@ -36,6 +37,7 @@ export interface ButtonProps {
 }
 
 export interface ButtonStylesProps {
+	color?: string;
 	variant?: ButtonTypeEnum;
 	size?: ButtonSizeEnum;
 	fullWidth?: boolean;

@@ -29,7 +29,8 @@ class FollowSeeder extends Seeder
             CategoryFollow::create([
                 'follower_id' => $user->id,
                 'category_id' => \random_int(1, 6),
-                'has_notifications' => \random_int(0, 1)
+                'has_notifications' => \random_int(0, 1),
+                'status_id' => 1
             ]);
         };
     }

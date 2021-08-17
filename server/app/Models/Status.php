@@ -76,4 +76,9 @@ class Status extends Model
     {
         return $this->hasMany(UserFollow::class);
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }
