@@ -6,9 +6,10 @@ export interface AvatarProps {
 	username: string;
 	link?: string;
 	size?: number;
+	[x: string]: any;
 }
 
-const Avatar: FC<AvatarProps> = ({ username, link, size }) => {
+const Avatar: FC<AvatarProps> = ({ username, link, size, ...rest }) => {
 	const colorFromUsername = (username: string) => {
 		const firstCharacter = username.substring(0, 1).toUpperCase();
 		let color = "#323232";
@@ -34,7 +35,7 @@ const Avatar: FC<AvatarProps> = ({ username, link, size }) => {
 	const styles = useStyles({ color: colorFromUsername(username), size: size });
 
 	return link ? (
-		<MUIAvatar className={styles.avatar} alt={username} src={link}>
+		<MUIAvatar className={styles.avatar} alt={username} src={link} {...rest}>
 			<svg viewBox='0 0 35 35'>
 				<text fill='white' textAnchor='middle' dominantBaseline='middle' x='50%' y='55%'>
 					{username.substring(0, 1).toUpperCase()}
@@ -42,7 +43,7 @@ const Avatar: FC<AvatarProps> = ({ username, link, size }) => {
 			</svg>
 		</MUIAvatar>
 	) : (
-		<MUIAvatar className={`${styles.noLink} ${styles.avatar}`} alt={username}>
+		<MUIAvatar className={`${styles.noLink} ${styles.avatar}`} alt={username} {...rest}>
 			<svg viewBox='0 0 35 35'>
 				<text fill='white' textAnchor='middle' dominantBaseline='middle' x='50%' y='55%'>
 					{username.substring(0, 1).toUpperCase()}

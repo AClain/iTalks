@@ -5,9 +5,10 @@ export type tabHeader = {
 };
 
 export interface CenteredTabsProps {
-	activeTab?: number;
+	currentTab: number;
 	tabHeaders: tabHeader[];
 	tabPanels: Array<JSX.Element | string>;
+	handleChange: (event: ChangeEvent<{}>, value: any) => void;
 	light?: boolean;
 	[x: string]: any;
 }

@@ -1,12 +1,12 @@
 import { Story } from "@storybook/react";
-import Post, { PostProps } from "./Post";
+import PostShort, { PostProps } from "./PostShort";
 
 export default {
-	component: Post,
+	component: PostShort,
 	title: "Submodules/Post",
 };
 
-const Template: Story<PostProps> = (args) => <Post {...args} />;
+const Template: Story<PostProps> = (args) => <PostShort {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

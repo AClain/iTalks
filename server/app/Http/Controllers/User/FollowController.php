@@ -84,7 +84,7 @@ class FollowController extends Controller
             LogController::log("L'utilisateur' " . $following->name . " vient de suivre " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Vous suivez maintenant ' . ($following->username ?? 'la catégorie ' . $following->name) . '.',
-            ], 400);
+            ], 200);
         }
 
         return response()->json([
@@ -145,7 +145,7 @@ class FollowController extends Controller
             LogController::log("L'utilisateur' " . $following->name . " suis plus " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Vous ne suivez plus ' . ($following->username ?? 'la catégorie ' . $following->name) . '.',
-            ], 400);
+            ], 200);
         }
 
         return response()->json([

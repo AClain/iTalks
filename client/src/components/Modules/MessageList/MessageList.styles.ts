@@ -22,22 +22,15 @@ const useStyles = makeStyles({
 		color: "var(--text)",
 	},
 	message: {
+		width: "max-content",
 		maxWidth: "70%",
 		borderRadius: "5px",
 		padding: "10px",
 	},
-	sender: {
-		alignItems: "flex-end",
-	},
 	senderMessage: {
-		textAlign: "right",
 		background: "#48B0F7",
 	},
-	receiver: {
-		alignItems: "flex-start",
-	},
 	receiverMessage: {
-		textAlign: "left",
 		background: "var(--text)",
 		color: "var(--bg)",
 	},

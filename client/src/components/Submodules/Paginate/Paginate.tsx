@@ -16,7 +16,15 @@ interface PaginateProps {
 const Paginate: FC<PaginateProps> = ({ page, total, limit, action, ...rest }): JSX.Element | null => {
 	const styles = useStyles();
 
-	return floor(total / limit) > 1 ? (
+	const display = () => {
+		if (total === limit) {
+			return false;
+		}
+
+		return floor(total / limit) > 0;
+	};
+
+	return display() ? (
 		<Flex direction={FlexDirectionEnum.Horizontal} justify={FlexJustifyEnum.Center} fullWidth {...rest}>
 			<Pagination
 				page={page}

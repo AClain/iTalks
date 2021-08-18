@@ -11,8 +11,9 @@ const useStyles = makeStyles({
 		margin: "0px",
 		padding: "0px",
 		textDecoration: "none",
+		transition: "all .1s ease-in",
 		"&:hover": {
-			color: (props: ResetLinkStylesProps) => (props.color ? props.color : "var(--purple-focus)"),
+			color: (props: ResetLinkStylesProps) => (props.color ? props.color : "var(--link-hover)"),
 		},
 		"&:visited": {
 			color: "inherit",

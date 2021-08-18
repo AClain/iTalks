@@ -27,7 +27,7 @@ class PostSeeder extends Seeder
         foreach ($randomUsers as $user) {
             $post = Post::create([
                 'title' => "Post de " . $user->username,
-                'text' => $faker->realText(),
+                'text' => $faker->realText(1500),
                 'user_id' => $user->id,
                 'status_id' => 1,
                 'is_edited' => false

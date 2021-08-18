@@ -41,7 +41,6 @@ class UserController extends Controller
     public function profilPosts(Request $request)
     {
         $token = TokenController::parseToken($request->cookie('token'));
-
         $user = User::find($token['uid']);
 
         return response()->json([
@@ -52,7 +51,6 @@ class UserController extends Controller
     public function profilComments(Request $request)
     {
         $token = TokenController::parseToken($request->cookie('token'));
-
         $user = User::find($token['uid']);
 
         return response()->json([
@@ -120,8 +118,14 @@ class UserController extends Controller
 
     public function search(Request $request)
     {
-        $search = new SearchController($request, User::select('resource_id', 'role_id', 'status_id', 'id', 'username'));
+        $token = TokenController::parseToken($request->cookie('token'));
+        $user = User::find($token['uid']);
+
+        $users = User::select('resource_id', 'role_id', 'status_id', 'id', 'username');
+
+        $search = new SearchController($request, $users);
         $search->addWhere('username', "LIKE", $search->getSearch() . "%");
+        $search->addWhere('id', "!=", $user->id);
 
         return response()->json($search->getResults());
     }

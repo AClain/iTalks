@@ -4,7 +4,7 @@ import { Box, Typography } from "@material-ui/core";
 import { Post as PostType } from "api/types/post";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
-import { useStyles } from "./Post.styles";
+import { useStyles } from "./PostShort.styles";
 import moment from "moment";
 import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
 import { RiChat4Line } from "react-icons/ri";
@@ -13,13 +13,13 @@ import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/El
 import IconWithText from "components/Elements/IconWithText/IconWithText";
 import VoteCount from "../VoteCount/VoteCount";
 import CategoryBadge from "components/Elements/Badge/CategoryBadge/CategoryBadge";
+import BullDivider from "components/Elements/Layout/BullDivider/BullDivider";
 
 export interface PostProps {
 	post: PostType;
 }
 
-const Post: FC<PostProps> = ({ post }) => {
-	console.log(post);
+const PostShort: FC<PostProps> = ({ post }) => {
 	const styles = useStyles();
 
 	const shortenContent = (content: string) => {
@@ -27,10 +27,12 @@ const Post: FC<PostProps> = ({ post }) => {
 	};
 
 	return (
-		<Flex direction={FlexDirectionEnum.Horizontal} justify={FlexJustifyEnum.SpaceBetween} className={styles.container}>
+		<Flex className={styles.container} direction={FlexDirectionEnum.Horizontal} justify={FlexJustifyEnum.SpaceBetween}>
 			<Flex direction={FlexDirectionEnum.Vertical} className={styles.infos}>
 				<Flex direction={FlexDirectionEnum.Horizontal} align={FlexAlignEnum.Center}>
-					<Title semantic={TitleVariantEnum.H4}>{post.title}</Title>
+					<ResetLink to={"/post/" + post.id}>
+						<Title semantic={TitleVariantEnum.H4}>{post.title}</Title>
+					</ResetLink>
 					<VoteCount votes={post.vote_count} positive={post.feedback} />
 					{post.categories.map((c, k) => (
 						<CategoryBadge category={c} key={k} />
@@ -40,6 +42,7 @@ const Post: FC<PostProps> = ({ post }) => {
 				<Typography className={styles.content}>{shortenContent(post.text)}</Typography>
 
 				<Flex
+					className={styles.postInfo}
 					align={FlexAlignEnum.Center}
 					justify={FlexJustifyEnum.SpaceBetween}
 					direction={FlexDirectionEnum.Horizontal}
@@ -48,11 +51,10 @@ const Post: FC<PostProps> = ({ post }) => {
 						<ResetLink to={`/user/${post.user.id}`}>
 							<Typography className={styles.user}>{post.user.username}</Typography>
 						</ResetLink>
+						<BullDivider />
 						<Typography className={styles.date}>{moment(post.created_at).fromNow()}</Typography>
 					</Flex>
-					<Box>
-						<IconWithText icon={<RiChat4Line fontSize='18px' />} label={post.comment_count.toString()} />
-					</Box>
+					<IconWithText icon={<RiChat4Line fontSize='18px' />} label={post.comment_count.toString()} />
 				</Flex>
 			</Flex>
 			{post.assiociated_resources ? (
@@ -62,4 +64,4 @@ const Post: FC<PostProps> = ({ post }) => {
 	);
 };
 
-export default Post;
+export default PostShort;

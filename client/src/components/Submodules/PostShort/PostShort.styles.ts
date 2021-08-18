@@ -11,9 +11,12 @@ const useStyles = makeStyles({
 	},
 	infos: {
 		minWidth: "75%",
+		width: "100%",
+	},
+	postInfo: {
+		opacity: 0.7,
 	},
 	user: {
-		marginRight: "10px",
 		fontStyle: "italic",
 	},
 	content: {

@@ -20,7 +20,8 @@ import Sidebar from "components/Submodules/Sidebar/Sidebar";
 import Logout from "components/Pages/Logout";
 import LoginForm from "components/Pages/LoginForm";
 import RegisterForm from "components/Pages/RegisterForm";
-import CategoryPage from "components/Pages/Secondary/CategoryPage";
+import CategoryPosts from "components/Pages/Secondary/CategoryPosts";
+import Post from "components/Pages/Secondary/Post";
 
 const Routes: FC<{}> = () => {
 	let location = useLocation();
@@ -42,7 +43,7 @@ const Routes: FC<{}> = () => {
 				<AuthenticatedRoute exact path='/saved'>
 					<TopContainer sidebar={<Sidebar />} page={<Saved />} />
 				</AuthenticatedRoute>
-				<AuthenticatedRoute exact path='/profile'>
+				<AuthenticatedRoute exact path={["/profile", "/profile/:id"]}>
 					<TopContainer sidebar={<Sidebar />} page={<Profile />} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path={["/messages", "/messages/:id"]}>
@@ -57,7 +58,10 @@ const Routes: FC<{}> = () => {
 
 				{/* Authenticated secondary routes */}
 				<AuthenticatedRoute exact path='/category/:id'>
-					<TopContainer sidebar={<Sidebar />} page={<CategoryPage />} />
+					<TopContainer sidebar={<Sidebar />} page={<CategoryPosts />} />
+				</AuthenticatedRoute>
+				<AuthenticatedRoute exact path='/post/:id'>
+					<TopContainer sidebar={<Sidebar />} page={<Post />} />
 				</AuthenticatedRoute>
 
 				{/* Unauthenticated routes */}
