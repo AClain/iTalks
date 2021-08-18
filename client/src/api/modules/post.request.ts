@@ -13,6 +13,10 @@ class PostRequest {
 		return this.instance.get(`/post/${id}`);
 	}
 
+	async ProfilePosts(userId: number): Promise<SingleDataResponse<Post>> {
+		return this.instance.get(`profil/${userId}/post`);
+	}
+
 	async feed(options: Search): Promise<ApiListDataResult<Post>> {
 		return this.instance.get("/posts/feed", { params: options });
 	}
