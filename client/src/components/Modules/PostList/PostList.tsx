@@ -1,10 +1,9 @@
 import { FC, useState, useEffect, ChangeEvent, useRef } from "react";
-import { Paper, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { Post as PostType } from "api/types/post";
-import Post from "components/Submodules/Post/Post";
+import PostShort from "components/Submodules/PostShort/PostShort";
 import { useStyles } from "./PostList.styles";
-import { api } from "api/api.request";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import Paginate from "components/Submodules/Paginate/Paginate";
 import Loading from "components/Elements/Animations/Loading/Loading";
 import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
@@ -12,7 +11,12 @@ import Flex from "components/Elements/Layout/Flex/Flex";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 
-const PostList: FC<{}> = () => {
+interface PostListProps {
+	fetchPosts: Function;
+	reload?: boolean;
+}
+
+const PostList: FC<PostListProps> = ({ fetchPosts, reload }) => {
 	// Styles
 	const styles = useStyles();
 	// Refs
@@ -36,13 +40,9 @@ const PostList: FC<{}> = () => {
 	useEffect(() => {
 		setLoading(true);
 
-		api.post
-			.feed({
-				page: options.page,
-				limit: options.limit,
-				search: "",
-			})
-			.then((res) => {
+		fetchPosts(options)
+			.then((res: AxiosResponse) => {
+				console.log(res);
 				setPosts(res.data.items);
 				setTotal(res.data.total);
 			})
@@ -52,10 +52,10 @@ const PostList: FC<{}> = () => {
 			});
 
 		return () => {};
-	}, [options]);
+	}, [options, reload]);
 
 	return (
-		<Paper className={styles.list}>
+		<Box className={styles.list}>
 			<div ref={topRef} />
 			<Paginate page={options.page} limit={options.limit} total={total} action={changePage} />
 			{loading ? (
@@ -67,7 +67,7 @@ const PostList: FC<{}> = () => {
 					{posts.length > 0 ? (
 						<>
 							{posts.map((p, k) => (
-								<Post post={p} key={k} />
+								<PostShort post={p} key={k} />
 							))}
 							<Paginate page={options.page} limit={options.limit} total={total} action={changePage} />
 						</>
@@ -84,7 +84,7 @@ const PostList: FC<{}> = () => {
 					)}
 				</>
 			)}
-		</Paper>
+		</Box>
 	);
 };
 

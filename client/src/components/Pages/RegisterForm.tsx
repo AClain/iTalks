@@ -36,7 +36,6 @@ const RegisterForm: FC<{}> = () => {
 	const [loading, setLoading] = useState(false);
 	// Custom methods
 	const onSubmit = (data: any) => {
-		console.log(data);
 		setLoading(true);
 		api.user
 			.register(data)

@@ -98,12 +98,12 @@ Route::middleware(['authenticated'])->group(function () {
     Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
     Route::post('posts/video', [PostController::class, 'storeVideo'])->name('createVideoPost');
     Route::post('posts/multipleImage', [PostController::class, 'storeMultipleImage'])->name('createMultipleImagePost');
-    Route::get('post/comments/{id}', [PostController::class, 'getComments'])->name('getComments');
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
+    Route::get('post/{id}/comments', [PostController::class, 'getComments'])->name('getComments');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
 
     Route::get('categories', [CategoryController::class, 'all'])->name('getAllCategory');
-    Route::get('category/{id}', [CategoryController::class, 'get'])->name('getCategoryPosts');
+    Route::get('category/{name}', [CategoryController::class, 'get'])->name('getCategoryPosts');
 
     Route::post('comment/{postId}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');

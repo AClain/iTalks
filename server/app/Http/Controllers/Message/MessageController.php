@@ -7,8 +7,6 @@ use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\MessageHistory;
-use App\Models\Notification;
-use App\Models\NotificationTypes;
 use App\Models\Status;
 use Illuminate\Http\Request;
 use App\Models\User;

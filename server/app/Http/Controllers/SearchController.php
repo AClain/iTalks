@@ -17,6 +17,7 @@ class SearchController extends Controller
         $this->limit = $request->limit ?? 15;
         $this->page = $request->page ?? 1;
         $this->search = $request->search ?? "";
+        $this->replacedItems = null;
         $this->query = $query;
     }
 
@@ -55,18 +56,23 @@ class SearchController extends Controller
         return $this;
     }
 
-    public function only($columns)
+    public function get()
     {
-        $this->query->only($columns);
-        return $this;
+        $cloneQuery = clone ($this->query);
+        return $cloneQuery->limit($this->getLimit())->offset($this->getOffset())->get();
+    }
+
+    public function replaceItems($newItems)
+    {
+        $this->replacedItems = $newItems;
     }
 
     public function getResults()
     {
         return [
-            "total" => $this->query->count(),
-            "count" => sizeof($this->query->limit($this->getLimit())->offset($this->getOffset())->get()),
-            "items" => $this->query->limit($this->getLimit())->offset($this->getOffset())->get(),
+            "total" => $this->query->get()->count(),
+            "count" => $this->query->limit($this->getLimit())->offset($this->getOffset())->get()->count(),
+            "items" => $this->replacedItems ?? $this->query->limit($this->getLimit())->offset($this->getOffset())->get(),
         ];
     }
 }

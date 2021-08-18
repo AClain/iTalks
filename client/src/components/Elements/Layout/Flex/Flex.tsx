@@ -10,13 +10,13 @@ const DIRECTIONS: any = {
 const Flex: FC<FlexProps> = ({ direction, justify, align, centered, fullWidth, width, children, ...rest }) => {
 	return (
 		<Box
-			{...rest}
 			display='flex'
 			justifyContent={centered ? "center" : justify}
 			alignItems={centered ? "center" : align}
 			flexDirection={DIRECTIONS[direction]}
-			color='var(--text)'
+			color='inherit'
 			width={fullWidth ? "100%" : width}
+			{...rest}
 		>
 			{children}
 		</Box>

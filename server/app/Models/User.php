@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class User extends Model
 {
     public bool $following;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 508e384e77e0631abb4af03c9aa7da34658d9b45
     protected $table = "users";
     protected $fillable = ['username', 'email', 'password', 'email_verified', 'email_token', 'role_id', 'resource_id', 'status_id'];
     protected $appends = ['status', 'role', 'avatar', 'voted_posts', 'voted_comments'];

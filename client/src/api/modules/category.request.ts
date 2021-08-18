@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { ApiArrayDataResult, ApiListDataResult, SingleDataResponse } from "api/types/api";
+import { ApiArrayDataResult, ApiListDataResult, Search } from "api/types/api";
 import { Category } from "api/types/category";
 import { Post } from "api/types/post";
 
@@ -14,8 +14,8 @@ class PostRequest {
 		return this.instance.get("/categories");
 	}
 
-	async get(id: number): Promise<SingleDataResponse<Post>> {
-		return this.instance.get(`/category/${id}`);
+	async get(name: string, options: Search): Promise<ApiListDataResult<Post>> {
+		return this.instance.get(`/category/${name}`, { params: options });
 	}
 }
 

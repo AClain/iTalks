@@ -1,13 +1,13 @@
 import { Story } from "@storybook/react";
 
-import Category, { CategoryProps } from "./Category";
+import CategoryShort, { CategoryProps } from "./CategoryShort";
 
 export default {
-	component: Category,
+	component: CategoryShort,
 	title: "Submodules/Category",
 };
 
-const Template: Story<CategoryProps> = (args) => <Category {...args} />;
+const Template: Story<CategoryProps> = (args) => <CategoryShort {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {

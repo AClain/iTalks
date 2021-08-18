@@ -16,6 +16,8 @@ import { EventContext } from "providers/EventContext";
 import EventProvider from "providers/EventProvider";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
+import AlertContext from "providers/AlertContext";
+import Alert from "components/Modules/Alert/Alert";
 
 moment.locale("fr");
 
@@ -23,16 +25,25 @@ export default function App() {
 	const [theme, setTheme] = useState(ThemeProvider.getClientTheme());
 	const Echo = EventProvider.defaultEchoEvent();
 
+	const [alert, setAlert] = useState({
+		message: "Succes!",
+		status: "success",
+		shouldDisplay: false,
+	});
+
 	return (
 		<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			<HelmetProvider>
 				<ThemeContext.Provider value={{ theme, setTheme }}>
 					<EventContext.Provider value={{ Echo }}>
-						<Box className={`${theme}`} height='100vh' minHeight='500px' overflow='auto'>
-							<Router>
-								<Routes />
-							</Router>
-						</Box>
+						<AlertContext.Provider value={{ alert, setAlert }}>
+							<Box className={`${theme}`} height='100vh' minHeight='500px' overflow='auto'>
+								<Router>
+									<Routes />
+								</Router>
+							</Box>
+							<Alert />
+						</AlertContext.Provider>
 					</EventContext.Provider>
 				</ThemeContext.Provider>
 			</HelmetProvider>

@@ -73,7 +73,6 @@ const Search: FC<{}> = () => {
 		api.post
 			.search(search)
 			.then((res) => {
-				console.log(res.data);
 				setDataPosts({ posts: res.data.posts.items, total: res.data.posts.total });
 				setDataUsers({ users: res.data.users.items, total: res.data.users.total });
 				setDataCategories({ categories: res.data.categories.items, total: res.data.categories.total });

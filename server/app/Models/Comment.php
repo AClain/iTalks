@@ -47,7 +47,8 @@ class Comment extends Model
         return Status::find($this->status_id)->name;
     }
 
-    public function getChildrenCommentCountAttribute() {
+    public function getChildrenCommentCountAttribute()
+    {
         return Comment::where('parent_id', $this->id)->count();
     }
 
@@ -59,9 +60,12 @@ class Comment extends Model
     public function getUserAttribute()
     {
         $user = User::find($this->user_id);
+
         return [
-            'id' => $user->id,
-            'username' => $user->username,
+            "id" => $user->id,
+            "username" => $user->username,
+            "role" => $user->role,
+            "avatar" => $user->avatar,
         ];
     }
 }

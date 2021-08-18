@@ -6,10 +6,17 @@ export interface AvatarProps {
 	username: string;
 	link?: string;
 	size?: number;
+<<<<<<< HEAD
 	[x: string] : any
 }
 
 const Avatar: FC<AvatarProps> = ({ username, link, size , ...rest}) => {
+=======
+	[x: string]: any;
+}
+
+const Avatar: FC<AvatarProps> = ({ username, link, size, ...rest }) => {
+>>>>>>> 508e384e77e0631abb4af03c9aa7da34658d9b45
 	const colorFromUsername = (username: string) => {
 		const firstCharacter = username.substring(0, 1).toUpperCase();
 		let color = "#323232";

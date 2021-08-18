@@ -24,9 +24,6 @@ use Illuminate\Support\Facades\File;
 
 use App\Models\Status;
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
-use Log;
 
 class PostController extends Controller
 {
@@ -37,11 +34,6 @@ class PostController extends Controller
      */
     public function feed(Request $request)
     {
-        $limit = $request->limit ?? 15;
-        $page = $request->page ?? 1;
-        $offset = $limit * ($page - 1);
-        $search = $request->search ?? "";
-
         $token = TokenController::parseToken($request->cookie('token'));
 
         $user = User::find($token['uid']);
@@ -68,22 +60,11 @@ class PostController extends Controller
 
         $postsFollowed->distinct();
 
-        $total = $postsFollowed->get()->count();
-        $count = sizeof($postsFollowed->limit($limit)->offset($offset)->get());
-        $items = $postsFollowed->limit($limit)->offset($offset)->get();
+        $search = new SearchController($request, $postsFollowed);
 
+        $postsWithFeedback = PostController::addFeedbacksToPosts($search->get(), $user->id);
 
-        $postsFollowedWithFeedback = $items->map(function ($post, $key) use ($user) {
-            $feedback = Feedback::where('user_id', $user->id)->where('type', 'post')->where('entity_id', $post->id)->first();
-            $post->feedback = $feedback ? $feedback->positive : null;
-            return $post;
-        });
-
-        return [
-            "total" => $total,
-            "count" => $count,
-            "items" => $postsFollowedWithFeedback->all(),
-        ];
+        $search->replaceItems($postsWithFeedback);
 
         return response()->json($search->getResults());
     }
@@ -104,9 +85,7 @@ class PostController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'post' => $post,
-        ], 201);
+        return response()->json($post, 201);
     }
 
     /**
@@ -120,7 +99,7 @@ class PostController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|max:100',
             'text' => 'required|max:1000',
-            'category' => 'required|exists:categories,name'
+            'categories' => 'required|array|max:3'
         ]);
 
         if ($validator->fails()) {
@@ -140,17 +119,18 @@ class PostController extends Controller
         $post->status_id = $status->id;
 
         if ($post->save()) {
+            foreach (request('categories') as $categoryId) {
+                $category = Category::find($categoryId);
 
-            $category = Category::where('name', request('category'))->first();
+                if ($category) {
+                    PostCategory::create([
+                        'post_id' => $post->id,
+                        'category_id' => $categoryId,
+                    ]);
+                }
+            }
 
-            PostCategory::create([
-                'post_id' => $post->id,
-                'category_id' => $category->id,
-                'status_id' => $status->id,
-            ]);
-
-
-            $Notify_type = NotificationTypes::where('name', 'message')->first();
+            $notifyType = NotificationTypes::where('name', 'message')->first();
             $status = Status::where('name', 'non-lu')->first();
 
             $author = User::find($token["uid"]);
@@ -158,7 +138,7 @@ class PostController extends Controller
             foreach ($category->followers() as $follower) {
                 Notification::create([
                     'user_id' => $follower->id,
-                    'type_id' => $Notify_type->id,
+                    'type_id' => $notifyType->id,
                     'text' => "L'article " . "<a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a> de la catégorie <a href=" . config('app.client_url') . "/category/" . $category->name . ">" . $category->name . "</a>",
                     'status_id' => $status->id,
                 ]);
@@ -168,7 +148,7 @@ class PostController extends Controller
             foreach ($author->users_followed() as $follower) {
                 Notification::create([
                     'user_id' => $follower->id,
-                    'type_id' => $Notify_type->id,
+                    'type_id' => $notifyType->id,
                     'text' => "<a href=" . config('app.client_url') . "/user/" . $author->id . ">" . ucfirst($author->username) . "</a> viens de publié l\'article <a href=" . config('app.client_url') . "/post/" . $post->id . ">" . trim(request('title')) . "</a>",
                     'status_id' => $status->id,
                 ]);
@@ -439,16 +419,13 @@ class PostController extends Controller
      */
     public function getComments(int $id, Request $request)
     {
-
         $post = Post::find($id);
 
-        $comments = new SearchController($request, Comment::query()->with('childrenComment'));
+        $comments = Comment::where('post_id', $post->id);
 
-        $comments->addWhere('post_id', '=', $post->id)->addWhere('parent_id', '=');
+        $comments = new SearchController($request, $comments);
 
-        return response()->json([
-            'comments' => $comments->getResults()
-        ], 201);
+        return response()->json($comments->getResults(), 200);
     }
 
     /**
@@ -586,5 +563,16 @@ class PostController extends Controller
             "users" => $searchUser->getResults(),
             "categories" => $searchCategory->getResults(),
         ]);
+    }
+
+    public static function addFeedbacksToPosts($posts, $user_id)
+    {
+        $postsWithFeedback = $posts->map(function ($post, $key) use ($user_id) {
+            $feedback = Feedback::where('user_id', $user_id)->where('type', 'post')->where('entity_id', $post->id)->first();
+            $post->feedback = $feedback ? $feedback->positive : null;
+            return $post;
+        });
+
+        return $postsWithFeedback;
     }
 }

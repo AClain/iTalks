@@ -4,6 +4,7 @@ import PostRequest from "api/modules/post.request";
 import CategoryRequest from "api/modules/category.request";
 import auth from "api/auth";
 import MessageRequest from "./modules/message.request";
+import CommentRequest from "./modules/comment.requests";
 
 class Api {
 	public url: string;
@@ -13,6 +14,7 @@ class Api {
 	public post: PostRequest;
 	public category: CategoryRequest;
 	public message: MessageRequest;
+	public comment: CommentRequest;
 
 	constructor() {
 		this.url = auth.base_url;
@@ -27,6 +29,7 @@ class Api {
 		this.post = new PostRequest(this.instance);
 		this.category = new CategoryRequest(this.instance);
 		this.message = new MessageRequest(this.instance);
+		this.comment = new CommentRequest(this.instance);
 	}
 }
 

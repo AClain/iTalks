@@ -42,7 +42,6 @@ const Messages: FC<{}> = () => {
 			api.user
 				.search(search)
 				.then((res) => {
-					console.log(res.data.items);
 					setSearchUsers(res.data.items);
 				})
 				.catch((err) => {
@@ -64,7 +63,6 @@ const Messages: FC<{}> = () => {
 			.all()
 			.then((res) => {
 				setUsers(res.data.items);
-				console.log(res.data.items);
 				if (_.findIndex(res.data.items, { id: parseInt(id) }) === -1) {
 					history.push("/messages");
 				}

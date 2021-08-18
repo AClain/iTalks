@@ -2,7 +2,7 @@
 import {FC, useEffect, useState} from "react";
 import {useHistory, useLocation, useRouteMatch} from "react-router-dom";
 // Librairies
-import {Box, Grid} from "@material-ui/core";
+import { Box } from "@material-ui/core";
 // Components
 import Title from "components/Elements/Typograhpy/Title/Title";
 import {TitleVariantEnum} from "components/Elements/Typograhpy/Title/Title.d";
@@ -10,8 +10,7 @@ import UserCard from "components/Submodules/Profile/UserCard/UserCard";
 import BadgeCard from "components/Submodules/Profile/BadgeCard/BadgeCard";
 import Flex from "components/Elements/Layout/Flex/Flex";
 import { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d"
-import UserProfilePosts from "components/Modules/Profile/UserProfilePosts/UserProfilePosts";
-import UserProfileComments from "components/Modules/Profile/UserProfileComments/UserProfileComments";
+
 // Api
 import {api} from "../../api/api.request";
 import {UserProfil} from "../../api/types/user";
@@ -75,11 +74,11 @@ const Profile: FC<{}> = () => {
                 <Box width='65%'>
                     <Box p='25px' boxShadow='var(--medium-box-shadow)'>
                         <Flex direction={FlexDirectionEnum.Vertical}>
-                            <CenteredTabs
+                            {/* <CenteredTabs
                                 activeTab={currentActiveTab()}
                                 tabHeaders={tabHeaders}
                                 tabPanels={[<UserProfilePosts userId={user.id} />, <UserProfileComments userId={user.id}/>]}
-                            />
+                            /> */}
                         </Flex>
                     </Box>
                 </Box>

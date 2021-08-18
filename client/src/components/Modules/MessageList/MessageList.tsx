@@ -1,6 +1,6 @@
 import { Message } from "api/types/message";
 import { FC, useEffect, useRef } from "react";
-import { ListItemText } from "@material-ui/core";
+import { ListItemText, Typography } from "@material-ui/core";
 import moment from "moment";
 import { useStyles } from "./MessageList.styles";
 import auth from "api/auth";
@@ -42,18 +42,13 @@ const MessageList: FC<MessageListProps> = ({ messages }) => {
 			{messages.length > 0 ? (
 				<Flex direction={FlexDirectionEnum.Vertical}>
 					{messages.map((m, k) => (
-						<Flex
-							key={k}
-							direction={FlexDirectionEnum.Vertical}
-							fullWidth
-							className={`${auth.getUserId() === m.sender.id ? styles.sender : styles.receiver}`}
-						>
+						<Flex key={k} direction={FlexDirectionEnum.Vertical} fullWidth>
 							<ListItemText
 								className={`${auth.getUserId() === m.sender.id ? styles.senderMessage : styles.receiverMessage} ${
 									styles.message
 								}`}
 							>
-								{m.message}
+								<Typography component='pre'>{m.message}</Typography>
 							</ListItemText>
 							<ListItemText
 								secondaryTypographyProps={{ className: styles.timestamp }}
