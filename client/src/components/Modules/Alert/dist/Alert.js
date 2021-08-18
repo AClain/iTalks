@@ -19,14 +19,33 @@ var Alert = function (_a) {
     // Styles
     var styles = Alert_styles_1.useStyles();
     var _b = react_1.useContext(AlertContext_1.AlertContext), alert = _b.alert, setAlert = _b.setAlert;
+    // Custom methods
+    var displayTitle = function () {
+        var title = "Information";
+        switch (alert.variant) {
+            case "error":
+                title = "Erreur";
+                break;
+            case "warning":
+                title = "Attention";
+                break;
+            case "success":
+                title = "Succès";
+                break;
+        }
+        return title;
+    };
+    // Effects
     react_1.useEffect(function () {
         var event = setTimeout(function () {
             setAlert(__assign(__assign({}, alert), { shouldDisplay: false }));
-        }, 50000000);
+        }, 5000);
         return function () {
             clearTimeout(event);
         };
-    }, [alert.shouldDisplay]);
-    return alert.shouldDisplay ? (React.createElement(lab_1.Alert, { className: styles.alert + " " + (alert.shouldDisplay ? styles.alertShow : styles.alertHidden), severity: alert.variant })) : null;
+    }, [alert]);
+    return alert.shouldDisplay ? (React.createElement(lab_1.Alert, { className: styles.alert + " " + (alert.shouldDisplay ? styles.alertShow : styles.alertHidden), severity: alert.variant },
+        React.createElement(lab_1.AlertTitle, null, displayTitle()),
+        alert.message)) : null;
 };
 exports["default"] = Alert;
