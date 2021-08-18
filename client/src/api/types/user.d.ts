@@ -10,6 +10,7 @@ declare type UserProfil = {
 	role: string;
 	avatar: string;
 	status: string;
+	following?: boolean;
 	badges: Badge[];
 };
 

@@ -11,7 +11,7 @@ interface RoleBadgeProps {
 const Badge: FC<RoleBadgeProps> = ({ name, resource}) => {
 
     const styles = useStyles();
-
+    console.log(resource)
     return (
         <Box width='100%'>
             <Avatar username={name} link={resource}/>

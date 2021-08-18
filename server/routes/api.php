@@ -80,6 +80,7 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('logout', [UserAuthController::class, 'logout'])->name('logout');
 
     Route::get('profil', [UserController::class, 'profil'])->name('profil');
+    Route::get('profil/{id}', [UserController::class, 'profilById'])->name('profilById');
     Route::get('profil/posts', [UserController::class, 'profilPosts'])->name('profilPosts');
     Route::get('profil/comments', [UserController::class, 'profilComments'])->name('profilComments');
 

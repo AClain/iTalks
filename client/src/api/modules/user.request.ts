@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios";
+import {AxiosInstance, AxiosResponse} from "axios";
 import { ApiResult, ApiListDataResult, Search, SingleDataResponse } from "api/types/api";
 import { UserCreate, UserLogin, UserProfil, UserShort, UserUpdate } from "api/types/user";
 
@@ -27,6 +27,14 @@ class UserRequest {
 
 	async profil(): Promise<SingleDataResponse<UserProfil>> {
 		return this.instance.get(`/profil/`);
+	}
+
+	async follow(options:{id: number, type: string}): Promise<AxiosResponse<String>> {
+		return this.instance.get(`follow/${options.id}`, {params: {type:options.type}});
+	}
+
+	async unfollow(options:{id: number, type: string}): Promise<AxiosResponse<String>> {
+		return this.instance.get(`unfollow/${options.id}`, {params: {type:options.type}});
 	}
 
 	async search(search: Search): Promise<ApiListDataResult<UserShort>> {

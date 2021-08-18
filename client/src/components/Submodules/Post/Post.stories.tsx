@@ -3,7 +3,7 @@ import Post, { PostProps } from "./Post";
 
 export default {
 	component: Post,
-	title: "Submodules/Post",
+	title: "Submodules/NavUser",
 };
 
 const Template: Story<PostProps> = (args) => <Post {...args} />;

@@ -1,6 +1,9 @@
 import { FC } from "react";
-import {Box, Grid, ListItemText} from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { UserProfil } from "api/types/user";
+
+import Flex from "components/Elements/Layout/Flex/Flex";
+import { FlexDirectionEnum, FlexAlignEnum } from "components/Elements/Layout/Flex/Flex.d"
 
 import { useStyles } from "./BadgeCard.style";
 import Badge from "components/Submodules/Profile/Badge/Badge";
@@ -17,16 +20,12 @@ const BadgeCard: FC<UserProps> = ({ user, ...rest }) => {
     console.log(user)
 
     return (
-        <Box width='100%' className={styles.box}>
-            <Grid item xs={3}>
-                <div className={styles.card}>
-                    <div className={styles.content}>
-                        {user.badges.map((b, k) => (
-                            <Badge key={k} name={b.name} resource={b.resource} />
-                        ))}
-                    </div>
-                </div>
-            </Grid>
+        <Box mt='10px' p='25px' boxShadow='var(--medium-box-shadow)'>
+            <Flex direction={FlexDirectionEnum.Vertical} align={FlexAlignEnum.Center}>
+                {user.badges.map((b, k) => (
+                    <Badge key={k} name={b.name} resource={b.resource} />
+                ))}
+            </Flex>
         </Box>
     );
 };

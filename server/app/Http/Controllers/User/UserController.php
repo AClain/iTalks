@@ -11,6 +11,7 @@ use App\Models\NotificationTypes;
 use App\Models\Post;
 use App\Models\Status;
 use App\Models\UserBadge;
+use App\Models\UserFollow;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Carbon;
@@ -34,6 +35,21 @@ class UserController extends Controller
         $token = TokenController::parseToken($request->cookie('token'));
 
         $user = User::find($token['uid'])->load('badges')->makeHidden(['voted_posts', 'voted_comments']);
+
+        return response()->json($user);
+    }
+
+    public function profilById(Request $request, int $id)
+    {
+        $token = TokenController::parseToken($request->cookie('token'));
+
+        $userCurrent = User::find($token['uid']);
+
+        $user = User::find($id)->load('badges')->makeHidden(['voted_posts', 'voted_comments']);
+
+        $isFollowing = UserFollow::where('follower_id', $userCurrent->id)->where('user_id', $user->id)->first();
+
+        $user->setAttribute('following', (bool)$isFollowing);
 
         return response()->json($user);
     }

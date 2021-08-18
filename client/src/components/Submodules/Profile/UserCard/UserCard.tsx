@@ -1,38 +1,69 @@
-import { FC } from "react";
-import {Box, Grid, ListItemIcon, ListItemText} from "@material-ui/core";
+// react
+import {FC, useEffect} from "react";
+// Lib
+import {Box, Button, Chip, Tooltip} from "@material-ui/core";
+// API
 import { UserProfil } from "api/types/user";
+import {api} from "api/api.request";
+import auth from "api/auth";
+// Components
+import Flex from "components/Elements/Layout/Flex/Flex";
 import Avatar from "components/Elements/Avatar/Avatar";
 import Title from "components/Elements/Typograhpy/Title/Title";
+import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
-
+import { FlexDirectionEnum, FlexAlignEnum } from "components/Elements/Layout/Flex/Flex.d"
+// Style
 import { useStyles } from "./UserCard.style";
-import RoleBadge from "../RoleBadge/RoleBadge";
-import Button from "../../../Elements/Buttons/Button/Button";
 
 export interface UserProps {
     user: UserProfil;
+    setUser: Function
     [x: string]: any;
 }
 
-const UserCard: FC<UserProps> = ({ user, ...rest }) => {
+const UserCard: FC<UserProps> = ({ user, setUser, ...rest }) => {
 
     const styles = useStyles();
 
+    const follow = () => {
+        api.user.follow({id: user.id, type: 'user'}).then((res) => {
+            console.log(res.data)
+            setUser({ ...user, following:true })
+        }).catch((err) => {
+            console.error(err)
+        })
+    }
+
+    const unfollow = () => {
+        api.user.unfollow({id: user.id, type: 'user'}).then((res) => {
+            console.log(res.data)
+            setUser({ ...user, following:false })
+        }).catch((err) => {
+            console.error(err)
+        })
+    }
+
     return (
-        <Box width='100%'>
-            <Grid item xs={3}>
-                <div className={styles.card}>
-                    <div className={styles.content}>
-                        <ListItemIcon>
-                            <Avatar size={100} username={user.username} link={user.avatar} />
-                        </ListItemIcon>
-                        <ListItemText><Title semantic={TitleVariantEnum.H6}>{user.username}</Title></ListItemText>
-                        <ListItemText><RoleBadge role={user.role}/></ListItemText>
-                        <Button label='Follow' type='submit' color='var(--light)' />
-                        <Button label='Message' type='submit' color='var(--light)' />
-                    </div>
-                </div>
-            </Grid>
+        <Box p="25px" boxShadow='var(--medium-box-shadow)'>
+            <Flex direction={FlexDirectionEnum.Vertical} align={FlexAlignEnum.Center}>
+                <Avatar style={{ marginBottom: "15px"}} size={100} username={user.username} link={user.avatar} />
+                <Flex direction={FlexDirectionEnum.Horizontal} align={FlexAlignEnum.Center}>
+                    <Title semantic={TitleVariantEnum.H5}>{user.username}</Title>
+                </Flex>
+                <Flex direction={FlexDirectionEnum.Horizontal} align={FlexAlignEnum.Center}>
+                    {auth.getUserId() !== user.id &&
+                        <>
+                            { user.following  ?
+                                <Button onClick={unfollow} className={styles.unfollow} variant="outlined">Ne plus Suivre</Button>
+                                :
+                                <Button onClick={follow} style={{ margin: '10px', background: 'var(--info)' }} variant="contained" color="primary">Suivre</Button>
+                            }
+                            <ResetLink to={`/messages/${user.id}`}><Button  style={{ background: 'var(--light)' }} variant="contained">Message</Button></ResetLink>
+                        </>
+                    }
+                </Flex>
+            </Flex>
         </Box>
     );
 };
