@@ -23,17 +23,17 @@ class CreateNotificationTypesTable extends Migration
 
         $types = [
             [
-                'name' => 'message', 'status_id' => 1,
+                'name' => 'message',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'system', 'status_id' => 1,
+                'name' => 'system',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'default', 'status_id' => 1,
+                'name' => 'default',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

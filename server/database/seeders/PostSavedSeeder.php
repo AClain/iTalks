@@ -15,12 +15,5 @@ class PostSavedSeeder extends Seeder
      */
     public function run()
     {
-        foreach (Post::all() as $post) {
-            PostSaved::create([
-                'user_id' => 1,
-                'post_id' => $post->id,
-                'status_id' => 1,
-            ]);
-        }
     }
 }

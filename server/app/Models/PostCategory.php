@@ -7,11 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class PostCategory extends Model
 {
     protected $table = "post_categories";
-    protected $fillable = ['post_id', 'category_id', 'status_id'];
-    protected $hidden = ['post_id', 'category_id', 'status_id'];
-
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
-    }
+    protected $fillable = ['post_id', 'category_id'];
 }

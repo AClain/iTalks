@@ -9,4 +9,11 @@ declare type Category = {
 	updated_at: string;
 };
 
-export { Category };
+declare type CategoryShort = {
+	id: number;
+	name: string;
+	color: string;
+	text_color: string;
+};
+
+export { Category, CategoryShort };

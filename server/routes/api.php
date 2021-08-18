@@ -102,6 +102,7 @@ Route::middleware(['authenticated'])->group(function () {
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
 
     Route::get('categories', [CategoryController::class, 'all'])->name('getAllCategory');
+    Route::get('category/{id}', [CategoryController::class, 'get'])->name('getCategoryPosts');
 
     Route::post('comment/{postId}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');

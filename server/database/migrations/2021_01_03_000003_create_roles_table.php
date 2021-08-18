@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,7 +25,7 @@ class CreateRolesTable extends Migration
         $roles = [
             [
                 'id' => 1,
-                'name' => 'developpeur', 'status_id' => 1,
+                'name' => 'developer', 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -36,19 +37,19 @@ class CreateRolesTable extends Migration
             ],
             [
                 'id' => 3,
-                'name' => 'modérateur', 'status_id' => 1,
+                'name' => 'moderateur', 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'id' => 4,
-                'name' => 'entreprise', 'status_id' => 1,
+                'name' => 'company', 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'id' => 5,
-                'name' => 'utilisateur', 'status_id' => 1,
+                'name' => 'user', 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],

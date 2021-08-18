@@ -26,6 +26,6 @@ class MessageHistory extends Model
 
     public function getReceiverAttribute()
     {
-        return User::find($this->receiver_id, ['id', 'username', 'resource_id'])->append('avatar');
+        return User::find($this->receiver_id, ['id', 'username', 'resource_id', 'status_id', 'role_id'])->append('avatar');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\User;
@@ -21,9 +22,9 @@ class PostSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < 150; $i++) {
-            $user = User::inRandomOrder()->first();
+        $randomUsers = User::inRandomOrder()->limit(50)->get();
 
+        foreach ($randomUsers as $user) {
             $post = Post::create([
                 'title' => "Post de " . $user->username,
                 'text' => $faker->realText(),
@@ -32,11 +33,26 @@ class PostSeeder extends Seeder
                 'is_edited' => false
             ]);
 
-            PostCategory::create([
-                'post_id' => $post->id,
-                'category_id' => random_int(1, 6),
-                'status_id' => 1
-            ]);
+            if (random_int(1, 2) === 1) {
+                PostCategory::create([
+                    'post_id' => $post->id,
+                    'category_id' => 1,
+                ]);
+            } else {
+                $categories = Category::all()->skip(1)->shuffle();
+
+                $randomNumberOfCategories = random_int(1, 3);
+
+                foreach ($categories as $key => $category) {
+                    if ($key === $randomNumberOfCategories) {
+                        break;
+                    }
+                    PostCategory::create([
+                        'post_id' => $post->id,
+                        'category_id' => $category->id,
+                    ]);
+                }
+            }
         }
     }
 }
