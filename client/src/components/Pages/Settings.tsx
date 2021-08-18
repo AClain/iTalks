@@ -1,14 +1,19 @@
 // React
 import { FC } from "react";
 // Librairies
-import { Box } from "@material-ui/core";
+import { BottomNavigation, BottomNavigationAction, Box } from "@material-ui/core";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
+import { IconName } from "react-icons";
 
 const Settings: FC<{}> = () => {
-	return (
+		return (
 		<Box width='100%'>
-			<Title semantic={TitleVariantEnum.H1}>Paramètres</Title>
+			<CenteredTabs
+				tabHeaders={tabHeaders}
+				tabPanels={[<PostList posts={posts} />, "Populaire", "Publier"]}
+				fontSize='50px'
+			></CenteredTabs>
 		</Box>
 	);
 };
