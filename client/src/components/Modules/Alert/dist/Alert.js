@@ -19,22 +19,15 @@ var AlertContext_1 = require("providers/AlertContext");
 var Alert = function (_a) {
     // Styles
     var styles = Alert_styles_1.useStyles();
-    var alertContext = react_1.useContext(AlertContext_1.AlertContext);
+    var _b = react_1.useContext(AlertContext_1.AlertContext), alert = _b.alert, setAlert = _b.setAlert;
     react_1.useEffect(function () {
         var event = setTimeout(function () {
-            alertContext.setAlert(__assign(__assign({}, alert), { shouldDisplay: false }));
+            setAlert(__assign(__assign({}, alert), { shouldDisplay: false }));
         }, 5000);
         return function () {
             clearTimeout(event);
         };
     }, [alert.shouldDisplay]);
-    return alert.shouldDisplay ? (React.createElement(Flex_1["default"], { className: (alert.shouldDisplay ? styles.alertShow : styles.alertHidden) + " " + styles.alert, direction: Flex_d_1.FlexDirectionEnum.Horizontal },
-        React.createElement(Alert, { severity: alert. }, "This is an error alert \u2014 check it out!"),
-        React.createElement(Alert, { id: 'global-alert', status: alert.status, w: 'max-content', variant: 'left-accent' },
-            React.createElement(AlertIcon, null),
-            alert.message,
-            React.createElement(CloseButton, { ml: '100', onClick: function () {
-                    setAlert(__assign(__assign({}, alert), { shouldDisplay: false }));
-                } })))) : null;
+    return alert.shouldDisplay ? (React.createElement(Flex_1["default"], { className: (alert.shouldDisplay ? styles.alertShow : styles.alertHidden) + " " + styles.alert, direction: Flex_d_1.FlexDirectionEnum.Horizontal })) : null;
 };
 exports["default"] = Alert;

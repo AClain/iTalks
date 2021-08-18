@@ -4,19 +4,18 @@ import { useStyles } from "./Alert.styles";
 import Flex from "components/Elements/Layout/Flex/Flex";
 import { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { AlertContext } from "providers/AlertContext";
+import { Alert as MUIAlert } from "@material-ui/lab";
 
-interface AlertProps {
-
-}
+interface AlertProps {}
 
 const Alert: FC<AlertProps> = ({}) => {
 	// Styles
 	const styles = useStyles();
-	const alertContext = useContext(AlertContext);
+	const { alert, setAlert } = useContext(AlertContext);
 
 	useEffect(() => {
 		let event = setTimeout(() => {
-			alertContext.setAlert({ ...alert, shouldDisplay: false });
+			setAlert({ ...alert, shouldDisplay: false });
 		}, 5000);
 		return () => {
 			clearTimeout(event);
@@ -28,7 +27,7 @@ const Alert: FC<AlertProps> = ({}) => {
 			className={`${alert.shouldDisplay ? styles.alertShow : styles.alertHidden} ${styles.alert}`}
 			direction={FlexDirectionEnum.Horizontal}
 		>
-            <Alert severity={alert.}>This is an error alert — check it out!</Alert>
+			{/* <MUIAlert severity={alert.variant}></MUIAlert>
 
 			<Alert id='global-alert' status={alert.status} w='max-content' variant='left-accent'>
 				<AlertIcon />
@@ -39,9 +38,9 @@ const Alert: FC<AlertProps> = ({}) => {
 						setAlert({ ...alert, shouldDisplay: false });
 					}}
 				/>
-			</Alert>
+			</Alert> */}
 		</Flex>
 	) : null;
-}
+};
 
-export default Alert
+export default Alert;
