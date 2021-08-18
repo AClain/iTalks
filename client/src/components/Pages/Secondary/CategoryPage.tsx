@@ -12,6 +12,7 @@ const CategoryPage: FC<{}> = () => {
 	let match = useRouteMatch<MatchParams>("/category/:id");
 	console.log(match);
 
+	const [loading, setLoading] = useState(true);
 	const [posts, setPosts] = useState<Post[]>([]);
 
 	useEffect(() => {
@@ -27,12 +28,12 @@ const CategoryPage: FC<{}> = () => {
 					console.error(err);
 				})
 				.finally(() => {
-					setLoading();
+					setLoading(false);
 				});
 		}
 
 		return () => {};
-	}, [match?.params.id]);
+	}, [match]);
 
 	return <Box>{match && <h1>Catégorie : {match.params.id}</h1>}</Box>;
 };
