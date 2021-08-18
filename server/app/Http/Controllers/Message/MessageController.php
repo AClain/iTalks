@@ -49,7 +49,7 @@ class MessageController extends Controller
             'status_id' => $status->id
         ]);
 
-        if ($message) {
+        if ($message->save()) {
             $mhUpdate = $this->updateMessageHistory($receiver, $sender);
 
             $eventChannelSender = 'Sender_' . $sender->id . "_Receiver_" . $receiver->id;

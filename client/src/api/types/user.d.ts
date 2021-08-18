@@ -46,8 +46,8 @@ declare type UserUpdate = {
 declare type UserShort = {
 	id: number;
 	username: string;
-	feedback?: boolean | null;
-	avatar?: string;
+	role: string;
+	avatar: string;
 };
 
 export { UserProfil, User, UserLogin, UserCreate, UserUpdate, UserShort };

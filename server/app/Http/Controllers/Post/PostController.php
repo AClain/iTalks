@@ -8,6 +8,7 @@ use App\Http\Controllers\SearchController;
 use App\Models\Category;
 use App\Models\CategoryFollow;
 use App\Models\Comment;
+use App\Models\Feedback;
 use App\Models\Notification;
 use App\Models\NotificationTypes;
 use App\Models\Post;
@@ -23,6 +24,9 @@ use Illuminate\Support\Facades\File;
 
 use App\Models\Status;
 use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
+use Log;
 
 class PostController extends Controller
 {
@@ -33,35 +37,55 @@ class PostController extends Controller
      */
     public function feed(Request $request)
     {
+        $limit = $request->limit ?? 15;
+        $page = $request->page ?? 1;
+        $offset = $limit * ($page - 1);
+        $search = $request->search ?? "";
 
         $token = TokenController::parseToken($request->cookie('token'));
 
         $user = User::find($token['uid']);
-        $posts = Post::query();
+        $postsFollowed = Post::join('post_categories', 'posts.id', '=', 'post_categories.post_id')->select('posts.*');
+        $hasWhere = false;
 
-        $followedUsers = UserFollow::where('follower_id', $user->id)->first();
-
-        if ($followedUsers) {
-            $posts->where('user_id', $followedUsers->follower_id)->get();
+        foreach ($user->users_followed as $key => $following) {
+            if ($key === 1) {
+                $hasWhere = true;
+                $postsFollowed->where('user_id', $following->user['id']);
+                continue;
+            }
+            $postsFollowed->orWhere('user_id', $following->user['id']);
         }
 
-        return response()->json([
-            'posts' => $posts
-        ], 201);
-    }
+        foreach ($user->categories_followed as $key => $category) {
+            if (!$hasWhere && $key === 1) {
+                $postsFollowed->where('post_categories.category_id', $category->category);
+                continue;
+            }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function popular()
-    {
-        $posts = Post::all();
+            $postsFollowed->orWhere('post_categories.category_id', $category->category);
+        }
 
-        return response()->json([
-            'posts' => $posts,
-        ], 201);
+        $postsFollowed->distinct();
+
+        $total = $postsFollowed->get()->count();
+        $count = sizeof($postsFollowed->limit($limit)->offset($offset)->get());
+        $items = $postsFollowed->limit($limit)->offset($offset)->get();
+
+
+        $postsFollowedWithFeedback = $items->map(function ($post, $key) use ($user) {
+            $feedback = Feedback::where('user_id', $user->id)->where('type', 'post')->where('entity_id', $post->id)->first();
+            $post->feedback = $feedback ? $feedback->positive : null;
+            return $post;
+        });
+
+        return [
+            "total" => $total,
+            "count" => $count,
+            "items" => $postsFollowedWithFeedback->all(),
+        ];
+
+        return response()->json($search->getResults());
     }
 
     /**

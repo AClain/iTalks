@@ -9,7 +9,9 @@ const SIZES: IconButtonSizeType = {
 
 const useStyles = makeStyles({
 	default: {
-		padding: ".25em",
+		padding: ".50em",
+		height: "auto",
+		width: "auto",
 		color: (props: IconButtonStylesProps) => (props.light ? "var(--text)" : "var(--bg)"),
 		background: (props: IconButtonStylesProps) => (props.type ? `var(--${props.type})` : "var(--purple)"),
 		"&:hover": {

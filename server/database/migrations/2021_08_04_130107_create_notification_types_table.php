@@ -17,24 +17,23 @@ class CreateNotificationTypesTable extends Migration
         Schema::create('notification_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('status_id')->default(1);
 
             $table->timestamps();
         });
 
         $types = [
             [
-                'name' => 'message', 'status_id' => 1,
+                'name' => 'message',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'system', 'status_id' => 1,
+                'name' => 'system',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
-                'name' => 'default', 'status_id' => 1,
+                'name' => 'default',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

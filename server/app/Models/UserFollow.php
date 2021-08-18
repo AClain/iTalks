@@ -11,7 +11,7 @@ class UserFollow extends Model
 
     protected $table = "user_follows";
     protected $fillable = ['follower_id', 'user_id', 'has_notifications', 'status_id'];
-    protected $appends = ['since'];
+    protected $appends = ['since', 'user'];
     protected $hidden = ['id', 'follower_id', 'user_id', 'created_at', 'updated_at'];
 
     // Relationship methods
@@ -40,7 +40,7 @@ class UserFollow extends Model
         return [
             "id" => $follower->id,
             "username" => $follower->username,
-            "avatar" => $follower->avatar,
+            "avatar" => $follower->avatar
         ];
     }
 
@@ -51,7 +51,7 @@ class UserFollow extends Model
         return [
             "id" => $user->id,
             "username" => $user->username,
-            "avatar" => $user->avatar,
+            "avatar" => $user->avatar
         ];
     }
 

@@ -23,9 +23,18 @@ Default.args = {
 		user: {
 			id: 1,
 			username: "user45978",
-			feedback: null,
+			role: "admin",
+			avatar:
+				"https://images.unsplash.com/photo-1629105467735-5eb0a87f67f8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=662&q=80",
 		},
 		vote_count: 3694,
+		feedback: true,
+		categories: [
+			{
+				id: 1,
+				name: "Non catégorisé",
+			},
+		],
 	},
 };
 
@@ -44,9 +53,18 @@ Positive.args = {
 		user: {
 			id: 1,
 			username: "user45978",
-			feedback: true,
+			role: "admin",
+			avatar:
+				"https://images.unsplash.com/photo-1629105467735-5eb0a87f67f8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=662&q=80",
 		},
 		vote_count: 16,
+		feedback: true,
+		categories: [
+			{
+				id: 1,
+				name: "Non catégorisé",
+			},
+		],
 	},
 };
 
@@ -65,9 +83,18 @@ Negative.args = {
 		user: {
 			id: 1,
 			username: "user45978",
-			feedback: false,
+			role: "admin",
+			avatar:
+				"https://images.unsplash.com/photo-1629105467735-5eb0a87f67f8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=662&q=80",
 		},
 		vote_count: 124,
+		feedback: false,
+		categories: [
+			{
+				id: 1,
+				name: "Non catégorisé",
+			},
+		],
 	},
 };
 
@@ -97,8 +124,17 @@ WithImage.args = {
 		user: {
 			id: 1,
 			username: "user45978",
-			feedback: false,
+			role: "admin",
+			avatar:
+				"https://images.unsplash.com/photo-1629105467735-5eb0a87f67f8?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=662&q=80",
 		},
 		vote_count: 350,
+		feedback: null,
+		categories: [
+			{
+				id: 1,
+				name: "Non catégorisé",
+			},
+		],
 	},
 };

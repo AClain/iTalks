@@ -80,7 +80,7 @@ class User extends Model
 
     public function received_messages()
     {
-        return $this->hasMany(Message::class, 'receiver', 'id');
+        return $this->hasMany(Message::class, 'receiver_id', 'id');
     }
 
     public function sent_messages()

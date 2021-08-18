@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->text('email_token')->nullable();
             $table->foreignId('role_id')->default(5);
             $table->foreignId('resource_id')->nullable();
-            $table->foreignId('status_id');
+            $table->foreignIdFor(Status::class, 'status_id')->default(1);
             $table->timestamps(true);
         });
     }

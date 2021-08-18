@@ -18,7 +18,6 @@ class CreateCategoryFollowsTable extends Migration
             $table->foreignId('follower_id');
             $table->foreignId('category_id');
             $table->boolean('has_notifications')->nullabe()->default(false);
-            $table->foreignId('status_id');
             $table->timestamps();
         });
     }

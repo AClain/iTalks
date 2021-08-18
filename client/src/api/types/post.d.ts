@@ -10,8 +10,10 @@ declare type Post = {
 	is_edited: boolean;
 	created_at: string;
 	updated_at: string;
+	feedback: boolean | null;
 	status: string;
 	user: UserShort;
+	categories: CategoryShort[];
 	vote_count: number;
 	comment_count: number;
 	assiociated_resources?: Resource[];

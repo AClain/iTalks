@@ -10,8 +10,8 @@ class Post extends Model
 
     protected $table = "posts";
     protected $fillable = ['title', 'text', 'is_edited', 'user_id', 'status_id'];
-    protected $appends = ['status', 'user', 'vote_count', 'comment_count', 'associated_resources'];
-    protected $hidden = ['user_id', 'status_id', 'votes', 'comments', 'resources'];
+    protected $appends = ['status', 'user', 'categories', 'vote_count', 'comment_count', 'associated_resources'];
+    protected $hidden = ['user_id', 'status_id', 'votes', 'comments', 'resources', 'categories_relation'];
 
     // Relationship methods
 
@@ -32,12 +32,12 @@ class Post extends Model
 
     public function resources()
     {
-        return $this->belongsToMany(Resource::class, 'post_resources')->withTimestamps();
+        return $this->belongsToMany(Resource::class, 'post_resources');
     }
 
-    public function categories()
+    public function categories_relation()
     {
-        return $this->hasMany(Category::class);
+        return $this->belongsToMany(Category::class, "post_categories", "post_id", "category_id");
     }
 
     public function comments()
@@ -57,25 +57,41 @@ class Post extends Model
         return Status::find($this->status_id)->name;
     }
 
-    public function getVoteCountAttribute()
-    {
-        return $this->votes->count();
-    }
 
     public function getUserAttribute()
     {
         $user = User::find($this->user_id);
-        $feedback = Feedback::where('user_id', $this->user_id)->where('entity_id', $this->id)->first();
+
         return [
-            'id' => $user->id,
-            'username' => $user->username,
-            'feedback' => $feedback ? $feedback->positive : null
+            "id" => $user->id,
+            "username" => $user->username,
+            "role" => $user->role,
+            "avatar" => $user->avatar,
         ];
+    }
+
+    public function getCategoriesAttribute()
+    {
+        $categoriesShort = $this->categories_relation->map(function ($category, $key) {
+            return [
+                "id" => $category->id,
+                "name" => $category->name,
+                "color" => $category->color,
+                "text_color" => $category->text_color,
+            ];
+        });
+
+        return $categoriesShort->all();
     }
 
     public function getCommentCountAttribute()
     {
         return $this->comments->count();
+    }
+
+    public function getVoteCountAttribute()
+    {
+        return $this->votes->count();
     }
 
     public function getAssociatedResourcesAttribute()

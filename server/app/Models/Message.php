@@ -26,12 +26,12 @@ class Message extends Model
 
     public function status()
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(Status::class, 'id', 'status_id');
     }
 
     public function getSenderAttribute()
     {
-        return User::find($this->sender_id, ['id', 'username']);
+        return User::find($this->sender_id, ['id', 'role_id', 'status_id', 'resource_id', 'username']);
     }
 
     public function getStatusAttribute()

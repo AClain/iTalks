@@ -33,11 +33,9 @@ class UserController extends Controller
     {
         $token = TokenController::parseToken($request->cookie('token'));
 
-        $user = User::find($token['uid'])->load('badges', 'role', 'avatar', 'status');
+        $user = User::find($token['uid'])->load('badges')->makeHidden(['voted_posts', 'voted_comments']);
 
-        return response()->json([
-            'info' => $user
-        ]);
+        return response()->json($user);
     }
 
     public function profilPosts(Request $request)

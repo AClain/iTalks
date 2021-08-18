@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { ApiListDataResult, SingleDataResponse } from "api/types/api";
+import { ApiArrayDataResult, ApiListDataResult, SingleDataResponse } from "api/types/api";
 import { Category } from "api/types/category";
 import { Post } from "api/types/post";
 
@@ -10,7 +10,7 @@ class PostRequest {
 		this.instance = instance;
 	}
 
-	async all(): Promise<ApiListDataResult<Category>> {
+	async all(): Promise<ApiArrayDataResult<Category>> {
 		return this.instance.get("/categories");
 	}
 

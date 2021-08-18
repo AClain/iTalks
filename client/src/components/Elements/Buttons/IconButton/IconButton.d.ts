@@ -6,6 +6,7 @@ export enum IconButtonTypeEnum {
 	Success = "success",
 	Warning = "warning",
 	Danger = "danger",
+	Ghost = "transparent",
 }
 
 export type IconButtonSizeType = {
@@ -25,6 +26,7 @@ export interface IconButtonProps {
 	size?: IconButtonSizeEnum;
 	light?: boolean;
 	icon: ReactElement;
+	[x: string]: any;
 }
 
 export interface IconButtonStylesProps {

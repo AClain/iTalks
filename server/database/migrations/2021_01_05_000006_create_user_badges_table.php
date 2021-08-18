@@ -18,7 +18,6 @@ class CreateUserBadgesTable extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('badge_id');
-            $table->foreignIdFor(Status::class, 'status_id');
             $table->timestamps();
         });
     }

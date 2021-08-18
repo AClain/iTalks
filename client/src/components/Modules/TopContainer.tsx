@@ -14,7 +14,7 @@ const TopContainer: FC<TopContainerProps> = ({ sidebar, page, sideMargin }) => {
 	return (
 		<Box display='flex' height='100%' width='100%'>
 			{sidebar}
-			<Box display='flex' m={margin} flexGrow={1}>
+			<Box style={{ overflowY: "auto" }} display='flex' p={margin} flexGrow={1}>
 				{page}
 			</Box>
 		</Box>
