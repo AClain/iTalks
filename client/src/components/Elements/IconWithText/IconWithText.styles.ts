@@ -1,9 +1,15 @@
 import { makeStyles } from "@material-ui/core";
 
+interface IconWithTextStylesProps {
+	size?: string;
+	textColor?: string;
+}
+
 const useStyles = makeStyles({
 	label: {
-		margin: "0px 5px",
-		fontSize: (props: { size?: string }) => (props.size ? props.size : "18px"),
+		padding: "0px",
+		color: (props: IconWithTextStylesProps) => (props.textColor ? props.textColor : "inherit"),
+		fontSize: (props: IconWithTextStylesProps) => (props.size ? props.size : "18px"),
 	},
 });
 

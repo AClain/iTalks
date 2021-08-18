@@ -51,7 +51,7 @@ const Post: FC<{}> = () => {
 						<Title semantic={TitleVariantEnum.H3}>{post.title}</Title>
 						<Typography style={{ margin: "150px 0px" }}>{post.text}</Typography>
 
-						<Title semantic={TitleVariantEnum.H5}>Commentaires</Title>
+						<Title semantic={TitleVariantEnum.H5}>Commentaires ({post.comment_count})</Title>
 
 						<CommentSection postId={post.id} />
 					</Flex>

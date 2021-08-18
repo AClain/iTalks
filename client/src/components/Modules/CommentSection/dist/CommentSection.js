@@ -93,7 +93,7 @@ var CommentSection = function (_a) {
     return (React.createElement(core_1.Box, null,
         React.createElement("form", { className: styles.form, noValidate: true, autoComplete: 'off', onSubmit: handleSubmit(send) },
             React.createElement(core_1.FormControl, { className: styles.messageFormControl, variant: 'outlined' },
-                React.createElement(core_1.OutlinedInput, __assign({ id: 'message', type: 'text', multiline: true }, register("message"), { className: styles.messageInput, endAdornment: React.createElement(core_1.InputAdornment, { position: 'end' },
+                React.createElement(core_1.OutlinedInput, __assign({ id: 'message', type: 'text', placeholder: 'Ajouter un commentaire ...', multiline: true }, register("message"), { className: styles.messageInput, endAdornment: React.createElement(core_1.InputAdornment, { position: 'end' },
                         React.createElement(core_1.IconButton, { onClick: send },
                             React.createElement(bi_1.BiSend, { className: styles.messageInputIcon }))), onKeyDown: handleKeyDown })))),
         React.createElement("div", { ref: topRef }),

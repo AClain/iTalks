@@ -35,7 +35,12 @@ const CategorySearchResults: FC<CategorySearchResultsProps> = ({ dataCategories 
 							align={FlexAlignEnum.Center}
 						>
 							<Title semantic={TitleVariantEnum.H6} className={styles.name}>
-								<IconWithText className={styles.name} icon={<HiTag fontSize='18px' color={c.color} />} label={c.name} />
+								<IconWithText
+									start
+									className={styles.name}
+									icon={<HiTag fontSize='18px' color={c.color} />}
+									label={c.name}
+								/>
 							</Title>
 						</Flex>
 					</ResetLink>

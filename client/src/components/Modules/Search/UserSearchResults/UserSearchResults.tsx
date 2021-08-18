@@ -6,7 +6,6 @@ import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 import { HiOutlineUserCircle } from "react-icons/hi";
 import { FlexAlignEnum, FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 import Flex from "components/Elements/Layout/Flex/Flex";
-import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
 import { useStyles } from "./UserSearchResults.styles";
 import Avatar from "components/Elements/Avatar/Avatar";
 

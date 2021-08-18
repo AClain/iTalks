@@ -1,7 +1,9 @@
 // React
 import { FC, ReactElement } from "react";
 // Material ui
-import { Box } from "@material-ui/core";
+import Flex from "components/Elements/Layout/Flex/Flex";
+import { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
+import { useStyles } from "./TopContainer.styles";
 
 declare interface TopContainerProps {
 	sidebar?: ReactElement;
@@ -10,14 +12,17 @@ declare interface TopContainerProps {
 }
 
 const TopContainer: FC<TopContainerProps> = ({ sidebar, page, sideMargin }) => {
-	const margin = sideMargin ? "50px " + sideMargin + "px" : "50px";
+	// Styles
+	const styles = useStyles();
+
+	const margin = sideMargin ? "50px " + sideMargin + "px 150px " + sideMargin + "px" : "50px 50px 150px 50px";
 	return (
-		<Box display='flex' height='100%' width='100%'>
+		<Flex direction={FlexDirectionEnum.Horizontal} fullWidth height='100%'>
 			{sidebar}
-			<Box style={{ overflowY: "auto" }} display='flex' p={margin} flexGrow={1}>
+			<Flex direction={FlexDirectionEnum.Vertical} className={styles.pageContainer} p={margin}>
 				{page}
-			</Box>
-		</Box>
+			</Flex>
+		</Flex>
 	);
 };
 

@@ -4,10 +4,8 @@ import { Post as PostType } from "api/types/post";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 import { HiOutlineChatAlt2 } from "react-icons/hi";
-import IconWithText from "components/Elements/IconWithText/IconWithText";
 import { FlexAlignEnum, FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 import Flex from "components/Elements/Layout/Flex/Flex";
-import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
 import moment from "moment";
 import { useStyles } from "./PostSearchResults.styles";
 

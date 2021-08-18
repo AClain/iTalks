@@ -1,14 +1,10 @@
 import { FC, useContext, useEffect } from "react";
 
 import { useStyles } from "./Alert.styles";
-import Flex from "components/Elements/Layout/Flex/Flex";
-import { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
 import { AlertContext } from "providers/AlertContext";
 import { Alert as MUIAlert, AlertTitle } from "@material-ui/lab";
 
-interface AlertProps {}
-
-const Alert: FC<AlertProps> = ({}) => {
+const Alert: FC<{}> = () => {
 	// Styles
 	const styles = useStyles();
 	const { alert, setAlert } = useContext(AlertContext);
@@ -38,7 +34,7 @@ const Alert: FC<AlertProps> = ({}) => {
 		return () => {
 			clearTimeout(event);
 		};
-	}, [alert]);
+	});
 
 	return alert.shouldDisplay ? (
 		<MUIAlert

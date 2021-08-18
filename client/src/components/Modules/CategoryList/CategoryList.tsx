@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import { Box } from "@material-ui/core";
 import { api } from "api/api.request";
 import { AxiosError } from "axios";
 import { Category as CategoryType } from "api/types/category";
@@ -7,7 +6,6 @@ import CategoryShort from "components/Submodules/CategoryShort/CategoryShort";
 import Flex from "components/Elements/Layout/Flex/Flex";
 import { FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
 import Loading from "components/Elements/Animations/Loading/Loading";
-import { useLocation } from "react-router-dom";
 
 const CategoryList: FC<{}> = () => {
 	const [loading, setLoading] = useState(true);

@@ -15,10 +15,10 @@ var react_1 = require("react");
 var Alert_styles_1 = require("./Alert.styles");
 var AlertContext_1 = require("providers/AlertContext");
 var lab_1 = require("@material-ui/lab");
-var Alert = function (_a) {
+var Alert = function () {
     // Styles
     var styles = Alert_styles_1.useStyles();
-    var _b = react_1.useContext(AlertContext_1.AlertContext), alert = _b.alert, setAlert = _b.setAlert;
+    var _a = react_1.useContext(AlertContext_1.AlertContext), alert = _a.alert, setAlert = _a.setAlert;
     // Custom methods
     var displayTitle = function () {
         var title = "Information";
@@ -43,7 +43,7 @@ var Alert = function (_a) {
         return function () {
             clearTimeout(event);
         };
-    }, [alert]);
+    });
     return alert.shouldDisplay ? (React.createElement(lab_1.Alert, { className: styles.alert + " " + (alert.shouldDisplay ? styles.alertShow : styles.alertHidden), severity: alert.variant },
         React.createElement(lab_1.AlertTitle, null, displayTitle()),
         alert.message)) : null;
