@@ -48,6 +48,15 @@ class UserController extends Controller
         ]);
     }
 
+    public function profilPostsByUserId(Request $request, int $user_id)
+    {
+        $user = User::find($user_id);
+
+        return response()->json([
+            'posts' => $user->posts
+        ]);
+    }
+
     public function profilComments(Request $request)
     {
         $token = TokenController::parseToken($request->cookie('token'));
