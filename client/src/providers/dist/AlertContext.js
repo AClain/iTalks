@@ -7,7 +7,7 @@ var AlertContextVariantEnum;
     AlertContextVariantEnum["Info"] = "info";
     AlertContextVariantEnum["Success"] = "success";
     AlertContextVariantEnum["Warning"] = "warning";
-    AlertContextVariantEnum["Danger"] = "danger";
+    AlertContextVariantEnum["Error"] = "error";
 })(AlertContextVariantEnum = exports.AlertContextVariantEnum || (exports.AlertContextVariantEnum = {}));
 var DEFAULT_CONTEXT = {
     message: "Info",

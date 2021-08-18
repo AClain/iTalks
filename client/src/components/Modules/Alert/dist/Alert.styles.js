@@ -5,7 +5,8 @@ var core_1 = require("@material-ui/core");
 var useStyles = core_1.makeStyles({
     alert: {
         position: "fixed",
-        bottom: "55px",
+        top: "55px",
+        right: "0px",
         paddingRight: "50px",
         width: "100%"
     },

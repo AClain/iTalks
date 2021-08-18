@@ -28,7 +28,7 @@ export default function App() {
 	const [alert, setAlert] = useState({
 		message: "Succes!",
 		status: "success",
-		shouldDisplay: false,
+		shouldDisplay: true,
 	});
 
 	return (

@@ -13,9 +13,8 @@ var __assign = (this && this.__assign) || function () {
 exports.__esModule = true;
 var react_1 = require("react");
 var Alert_styles_1 = require("./Alert.styles");
-var Flex_1 = require("components/Elements/Layout/Flex/Flex");
-var Flex_d_1 = require("components/Elements/Layout/Flex/Flex.d");
 var AlertContext_1 = require("providers/AlertContext");
+var lab_1 = require("@material-ui/lab");
 var Alert = function (_a) {
     // Styles
     var styles = Alert_styles_1.useStyles();
@@ -23,11 +22,11 @@ var Alert = function (_a) {
     react_1.useEffect(function () {
         var event = setTimeout(function () {
             setAlert(__assign(__assign({}, alert), { shouldDisplay: false }));
-        }, 5000);
+        }, 50000000);
         return function () {
             clearTimeout(event);
         };
     }, [alert.shouldDisplay]);
-    return alert.shouldDisplay ? (React.createElement(Flex_1["default"], { className: (alert.shouldDisplay ? styles.alertShow : styles.alertHidden) + " " + styles.alert, direction: Flex_d_1.FlexDirectionEnum.Horizontal })) : null;
+    return alert.shouldDisplay ? (React.createElement(lab_1.Alert, { className: styles.alert + " " + (alert.shouldDisplay ? styles.alertShow : styles.alertHidden), severity: alert.variant })) : null;
 };
 exports["default"] = Alert;

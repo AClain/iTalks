@@ -4,7 +4,7 @@ export enum AlertContextVariantEnum {
 	Info = "info",
 	Success = "success",
 	Warning = "warning",
-	Danger = "danger",
+	Error = "error",
 }
 
 export type AlertContextProps = {

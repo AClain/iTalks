@@ -16,30 +16,17 @@ const Alert: FC<AlertProps> = ({}) => {
 	useEffect(() => {
 		let event = setTimeout(() => {
 			setAlert({ ...alert, shouldDisplay: false });
-		}, 5000);
+		}, 50000000);
 		return () => {
 			clearTimeout(event);
 		};
 	}, [alert.shouldDisplay]);
 
 	return alert.shouldDisplay ? (
-		<Flex
-			className={`${alert.shouldDisplay ? styles.alertShow : styles.alertHidden} ${styles.alert}`}
-			direction={FlexDirectionEnum.Horizontal}
-		>
-			{/* <MUIAlert severity={alert.variant}></MUIAlert>
-
-			<Alert id='global-alert' status={alert.status} w='max-content' variant='left-accent'>
-				<AlertIcon />
-				{alert.message}
-				<CloseButton
-					ml='100'
-					onClick={() => {
-						setAlert({ ...alert, shouldDisplay: false });
-					}}
-				/>
-			</Alert> */}
-		</Flex>
+		<MUIAlert
+			className={`${styles.alert} ${alert.shouldDisplay ? styles.alertShow : styles.alertHidden}`}
+			severity={alert.variant}
+		></MUIAlert>
 	) : null;
 };
 
