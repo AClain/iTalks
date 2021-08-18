@@ -8,6 +8,8 @@ import Paginate from "components/Submodules/Paginate/Paginate";
 import { useForm } from "react-hook-form";
 import { BiSend } from "react-icons/bi";
 import { useStyles } from "components/Modules/CommentSection/CommentSection.styles";
+import Title from "components/Elements/Typograhpy/Title/Title";
+import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 
 interface CommentSectionProps {
 	postId: number;
@@ -87,6 +89,7 @@ const CommentSection: FC<CommentSectionProps> = ({ postId, ...rest }) => {
 					<OutlinedInput
 						id='message'
 						type='text'
+						placeholder='Ajouter un commentaire ...'
 						multiline
 						{...register("message")}
 						className={styles.messageInput}

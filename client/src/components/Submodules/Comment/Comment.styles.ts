@@ -15,6 +15,12 @@ const useStyles = makeStyles({
 		fontStyle: "italic",
 		opacity: 0.5,
 	},
+	childrenCommentButton: {
+		width: "max-content",
+		"&:hover": {
+			cursor: "pointer",
+		},
+	},
 });
 
 export { useStyles };

@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import { Box, Typography } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
 import { Post as PostType } from "api/types/post";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
@@ -54,7 +54,7 @@ const PostShort: FC<PostProps> = ({ post }) => {
 						<BullDivider />
 						<Typography className={styles.date}>{moment(post.created_at).fromNow()}</Typography>
 					</Flex>
-					<IconWithText icon={<RiChat4Line fontSize='18px' />} label={post.comment_count.toString()} />
+					<IconWithText start icon={<RiChat4Line fontSize='18px' />} label={post.comment_count.toString()} />
 				</Flex>
 			</Flex>
 			{post.assiociated_resources ? (

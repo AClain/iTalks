@@ -30,7 +30,7 @@ const Messages: FC<{}> = () => {
 	const [users, setUsers] = useState<UserShort[]>([]);
 	const [searchUsers, setSearchUsers] = useState<UserShort[]>([]);
 	const [fetchingUsers, setFetchingUsers] = useState(true);
-
+	// Functions
 	const handleSearch = (e: any): any => {
 		const search: Search = {
 			limit: 10,
@@ -55,7 +55,7 @@ const Messages: FC<{}> = () => {
 
 		return false;
 	};
-
+	// Effects
 	useEffect(() => {
 		setFetchingUsers(true);
 
@@ -73,7 +73,7 @@ const Messages: FC<{}> = () => {
 			.finally(() => {
 				setFetchingUsers(false);
 			});
-	}, []);
+	}, [id, history]);
 
 	return (
 		<Flex className={styles.container} direction={FlexDirectionEnum.Horizontal} width='100%'>

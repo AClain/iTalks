@@ -106,6 +106,7 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('categories', [CategoryController::class, 'all'])->name('getAllCategory');
     Route::get('category/{name}', [CategoryController::class, 'get'])->name('getCategoryPosts');
 
+    Route::get('comment/{id}/children', [CommentController::class, 'getChildren'])->name('getChildren');
     Route::post('comment/{postId}', [CommentController::class, 'store'])->name('createComment');
     Route::put('comment/{id}', [CommentController::class, 'update'])->name('updateComment');
     Route::delete('comment/{id}', [CommentController::class, 'destroy'])->name('deleteComment');

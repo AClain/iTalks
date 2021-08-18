@@ -1,5 +1,5 @@
 import { AxiosInstance } from "axios";
-import { ApiListDataResult, Search } from "api/types/api";
+import { ApiArrayDataResult, ApiListDataResult, Search } from "api/types/api";
 import { Comment } from "api/types/comment";
 
 class CommentRequest {
@@ -11,6 +11,10 @@ class CommentRequest {
 
 	async all(postId: number, options: Search): Promise<ApiListDataResult<Comment>> {
 		return this.instance.get(`/post/${postId}/comments`, { params: options });
+	}
+
+	async getChildren(commentId: number): Promise<ApiArrayDataResult<Comment>> {
+		return this.instance.get(`/comment/${commentId}/children`);
 	}
 
 	async send(postId: number, message: string): Promise<ApiListDataResult<Comment>> {

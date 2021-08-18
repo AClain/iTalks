@@ -29,6 +29,8 @@ var Avatar_1 = require("components/Elements/Avatar/Avatar");
 var moment_1 = require("moment");
 var BullDivider_1 = require("components/Elements/Layout/BullDivider/BullDivider");
 var Comment_styles_1 = require("./Comment.styles");
+var bi_1 = require("react-icons/bi");
+var IconWithText_1 = require("components/Elements/IconWithText/IconWithText");
 var Comment = function (_a) {
     var comment = _a.comment, rest = __rest(_a, ["comment"]);
     var styles = Comment_styles_1.useStyles();
@@ -38,6 +40,7 @@ var Comment = function (_a) {
             React.createElement(core_1.Typography, { component: 'pre', style: { marginLeft: "15px" } }, comment.user.username),
             React.createElement(BullDivider_1["default"], null),
             React.createElement(core_1.Typography, { className: styles.timestamp }, moment_1["default"](comment.created_at).fromNow())),
-        React.createElement(core_1.Typography, null, comment.text)));
+        React.createElement(core_1.Typography, null, comment.text),
+        React.createElement(IconWithText_1["default"], { start: false, icon: React.createElement(bi_1.BiDownArrow, null), label: "Afficher " + comment.children_comment_count + " r\u00E9ponse(s)" })));
 };
 exports["default"] = Comment;
