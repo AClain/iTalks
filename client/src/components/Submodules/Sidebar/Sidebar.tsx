@@ -31,7 +31,7 @@ const Sidebar: FC<{}> = () => {
 	return (
 		<Flex direction={FlexDirectionEnum.Vertical} centered className={styles.sidebar}>
 			<ResetLink to='/'>
-				<Icon icon={<HiHome />} active={["/", "/popular", "/recent", "/post/new"].includes(currentPath)} />
+				<Icon icon={<HiHome />} active={["/", "/home", "/categories", "/recent", "/new"].includes(currentPath)} />
 			</ResetLink>
 			<ResetLink to='/search'>
 				<Icon icon={<HiSearch />} active={currentPath.includes("search")} />

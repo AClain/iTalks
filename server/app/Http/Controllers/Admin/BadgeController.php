@@ -29,7 +29,7 @@ class BadgeController extends Controller
 
         $Badge = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
 
-        return response()->json( $Badge->getResults(), 201);
+        return response()->json($Badge->getResults(), 201);
     }
 
     /**
@@ -217,7 +217,7 @@ class BadgeController extends Controller
 
         if ($badge && $request->hasFile('image')) {
             $file_extention = $request->file('image')->getClientOriginalExtension();
-            if (!in_array($file_extention, ['jpeg', 'jpg', 'png', 'gif'])) {
+            if (!in_array($file_extention, ['jpeg', 'jpg', 'png', 'gif', 'svg'])) {
                 return response()->json([
                     'errors' => [
                         'image' => 'L\'extension du fichier n\'est pas accepté. (' . $file_extention . ')'
@@ -303,7 +303,7 @@ class BadgeController extends Controller
         $file->storeAs('badges/' . $badge->id, 'image.' . $file_extention, 'local');
 
         $resource = new Resource();
-        $resource->link = 'http://localhost:18080/api/image/badge/' . $badge->id . '/' . $filename;
+        $resource->link = config('app.url') . ':' . config('app.port') . '/api/image/badge/' . $badge->id . '/' . $filename;
         $resource->name = $filename;
         $resource->status_id = 1;
         $resource->save();

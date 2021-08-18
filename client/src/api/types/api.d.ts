@@ -27,6 +27,7 @@ type Search = {
 };
 
 type ApiResult = AxiosResponse<ServiceResponse>;
+type ApiArrayDataResult<T> = AxiosResponse<T[]>;
 type ApiListDataResult<T> = AxiosResponse<ListDataResponse<T>>;
 
-export { SingleDataResponse, ApiResult, ApiListDataResult, Search, ListDataResponse };
+export { SingleDataResponse, ApiResult, ApiArrayDataResult, ApiListDataResult, Search, ListDataResponse };

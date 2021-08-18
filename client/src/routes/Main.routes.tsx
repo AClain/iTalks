@@ -20,6 +20,7 @@ import Sidebar from "components/Submodules/Sidebar/Sidebar";
 import Logout from "components/Pages/Logout";
 import LoginForm from "components/Pages/LoginForm";
 import RegisterForm from "components/Pages/RegisterForm";
+import CategoryPage from "components/Pages/Secondary/CategoryPage";
 
 const Routes: FC<{}> = () => {
 	let location = useLocation();
@@ -28,8 +29,8 @@ const Routes: FC<{}> = () => {
 	return (
 		<>
 			<Switch>
-				{/* Authenticated routes */}
-				<AuthenticatedRoute exact path='/'>
+				{/* Authenticated main routes */}
+				<AuthenticatedRoute exact path={["/", "/home", "/recent", "/categories", "/new"]}>
 					<TopContainer sidebar={<Sidebar />} page={<Home />} />
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/search'>
@@ -52,6 +53,11 @@ const Routes: FC<{}> = () => {
 				</AuthenticatedRoute>
 				<AuthenticatedRoute exact path='/logout'>
 					<TopContainer page={<Logout />} />
+				</AuthenticatedRoute>
+
+				{/* Authenticated secondary routes */}
+				<AuthenticatedRoute exact path='/category/:id'>
+					<TopContainer sidebar={<Sidebar />} page={<CategoryPage />} />
 				</AuthenticatedRoute>
 
 				{/* Unauthenticated routes */}
