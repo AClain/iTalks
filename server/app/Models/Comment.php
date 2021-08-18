@@ -12,7 +12,7 @@ class Comment extends Model
 
     protected $table = "comments";
     protected $fillable = ['user_id', 'post_id', 'text', 'is_edited', 'parent_id', 'status_id'];
-    protected $appends = ['status', 'user', 'vote_count', 'childrenCommentCount'];
+    protected $appends = ['status', 'user', 'vote_count', 'children_comment_count'];
     protected $hidden = ['user_id', 'post_id', 'parent_id', 'status_id', 'votes'];
 
     public function user()

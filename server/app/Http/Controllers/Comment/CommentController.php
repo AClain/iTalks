@@ -52,6 +52,27 @@ class CommentController extends Controller
     }
 
     /**
+     * Display a selected comment.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getChildren(int $id)
+    {
+        $comment = Comment::find($id);
+
+        if (!$comment) {
+            return response()->json([
+                'message' => 'Le commentaire n\'a pas été trouvé.',
+            ], 404);
+        }
+
+        $childrens = Comment::where('parent_id', $comment->id)->get();
+
+        return response()->json($childrens, 201);
+    }
+
+    /**
      * Store a newly created comment.
      *
      * @param Request $request

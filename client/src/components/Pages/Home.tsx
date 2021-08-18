@@ -12,15 +12,15 @@ const Home: FC<{}> = () => {
 	let history = useHistory();
 	let location = useLocation();
 	const currentPath = location.pathname;
-
+	// States
 	const [currentTab, setCurrentTab] = useState(0);
-
+	// Variables
 	const tabHeaders = [
 		{ title: "Récent", color: "var(--info)" },
 		{ title: "Catégories", color: "var(--warning)" },
 		{ title: "Publier", color: "var(--success)" },
 	];
-
+	// Functions
 	const handleChange = (event: any, newValue: number): void => {
 		setCurrentTab(newValue);
 
@@ -36,13 +36,6 @@ const Home: FC<{}> = () => {
 				break;
 		}
 	};
-
-	useEffect(() => {
-		console.log(currentPath);
-		setCurrentTab(getCurrentActiveTab(currentPath));
-		return () => {};
-	}, [location]);
-
 	const getCurrentActiveTab = (url: string) => {
 		if (["/", "/home", "/recent"].includes(url)) {
 			return 0;
@@ -54,10 +47,14 @@ const Home: FC<{}> = () => {
 
 		return 2;
 	};
-
 	const fetchFeed = (options: Search) => {
 		return api.post.feed(options);
 	};
+	// Effects
+	useEffect(() => {
+		setCurrentTab(getCurrentActiveTab(currentPath));
+		return () => {};
+	}, [currentPath]);
 
 	return (
 		<Box width='100%'>

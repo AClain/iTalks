@@ -16,7 +16,7 @@ import { EventContext } from "providers/EventContext";
 import EventProvider from "providers/EventProvider";
 import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-import { AlertContext } from "providers/AlertContext";
+import { AlertContext, AlertContextVariantEnum } from "providers/AlertContext";
 import Alert from "components/Modules/Alert/Alert";
 
 moment.locale("fr");
@@ -27,8 +27,8 @@ export default function App() {
 
 	const [alert, setAlert] = useState({
 		message: "Succes!",
-		status: "success",
-		shouldDisplay: true,
+		variant: AlertContextVariantEnum.Info,
+		shouldDisplay: false,
 	});
 
 	return (

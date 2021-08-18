@@ -1,5 +1,4 @@
-import { FC, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { FC } from "react";
 import { Tabs, Tab, Box } from "@material-ui/core";
 
 import { useStyles } from "./CenteredTabs.styles";

@@ -52,7 +52,7 @@ const PostList: FC<PostListProps> = ({ fetchPosts, reload }) => {
 			});
 
 		return () => {};
-	}, [options, reload]);
+	}, [fetchPosts, options, reload]);
 
 	return (
 		<Box className={styles.list}>
