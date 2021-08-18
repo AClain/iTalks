@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
@@ -61,6 +62,7 @@ class UserAuthController extends Controller
         $user->password = Hash::make(request('password'));
 
         if ($user->save()) {
+            LogController::log("L'utilisateur " . $user->username . " vient de s'inscrire sur le site.");
             $token = TokenController::generateToken($user, null);
             $emailVerifyToken = TokenController::generateEmailVerifyToken($user);
             $user->update(['email_token' => $emailVerifyToken->toString()]);

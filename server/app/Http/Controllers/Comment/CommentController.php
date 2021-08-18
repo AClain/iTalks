@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Comment;
 
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Status;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
@@ -15,7 +19,7 @@ class CommentController extends Controller
     /**
      * Display a listing of the comment.
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function index()
     {
@@ -30,7 +34,7 @@ class CommentController extends Controller
      * Display a selected comment.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function get(int $id)
     {
@@ -50,8 +54,9 @@ class CommentController extends Controller
     /**
      * Store a newly created comment.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $postId
+     * @return JsonResponse
      */
     public function store(Request $request, int $postId)
     {
@@ -82,7 +87,10 @@ class CommentController extends Controller
         }
         $save = $comment->save();
 
+        $post = Post::find($comment->post_id);
+
         if ($save) {
+            LogController::log("L'utilisateur " . TokenController::getUserCurrent($request)->username . " vient de commenté sur le post " . $post->title . ".");
             return response()->json([
                 'message' => 'Commentaire ajouté avec succès!'
             ], 201);
@@ -96,9 +104,9 @@ class CommentController extends Controller
     /**
      * Update the specified comment.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
     public function update(Request $request, int $id)
     {
@@ -129,7 +137,10 @@ class CommentController extends Controller
         $comment->text = request('text');
         $comment->is_edited = true;
 
+        $post = Post::find($comment->post_id);
+
         if ($comment->save()) {
+            LogController::log("L'utilisateur " . TokenController::getUserCurrent($request)->username . " vient de mettre à jour son commentaire sur le post " . $post->title . ".");
             return response()->json([
                 'message' => 'Commentaire mis à jour avec succès!',
                 'comment' => $comment
@@ -144,8 +155,9 @@ class CommentController extends Controller
     /**
      * Remove the specified comment.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param int $id
+     * @return JsonResponse
      */
     public function destroy(Request $request, int $id)
     {
@@ -160,7 +172,10 @@ class CommentController extends Controller
 
         $comment->status_id = $status->id;
 
+        $post = Post::find($comment->post_id);
+
         if ($comment->save()) {
+            LogController::log("L'utilisateur " . TokenController::getUserCurrent($request)->username . " vient de supprimé son commentaire sur le post " . $post->title . ".");
             return response()->json([
                 'message' => 'Commentaire supprimé avec succès!',
             ], 201);

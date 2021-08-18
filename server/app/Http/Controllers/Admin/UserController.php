@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\SearchController;
 use App\Models\Resource;
 use App\Models\Role;
@@ -56,6 +57,8 @@ class UserController extends Controller
         $user->status_id = $status->id;
         $user->password = Hash::make(request('password'));
         $save = $user->save();
+
+        LogController::log("L'utilisateur " . $user->username . " vient d'être ajouté par " . TokenController::getUserCurrent($request)->username . ".");
 
         if ($save) {
             if ($request->hasFile('avatar')) {
@@ -124,6 +127,8 @@ class UserController extends Controller
         $user->password = request('password') ? Hash::make(request('password')) : $user->password;
         $update = $user->save();
 
+        LogController::log("L'utilisateur " . $user->username . " vient d'être mise à jour par " . TokenController::getUserCurrent($request)->username . ".");
+
         if ($update) {
             return response()->json([
                 'message' => 'Utilisateur mis à jour avec succès!',
@@ -162,7 +167,7 @@ class UserController extends Controller
         ], 404);
     }
 
-    public function destroy(int $id)
+    public function destroy(Request $request, int $id)
     {
         $user = User::find($id);
 
@@ -173,6 +178,7 @@ class UserController extends Controller
         $user->status_id = $status->id;
 
         if ($user->save()) {
+            LogController::log("L'utilisateur " . $user->username . " vient d'être supprimé par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Utilisateur supprimé avec succès!'
             ], 201);
@@ -228,6 +234,8 @@ class UserController extends Controller
 
             $this->storeAvatar($request->file('avatar'), $user);
 
+            LogController::log("L'avatar de l'utilisateur  " . $user->username . " vient d'être mise à jour par " . TokenController::getUserCurrent($request)->username . ".");
+
             return response()->json([
                 'message' => 'L\'avatar a été modifié avec succès!',
                 'user' => $user
@@ -257,6 +265,9 @@ class UserController extends Controller
 
                 $user->resource_id = null;
                 $user->save();
+
+                LogController::log("L'avatar de l'utilisateur  " . $user->username . " vient d'être supprimé par " . TokenController::getUserCurrent($request)->username . ".");
+
 
                 return response()->json([
                     'message' => 'L\'image de l\'utilisateur a été supprimée avec succés!'

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\TokenController;
 use App\Models\Category;
@@ -80,6 +81,7 @@ class FollowController extends Controller
         }
 
         if ($follow) {
+            LogController::log("L'utilisateur' " . $following->name . " vient de suivre " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Vous suivez maintenant ' . ($following->username ?? 'la catégorie ' . $following->name) . '.',
             ], 400);
@@ -140,6 +142,7 @@ class FollowController extends Controller
         }
 
         if ($follow->delete()) {
+            LogController::log("L'utilisateur' " . $following->name . " suis plus " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Vous ne suivez plus ' . ($following->username ?? 'la catégorie ' . $following->name) . '.',
             ], 400);

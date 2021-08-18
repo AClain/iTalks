@@ -19,7 +19,9 @@ class DatabaseSeeder extends Seeder
             FollowSeeder::class,
             PostSeeder::class,
             CommentSeeder::class,
+            FeedbackSeeder::class,
             PostSavedSeeder::class,
+            AdminSeeder::class
         ]);
     }
 }

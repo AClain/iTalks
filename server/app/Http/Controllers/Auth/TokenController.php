@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 
+use Illuminate\Http\Request;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
@@ -135,4 +136,13 @@ class TokenController extends Controller
 
         return $token->claims()->all();
     }
+
+    /**
+     * Get user current
+     *
+     */
+    public static function getUserCurrent(Request $request) {
+        return User::find(self::parseToken($request->cookie('token'))['uid']);
+    }
+
 }

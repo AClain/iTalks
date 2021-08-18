@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 
 use App\Http\Controllers\SearchController;
+use App\Models\Status;
 use App\Models\UserBadge;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,7 +15,6 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Badge;
-use App\Models\Status;
 use App\Models\Resource;
 
 class BadgeController extends Controller
@@ -29,7 +30,7 @@ class BadgeController extends Controller
 
         $Badge = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
 
-        return response()->json( $Badge->getResults(), 201);
+        return response()->json($Badge->getResults(), 201);
     }
 
     /**
@@ -91,9 +92,11 @@ class BadgeController extends Controller
         $badge->name = trim(request('name'));
         $badge->description = trim(request('description'));
         $badge->status_id = $status->id;
-        $save = $badge->save();
 
-        if ($save) {
+        if ($badge->save()) {
+
+            LogController::log("Le badge " . $badge->name . " vient d'être ajouté par " . TokenController::getUserCurrent($request)->username . ".");
+
             if ($request->hasFile('image')) {
                 $this->storeImage($request->file('image'), $badge);
             }
@@ -154,6 +157,7 @@ class BadgeController extends Controller
         $update = $badge->save();
 
         if ($update) {
+            LogController::log("Le badge " . $badge->name . " vient d'être mis à jour par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Badge mis à jour avec succès!',
                 'badge' => $badge
@@ -171,7 +175,7 @@ class BadgeController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $badge = Badge::find($id);
 
@@ -200,6 +204,7 @@ class BadgeController extends Controller
         $delete = $badge->delete();
 
         if ($delete) {
+            LogController::log("Le badge " . $badge->name . "vient d'être supprimé par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Badge supprimé avec succès!'
             ], 201);
@@ -214,10 +219,9 @@ class BadgeController extends Controller
     {
         $badge = Badge::find($id);
 
-
         if ($badge && $request->hasFile('image')) {
             $file_extention = $request->file('image')->getClientOriginalExtension();
-            if (!in_array($file_extention, ['jpeg', 'jpg', 'png', 'gif'])) {
+            if (!in_array($file_extention, ['jpeg', 'jpg', 'png', 'gif', 'svg'])) {
                 return response()->json([
                     'errors' => [
                         'image' => 'L\'extension du fichier n\'est pas accepté. (' . $file_extention . ')'
@@ -235,6 +239,8 @@ class BadgeController extends Controller
 
             $this->storeImage($request->file('image'), $badge);
 
+            LogController::log("L'image du badge " . $badge->name . " vient d'être mis à jour par " . TokenController::getUserCurrent($request)->username . ".");
+
             return response()->json([
                 'message' => 'L\'image a été modifiée avec succès!',
                 'badge' => $badge
@@ -246,7 +252,7 @@ class BadgeController extends Controller
         ], 404);
     }
 
-    public function deleteImageOuter($id)
+    public function deleteImageOuter(Request $request, $id)
     {
         $badge = Badge::find($id);
         $badge_image_resource = Resource::find($badge->image_resource_id);
@@ -263,6 +269,8 @@ class BadgeController extends Controller
 
             $badge->image_resource_id = null;
             $badge->save();
+
+            LogController::log("L'image du badge " . $badge->name . " vient d'être supprimé par " . TokenController::getUserCurrent($request)->username . ".");
 
             return response()->json([
                 'message' => 'L\'image a été supprimée avec succés!'
@@ -303,7 +311,7 @@ class BadgeController extends Controller
         $file->storeAs('badges/' . $badge->id, 'image.' . $file_extention, 'local');
 
         $resource = new Resource();
-        $resource->link = 'http://localhost:18080/api/image/badge/' . $badge->id . '/' . $filename;
+        $resource->link = config('app.url') . ':' . config('app.port') . '/api/image/badge/' . $badge->id . '/' . $filename;
         $resource->name = $filename;
         $resource->status_id = 1;
         $resource->save();

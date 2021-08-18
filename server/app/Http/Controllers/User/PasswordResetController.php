@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\TokenController;
 
@@ -67,6 +68,8 @@ class PasswordResetController extends Controller
 
             $password_reset_notify->save();
 
+            LogController::log("L'utilisateur " . $user->username . " vient de réinstialisé son mot de passe.");
+
             return response()->json([
                 'message' => 'Un email a été envoyé à l\'adresse indiquée.'
             ], 201);
@@ -106,6 +109,7 @@ class PasswordResetController extends Controller
         $user->password = Hash::make(request('password'));
 
         if ($user->save()) {
+            LogController::log("L'utilisateur " . $user->username . " vient de mettre à jour son mot de passe.");
             return response()->json([
                 'message' => 'Votre mot de passe a été mise à jour.'
             ], 201);

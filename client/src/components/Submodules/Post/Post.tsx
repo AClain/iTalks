@@ -12,12 +12,14 @@ import Flex from "components/Elements/Layout/Flex/Flex";
 import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
 import IconWithText from "components/Elements/IconWithText/IconWithText";
 import VoteCount from "../VoteCount/VoteCount";
+import CategoryBadge from "components/Elements/Badge/CategoryBadge/CategoryBadge";
 
 export interface PostProps {
 	post: PostType;
 }
 
 const Post: FC<PostProps> = ({ post }) => {
+	console.log(post);
 	const styles = useStyles();
 
 	const shortenContent = (content: string) => {
@@ -27,9 +29,12 @@ const Post: FC<PostProps> = ({ post }) => {
 	return (
 		<Flex direction={FlexDirectionEnum.Horizontal} justify={FlexJustifyEnum.SpaceBetween} className={styles.container}>
 			<Flex direction={FlexDirectionEnum.Vertical} className={styles.infos}>
-				<Flex direction={FlexDirectionEnum.Horizontal}>
+				<Flex direction={FlexDirectionEnum.Horizontal} align={FlexAlignEnum.Center}>
 					<Title semantic={TitleVariantEnum.H4}>{post.title}</Title>
-					<VoteCount votes={post.vote_count} positive={post.user.feedback!} />
+					<VoteCount votes={post.vote_count} positive={post.feedback} />
+					{post.categories.map((c, k) => (
+						<CategoryBadge category={c} key={k} />
+					))}
 				</Flex>
 
 				<Typography className={styles.content}>{shortenContent(post.text)}</Typography>

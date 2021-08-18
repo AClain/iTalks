@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class PostSaved extends Model
 {
     protected $table = "posts_saved";
-    protected $fillable = ['user_id', 'post_id', 'status_id'];
-    protected $hidden = ['user_id', 'post_id', 'status_id'];
+    protected $fillable = ['user_id', 'post_id'];
+    protected $hidden = ['user_id', 'post_id'];
 
     public function user()
     {
@@ -18,9 +18,5 @@ class PostSaved extends Model
     public function post()
     {
         return $this->belongsTo(Post::class);
-    }
-    public function status()
-    {
-        return $this->belongsTo(Status::class);
     }
 }

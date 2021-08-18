@@ -1,7 +1,5 @@
-import { IconButton } from "./IconButton";
+import IconButton from "./IconButton";
 import { IconButtonProps } from "./IconButton.d";
-
-import { HiCog } from "react-icons/hi";
 
 export default {
 	component: IconButton,

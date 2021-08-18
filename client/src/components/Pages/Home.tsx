@@ -1,38 +1,39 @@
 import { Box } from "@material-ui/core";
-import { api } from "api/api.request";
-import { AxiosError } from "axios";
+import CategoryList from "components/Modules/CategoryList/CategoryList";
 import PostList from "components/Modules/PostList/PostList";
 import CenteredTabs from "components/Submodules/Tabs/CenteredTabs/CenteredTabs";
-import { FC, useEffect, useState } from "react";
-import { Post } from "api/types/post";
+import { FC } from "react";
+import { useLocation } from "react-router-dom";
 
 const Home: FC<{}> = () => {
+	let location = useLocation();
+	const currentPath = location.pathname;
+
 	const tabHeaders = [
 		{ title: "Récent", color: "var(--info)" },
-		{ title: "Populaire", color: "var(--warning)" },
+		{ title: "Catégories", color: "var(--warning)" },
 		{ title: "Publier", color: "var(--success)" },
 	];
-	const [posts, setPosts] = useState<Post[] | []>([]);
 
-	useEffect(() => {
-		api.post
-			.feed({
-				page: 1,
-				limit: 25,
-				search: "",
-			})
-			.then((res) => setPosts(res.data.items))
-			.catch((err: AxiosError) => console.error(err));
+	const currentActiveTab = () => {
+		console.log(currentPath);
+		if (["/", "/home", "/recent"].includes(currentPath)) {
+			return 0;
+		}
 
-		return () => {};
-	}, []);
+		if (currentPath.includes("categories")) {
+			return 1;
+		}
+
+		return 2;
+	};
 
 	return (
 		<Box width='100%'>
 			<CenteredTabs
+				activeTab={currentActiveTab()}
 				tabHeaders={tabHeaders}
-				tabPanels={[<PostList posts={posts} />, "Populaire", "Publier"]}
-				fontSize='50px'
+				tabPanels={[<PostList />, <CategoryList />, "Publier"]}
 			></CenteredTabs>
 		</Box>
 	);

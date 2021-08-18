@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 
 use App\Http\Controllers\SearchController;
@@ -75,6 +76,7 @@ class StatusController extends Controller
         $save = $status->save();
 
         if ($save) {
+            LogController::log("Le status " . $status->name . " vient d'être ajouté par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Le statut a été créé avec succès!'
             ], 201);
@@ -126,6 +128,7 @@ class StatusController extends Controller
         $update = $status->save();
 
         if ($update) {
+            LogController::log("Le status " . $status->name . " vient d'être mise à jour par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Statut mis à jour avec succès!',
                 'status' => $status
@@ -177,6 +180,7 @@ class StatusController extends Controller
         $delete = $status->delete();
 
         if ($delete) {
+            LogController::log("Le status " . $status->name . " vient d'être supprimé par " . TokenController::getUserCurrent($request)->username . ".");
             return response()->json([
                 'message' => 'Statut supprimé avec succès!'
             ], 201);

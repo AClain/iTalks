@@ -15,4 +15,4 @@ const IconButton: FC<IconButtonProps> = ({ type, size, light, icon, ...rest }) =
 	);
 };
 
-export { IconButton };
+export default IconButton;
