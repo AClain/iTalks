@@ -72,6 +72,7 @@ const PostForm: FC<{}> = () => {
 					<Grid item xs={12}>
 						<TextField
 							{...register("title")}
+							error={typeof errors.title !== "undefined"}
 							name='title'
 							variant='outlined'
 							required
@@ -90,10 +91,12 @@ const PostForm: FC<{}> = () => {
 								},
 							}}
 						/>
+						<span className={styles.error}>{errors.title ? errors.title[0] : ""}</span>
 					</Grid>
 					<Grid item xs={12}>
 						<TextField
 							{...register("text")}
+							error={typeof errors.text !== "undefined"}
 							variant='outlined'
 							required
 							fullWidth
@@ -112,6 +115,7 @@ const PostForm: FC<{}> = () => {
 								},
 							}}
 						/>
+						<span className={styles.error}>{errors.text ? errors.text[0] : ""}</span>
 					</Grid>
 				</Grid>
 
@@ -123,6 +127,7 @@ const PostForm: FC<{}> = () => {
 								...provided,
 								width: "150px",
 								color: "var(--bg) !important",
+								margin: "15px 0px",
 							}),
 							option: (provided, state) => ({
 								...provided,

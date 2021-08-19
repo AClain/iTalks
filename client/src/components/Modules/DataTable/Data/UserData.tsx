@@ -1,6 +1,6 @@
 import { Header, Property, Action } from "api/types/shared";
 import { User, UserCreate } from "api/types/user";
-import { HiOutlineTrash, HiUserAdd } from "react-icons/hi";
+import { HiOutlineTrash, HiPencilAlt } from "react-icons/hi";
 
 class UserData {
 	[x: string]: any;
@@ -20,8 +20,8 @@ class UserData {
 	properties: Property[] = [{ value: "username" }, { value: "email" }, { value: "created_at" }, { value: "username" }];
 
 	actions: Action[] = [
-		{ element: <HiUserAdd />, action: this.update },
-		{ element: <HiOutlineTrash />, action: this.delete },
+		{ element: <HiPencilAlt color='var(--light)' />, action: this.update },
+		{ element: <HiOutlineTrash color='var(--danger)' />, action: this.delete },
 	];
 }
 

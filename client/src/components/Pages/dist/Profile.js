@@ -19,6 +19,7 @@ var Title_d_1 = require("components/Elements/Typograhpy/Title/Title.d");
 var api_request_1 = require("../../api/api.request");
 var auth_1 = require("api/auth");
 var Loading_1 = require("components/Elements/Animations/Loading/Loading");
+var UserProfileFollowers_1 = require("components/Modules/Profile/UserProfilFollowers/UserProfileFollowers");
 var Profile = function () {
     var match = react_router_dom_1.useRouteMatch("/profile/:id");
     var history = react_router_dom_1.useHistory();
@@ -28,6 +29,7 @@ var Profile = function () {
     var tabHeaders = [
         { title: "Posts", color: "var(--info)" },
         { title: "Commentaire", color: "var(--warning)" },
+        { title: "Follower", color: "var(--info)" },
     ];
     var handleChange = function (event, newValue) {
         setCurrentTab(newValue);
@@ -67,6 +69,10 @@ var Profile = function () {
                 user.badges.length > 0 && React.createElement(BadgeList_1["default"], { user: user }))) : (React.createElement(Loading_1["default"], null))),
             React.createElement(core_1.Box, { width: '65%' },
                 React.createElement(core_1.Box, { p: '25px', boxShadow: 'var(--medium-box-shadow)' }, user ? (React.createElement(Flex_1["default"], { direction: Flex_d_1.FlexDirectionEnum.Vertical },
-                    React.createElement(CenteredTabs_1["default"], { currentTab: currentTab, tabHeaders: tabHeaders, tabPanels: [React.createElement(UserProfilePosts_1["default"], { userId: user.id }), React.createElement(UserProfileComments_1["default"], { userId: user.id })], handleChange: handleChange }))) : (React.createElement(Loading_1["default"], null)))))));
+                    React.createElement(CenteredTabs_1["default"], { currentTab: currentTab, tabHeaders: tabHeaders, tabPanels: [
+                            React.createElement(UserProfilePosts_1["default"], { userId: user.id }),
+                            React.createElement(UserProfileComments_1["default"], { userId: user.id }),
+                            React.createElement(UserProfileFollowers_1["default"], { userId: user.id }),
+                        ], handleChange: handleChange }))) : (React.createElement(Loading_1["default"], null)))))));
 };
 exports["default"] = Profile;

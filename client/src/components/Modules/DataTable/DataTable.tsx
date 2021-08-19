@@ -80,6 +80,7 @@ const DataTable: FC<DataTableProps> = ({
 												a.action.call(i);
 											},
 											key: k,
+											className: styles.icon,
 										})
 									)}
 								</TableCell>

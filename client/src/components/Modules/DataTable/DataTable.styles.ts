@@ -14,6 +14,13 @@ const useStyles = makeStyles({
 		zIndex: 99,
 		background: "var(--link-hover)",
 	},
+	icon: {
+		fontSize: "35px",
+		margin: "0px 10px",
+		"&:hover": {
+			cursor: "pointer",
+		},
+	},
 });
 
 export { useStyles };

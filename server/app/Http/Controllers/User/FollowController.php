@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\TokenController;
+use App\Http\Controllers\SearchController;
 use App\Models\Category;
 use App\Models\CategoryFollow;
 use Illuminate\Http\Request;
@@ -26,11 +27,20 @@ class FollowController extends Controller
             ], 404);
         }
 
-        $categories = $user->categories_followed;
+        $follows = UserFollow::where('follower_id', $user->id)->latest();
 
-        return response()->json([
-            'categories' => $categories
-        ]);
+        $followsClone = clone ($follows);
+        $users = [];
+
+        foreach ($followsClone->get() as $follow) {
+            array_push($users, User::find($follow->user_id));
+        }
+
+        $search = new SearchController($request, $follows);
+
+        $search->replaceItems($users);
+
+        return response()->json($search->getResults());
     }
 
     public function getFollowingsOf(Request $request, int $user_id)

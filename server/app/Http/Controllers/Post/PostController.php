@@ -14,6 +14,7 @@ use App\Models\NotificationTypes;
 use App\Models\Post;
 use App\Models\PostCategory;
 use App\Models\PostResource;
+use App\Models\PostSaved;
 use App\Models\Resource;
 use App\Models\UserFollow;
 use Illuminate\Http\Request;
@@ -75,7 +76,7 @@ class PostController extends Controller
      * @param int $id
      * @return Response
      */
-    public function get($id)
+    public function get(Request $request, int $id)
     {
         $post = Post::find($id);
 
@@ -85,7 +86,35 @@ class PostController extends Controller
             ], 404);
         }
 
-        return response()->json($post, 201);
+        $token = TokenController::parseToken($request->cookie('token'));
+        $user = User::find($token['uid']);
+
+        $saved = PostSaved::where('user_id', $user->id)->where('post_id', $post->id)->first();
+
+        $post->setAttribute('saved', $saved ? true : false);
+
+        return response()->json($post, 200);
+    }
+
+    public function saved(Request $request)
+    {
+        $token = TokenController::parseToken($request->cookie('token'));
+        $user = User::find($token['uid']);
+
+        $savedPosts = PostSaved::where('user_id', $user->id)->latest();
+
+        $savedPostsCopy = clone ($savedPosts);
+        $posts = [];
+
+        foreach ($savedPostsCopy->get() as $post) {
+            array_push($posts, Post::find($post->post_id));
+        }
+
+        $search = new SearchController($request, $savedPosts);
+
+        $search->replaceItems($posts);
+
+        return response()->json($search->getResults(), 200);
     }
 
     /**
@@ -574,5 +603,53 @@ class PostController extends Controller
         });
 
         return $postsWithFeedback;
+    }
+
+    public function save(Request $request, int $id)
+    {
+        $token = TokenController::parseToken($request->cookie('token'));
+        $user = User::find($token['uid']);
+
+        $tryPostSaved = PostSaved::where('user_id', $user->id)->where('post_id', $id)->first();
+
+        if ($tryPostSaved) {
+            return response()->json([
+                "message" => "Ce post fait déjà partie de vos favoris."
+            ]);
+        }
+
+        PostSaved::create([
+            "user_id" => $user->id,
+            "post_id" => $id,
+        ]);
+
+        return response()->json([
+            "message" => "Vous avez bien ajouté ce post à vos favoris."
+        ]);
+    }
+
+    public function unsave(Request $request, int $id)
+    {
+        $token = TokenController::parseToken($request->cookie('token'));
+        $user = User::find($token['uid']);
+
+        $postSaved = PostSaved::where('user_id', $user->id)->where('post_id', $id)->first();
+
+        if (!$postSaved) {
+            return response()->json([
+                "message" => "Ce post ne fait pas partie de vos favoris."
+            ]);
+        }
+
+        if ($postSaved->delete()) {
+
+            return response()->json([
+                "message" => "Ce post ne fait maintenant plus partie de vos favoris."
+            ]);
+        }
+
+        return response()->json([
+            'message' => '500: Une erreur s\'est produite, veuillez réessayer.'
+        ], 500);
     }
 }

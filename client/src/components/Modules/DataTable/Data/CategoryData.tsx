@@ -1,6 +1,6 @@
 import { Category } from "api/types/category";
 import { Header, Property, Action } from "api/types/shared";
-import { HiOutlineTrash, HiUserAdd } from "react-icons/hi";
+import { HiOutlineTrash, HiPencilAlt } from "react-icons/hi";
 
 class CategoryData {
 	[x: string]: any;
@@ -27,8 +27,8 @@ class CategoryData {
 	];
 
 	actions: Action[] = [
-		{ element: <HiUserAdd />, action: this.update },
-		{ element: <HiOutlineTrash />, action: this.delete },
+		{ element: <HiPencilAlt color='var(--light)' />, action: this.update },
+		{ element: <HiOutlineTrash color='var(--danger)' />, action: this.delete },
 	];
 }
 

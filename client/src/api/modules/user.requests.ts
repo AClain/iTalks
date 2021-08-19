@@ -33,6 +33,14 @@ class UserRequest {
 		return this.instance.get(`/profil/`);
 	}
 
+	async followers(id: number, options: Search): Promise<ApiListDataResult<UserShort>> {
+		return this.instance.get(`/followers/${id}`, { params: options });
+	}
+
+	async followings(id: number): Promise<ApiListDataResult<UserShort>> {
+		return this.instance.get(`/followings/${id}`);
+	}
+
 	async follow(options: { id: number; type: string }): Promise<AxiosResponse<String>> {
 		return this.instance.get(`follow/${options.id}`, { params: { type: options.type } });
 	}

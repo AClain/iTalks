@@ -18,6 +18,7 @@ import { api } from "../../api/api.request";
 import { UserProfil } from "../../api/types/user";
 import auth from "api/auth";
 import Loading from "components/Elements/Animations/Loading/Loading";
+import UserProfileFollowers from "components/Modules/Profile/UserProfilFollowers/UserProfileFollowers";
 
 interface MatchParams {
 	id: string;
@@ -33,6 +34,7 @@ const Profile: FC<{}> = () => {
 	const tabHeaders = [
 		{ title: "Posts", color: "var(--info)" },
 		{ title: "Commentaire", color: "var(--warning)" },
+		{ title: "Follower", color: "var(--info)" },
 	];
 
 	const handleChange = (event: any, newValue: number): void => {
@@ -88,7 +90,11 @@ const Profile: FC<{}> = () => {
 								<CenteredTabs
 									currentTab={currentTab}
 									tabHeaders={tabHeaders}
-									tabPanels={[<UserProfilePosts userId={user.id} />, <UserProfileComments userId={user.id} />]}
+									tabPanels={[
+										<UserProfilePosts userId={user.id} />,
+										<UserProfileComments userId={user.id} />,
+										<UserProfileFollowers userId={user.id} />,
+									]}
 									handleChange={handleChange}
 								/>
 							</Flex>

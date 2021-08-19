@@ -35,6 +35,7 @@ Default.args = {
 				name: "Non catégorisé",
 			},
 		],
+		saved: true,
 	},
 };
 
@@ -65,6 +66,7 @@ Positive.args = {
 				name: "Non catégorisé",
 			},
 		],
+		saved: true,
 	},
 };
 
@@ -95,6 +97,7 @@ Negative.args = {
 				name: "Non catégorisé",
 			},
 		],
+		saved: false,
 	},
 };
 
@@ -136,5 +139,6 @@ WithImage.args = {
 				name: "Non catégorisé",
 			},
 		],
+		saved: true,
 	},
 };

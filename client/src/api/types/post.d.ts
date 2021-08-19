@@ -16,6 +16,7 @@ declare type Post = {
 	categories: CategoryShort[];
 	vote_count: number;
 	comment_count: number;
+	saved: boolean;
 	assiociated_resources?: Resource[];
 };
 

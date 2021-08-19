@@ -101,6 +101,7 @@ Route::middleware(['authenticated'])->group(function () {
     Route::post('posts/search', [PostController::class, 'search'])->name('searchPosts');
     Route::get('posts/feed', [PostController::class, 'feed'])->name('feed');
     Route::get('posts/popular', [PostController::class, 'popular'])->name('popular');
+    Route::get('posts/saved', [PostController::class, 'saved'])->name('getSavedPosts');
     Route::get('post/{id}', [PostController::class, 'get'])->name('getPost');
     Route::post('posts', [PostController::class, 'storeSingle'])->name('createSinglePost');
     Route::post('posts/image', [PostController::class, 'storeSingleImage'])->name('createSingleImagePost');
@@ -109,6 +110,8 @@ Route::middleware(['authenticated'])->group(function () {
     Route::put('post/{id}', [PostController::class, 'update'])->name('updatePost');
     Route::get('post/{id}/comments', [PostController::class, 'getComments'])->name('getComments');
     Route::delete('post/{id}', [PostController::class, 'destroy'])->name('deletePost');
+    Route::get('post/{id}/save', [PostController::class, 'save'])->name('savePost');
+    Route::get('post/{id}/unsave', [PostController::class, 'unsave'])->name('unsavePost');
 
     Route::get('categories', [CategoryController::class, 'all'])->name('getAllCategory');
     Route::get('category/{name}', [CategoryController::class, 'get'])->name('getCategoryPosts');

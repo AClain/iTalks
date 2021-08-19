@@ -25,6 +25,10 @@ class PostRequest {
 		return this.instance.get("/posts/feed", { params: options });
 	}
 
+	async saved(options: Search): Promise<ApiListDataResult<Post>> {
+		return this.instance.get("/posts/saved", { params: options });
+	}
+
 	async search(search: Search): Promise<AxiosResponse<SearchResult>> {
 		return this.instance.post("/posts/search", search);
 	}
@@ -47,6 +51,14 @@ class PostRequest {
 
 	async update(post: PostUpdate): Promise<ApiMessageResult> {
 		return this.instance.put(`/post/${post.id}`, post);
+	}
+
+	async save(id: number): Promise<ApiMessageResult> {
+		return this.instance.get(`/post/${id}/save`);
+	}
+
+	async unsave(id: number): Promise<ApiMessageResult> {
+		return this.instance.get(`/post/${id}/unsave`);
 	}
 
 	async delete(id: number): Promise<ApiMessageResult> {

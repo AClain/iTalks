@@ -8,7 +8,6 @@ class PostSaved extends Model
 {
     protected $table = "posts_saved";
     protected $fillable = ['user_id', 'post_id'];
-    protected $hidden = ['user_id', 'post_id'];
 
     public function user()
     {

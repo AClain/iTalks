@@ -1,6 +1,6 @@
 import { Post, PostCreate } from "api/types/post";
 import { Header, Property, Action } from "api/types/shared";
-import { HiOutlineTrash, HiUserAdd } from "react-icons/hi";
+import { HiOutlineTrash, HiPencilAlt } from "react-icons/hi";
 
 class PostData {
 	[x: string]: any;
@@ -19,8 +19,8 @@ class PostData {
 	properties: Property[] = [{ value: "title" }, { value: "created_at" }, { value: "user.username" }];
 
 	actions: Action[] = [
-		{ element: <HiUserAdd />, action: this.update },
-		{ element: <HiOutlineTrash />, action: this.delete },
+		{ element: <HiPencilAlt color='var(--light)' />, action: this.update },
+		{ element: <HiOutlineTrash color='var(--danger)' />, action: this.delete },
 	];
 }
 

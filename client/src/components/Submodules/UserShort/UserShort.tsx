@@ -1,14 +1,18 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 import { ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
 import { UserShort as UserShortType } from "api/types/user";
 import Avatar from "components/Elements/Avatar/Avatar";
 
 export interface UserProps {
-	user: UserShortType;
+	user?: UserShortType;
 	[x: string]: any;
 }
 
-const UserShort: FC<UserProps> = ({ user, ...rest }) => {
+const UserShort: FC<UserProps> = ({ user, ...rest }): ReactElement<any, any> | null => {
+	if (!user) {
+		return null;
+	}
+
 	return (
 		<ListItem button key={user.id} {...rest}>
 			<ListItemIcon>
