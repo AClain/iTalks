@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\BadgeController as AdminBadgeController;
 use App\Http\Controllers\Admin\UserBadgeController as AdminUserBadgeController;
 use App\Http\Controllers\Admin\RoleController as AdminRoleController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Admin\StatController;
 // User controllers
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\Post\PostController;
@@ -35,7 +37,9 @@ use App\Http\Controllers\User\UserController;
 
 // Admin routes
 Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authenticated.admin']], function () {
-    Route::get('users', [AdminUserController::class, 'list'])->name('getAllUser');
+    Route::get('stats', [StatController::class, 'all'])->name('getAllStats');
+
+    Route::get('users', [AdminUserController::class, 'all'])->name('getAllUser');
     Route::post('users', [AdminUserController::class, 'store'])->name('createUser');
     Route::get('user/id/{id}', [AdminUserController::class, 'get'])->name('getUserById');
     Route::get('user/username/{username}', [AdminUserController::class, 'getByUsername'])->name('getUserByUsername');
@@ -44,13 +48,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
     Route::delete("user/{id}", [AdminUserController::class, 'destroy'])->name('destroyUser');
     Route::delete("user/{username}/avatar", [AdminUserController::class, 'deleteAvatarOuter'])->name('deleteUserAvatar');
 
-    Route::get('statuses', [AdminStatusController::class, 'index'])->name('getAllStatus');
+    Route::get('posts', [AdminPostController::class, 'all'])->name('getAllPosts');
+
+    Route::get('statuses', [AdminStatusController::class, 'all'])->name('getAllStatus');
     Route::post('statuses', [AdminStatusController::class, 'store'])->name('createStatus');
     Route::get('status/{id}', [AdminStatusController::class, 'get'])->name('getStatus');
     Route::put('status/{id}', [AdminStatusController::class, 'update'])->name('updateStatus');
     Route::delete('status/{id}', [AdminStatusController::class, 'destroy'])->name('deleteStatus');
 
-    Route::get('badges', [AdminBadgeController::class, 'index'])->name('getAllBadge');
+    Route::get('badges', [AdminBadgeController::class, 'all'])->name('getAllBadge');
     Route::post('badges', [AdminBadgeController::class, 'store'])->name('createBadge');
     Route::get('badge/{id}', [AdminBadgeController::class, 'get'])->name('getBadge');
     Route::put('badge/{id}', [AdminBadgeController::class, 'update'])->name('updateBadge');
@@ -62,13 +68,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['authenticated', 'authentica
     Route::post('badges/link/{user_id}', [AdminUserBadgeController::class, 'link'])->name('linkBadges');
     Route::post('badges/unlink/{user_id}', [AdminUserBadgeController::class, 'unlink'])->name('unlinkBadges');
 
-    Route::get('roles', [AdminRoleController::class, 'index'])->name('getAllRole');
+    Route::get('roles', [AdminRoleController::class, 'all'])->name('getAllRole');
     Route::post('roles', [AdminRoleController::class, 'store'])->name('createRole');
     Route::get('role/{id}', [AdminRoleController::class, 'get'])->name('getRole');
     Route::put('role/{id}', [AdminRoleController::class, 'update'])->name('updateRole');
     Route::delete('role/{id}', [AdminRoleController::class, 'destroy'])->name('deleteRole');
 
-    Route::get('categories', [AdminCategoryController::class, 'index'])->name('adminGetCategory');
+    Route::get('categories', [AdminCategoryController::class, 'all'])->name('adminGetCategory');
     Route::post('categories', [AdminCategoryController::class, 'store'])->name('adminCreateCategory');
     Route::get('category/{id}', [AdminCategoryController::class, 'get'])->name('adminGetCategoryById');
     Route::put('category/{id}', [AdminCategoryController::class, 'update'])->name('adminUpdateCategory');
@@ -80,10 +86,11 @@ Route::middleware(['authenticated'])->group(function () {
     Route::get('logout', [UserAuthController::class, 'logout'])->name('logout');
 
     Route::get('profil', [UserController::class, 'profil'])->name('profil');
-    Route::get('profil/{user_id}/post', [UserController::class, 'profilPostsByUserId'])->name('profilPostsByUserId');
-
     Route::get('profil/posts', [UserController::class, 'profilPosts'])->name('profilPosts');
+    Route::get('profil/{user_id}', [UserController::class, 'profilByUserId'])->name('profilByUserId');
+    Route::get('profil/{user_id}/posts', [UserController::class, 'profilPostsByUserId'])->name('profilPostsByUserId');
     Route::get('profil/comments', [UserController::class, 'profilComments'])->name('profilComments');
+    Route::get('profil/{user_id}/comments', [UserController::class, 'profilCommentsByUserId'])->name('profilCommentsByUserId');
 
     Route::get('followers/{user_id}', [FollowController::class, 'getFollowersOf'])->name('followers');
     Route::get('followings/{user_id}', [FollowController::class, 'getFollowingsOf'])->name('followings');

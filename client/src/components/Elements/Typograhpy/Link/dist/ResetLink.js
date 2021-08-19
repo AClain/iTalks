@@ -25,8 +25,8 @@ exports.__esModule = true;
 var react_router_dom_1 = require("react-router-dom");
 var ResetLink_styles_1 = require("./ResetLink.styles");
 var ResetLink = function (_a) {
-    var to = _a.to, children = _a.children, className = _a.className, color = _a.color, rest = __rest(_a, ["to", "children", "className", "color"]);
+    var to = _a.to, children = _a.children, className = _a.className, color = _a.color, target = _a.target, rest = __rest(_a, ["to", "children", "className", "color", "target"]);
     var styles = ResetLink_styles_1.useStyles({ color: color });
-    return (React.createElement(react_router_dom_1.Link, __assign({ className: styles.link + " " + className, to: to }, rest), children));
+    return (React.createElement(react_router_dom_1.Link, __assign({ target: target, className: styles.link + " " + className, to: to }, rest), children));
 };
 exports["default"] = ResetLink;

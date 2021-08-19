@@ -19,6 +19,9 @@ var PostShort = function (_a) {
     var shortenContent = function (content) {
         return content.substring(0, 150) + "...";
     };
+    if (!post) {
+        return null;
+    }
     return (React.createElement(Flex_1["default"], { className: styles.container, direction: Flex_d_1.FlexDirectionEnum.Horizontal, justify: Flex_d_1.FlexJustifyEnum.SpaceBetween },
         React.createElement(Flex_1["default"], { direction: Flex_d_1.FlexDirectionEnum.Vertical, className: styles.infos },
             React.createElement(Flex_1["default"], { direction: Flex_d_1.FlexDirectionEnum.Horizontal, align: Flex_d_1.FlexAlignEnum.Center },
@@ -29,11 +32,11 @@ var PostShort = function (_a) {
             React.createElement(core_1.Typography, { className: styles.content }, shortenContent(post.text)),
             React.createElement(Flex_1["default"], { className: styles.postInfo, align: Flex_d_1.FlexAlignEnum.Center, justify: Flex_d_1.FlexJustifyEnum.SpaceBetween, direction: Flex_d_1.FlexDirectionEnum.Horizontal },
                 React.createElement(Flex_1["default"], { align: Flex_d_1.FlexAlignEnum.Center, direction: Flex_d_1.FlexDirectionEnum.Horizontal },
-                    React.createElement(ResetLink_1["default"], { to: "/user/" + post.user.id },
+                    React.createElement(ResetLink_1["default"], { to: "/profile/" + post.user.id },
                         React.createElement(core_1.Typography, { className: styles.user }, post.user.username)),
                     React.createElement(BullDivider_1["default"], null),
                     React.createElement(core_1.Typography, { className: styles.date }, moment_1["default"](post.created_at).fromNow())),
-                React.createElement(IconWithText_1["default"], { icon: React.createElement(ri_1.RiChat4Line, { fontSize: '18px' }), label: post.comment_count.toString() }))),
+                React.createElement(IconWithText_1["default"], { start: true, icon: React.createElement(ri_1.RiChat4Line, { fontSize: '18px' }), label: post.comment_count.toString() }))),
         post.assiociated_resources ? (React.createElement("img", { src: post.assiociated_resources[0].link, alt: 'post img', className: styles.image })) : null));
 };
 exports["default"] = PostShort;

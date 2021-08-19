@@ -1,10 +1,12 @@
 import axios, { AxiosInstance } from "axios";
-import UserRequest from "api/modules/user.request";
+import UserRequest from "api/modules/user.requests";
 import PostRequest from "api/modules/post.request";
-import CategoryRequest from "api/modules/category.request";
+import CategoryRequest from "api/modules/category.requests";
 import auth from "api/auth";
-import MessageRequest from "./modules/message.request";
+import MessageRequest from "./modules/message.requests";
 import CommentRequest from "./modules/comment.requests";
+import StatRequest from "./modules/stat.requests";
+import AdminRequest from "./modules/admin.requests";
 
 class Api {
 	public url: string;
@@ -15,6 +17,8 @@ class Api {
 	public category: CategoryRequest;
 	public message: MessageRequest;
 	public comment: CommentRequest;
+	public stat: StatRequest;
+	public admin: AdminRequest;
 
 	constructor() {
 		this.url = auth.base_url;
@@ -30,6 +34,8 @@ class Api {
 		this.category = new CategoryRequest(this.instance);
 		this.message = new MessageRequest(this.instance);
 		this.comment = new CommentRequest(this.instance);
+		this.stat = new StatRequest(this.instance);
+		this.admin = new AdminRequest(this.instance);
 	}
 }
 

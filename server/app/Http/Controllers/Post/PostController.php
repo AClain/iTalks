@@ -551,8 +551,8 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $posts = Post::where("title", "LIKE", "%" . $request->search . "%")->where('status_id', 1);
-        $users = User::where("username", "LIKE", "%" . $request->search . "%")->where('status_id', 1)->with('avatar');
-        $categories = Category::where("name", "LIKE", "%" . $request->search . "%")->where('status_id', 1);
+        $users = User::where("username", "LIKE",  $request->search . "%")->where('status_id', 1)->with('avatar');
+        $categories = Category::where("name", "LIKE",  $request->search . "%")->where('status_id', 1);
 
         $searchPost = new SearchController($request, $posts);
         $searchUser = new SearchController($request, $users);

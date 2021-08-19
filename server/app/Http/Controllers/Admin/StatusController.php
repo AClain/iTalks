@@ -6,8 +6,6 @@ use App\Http\Controllers\Auth\TokenController;
 use App\Http\Controllers\Controller;
 
 use App\Http\Controllers\SearchController;
-use App\Models\Category;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -22,14 +20,13 @@ class StatusController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Request $request)
+    public function all(Request $request)
     {
-
         $search = new SearchController($request, Status::query());
 
-        $Status = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
+        $search->addWhere('name', 'LIKE', $search->getSearch() . '%');
 
-        return response()->json( $Status->getResults(), 201);
+        return response()->json($search->getResults(), 201);
     }
 
     /**
@@ -146,7 +143,7 @@ class StatusController extends Controller
      * @param  int  $id
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Request $request, int $id)
     {
         $status = Status::find($id);
 

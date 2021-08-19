@@ -22,6 +22,9 @@ import LoginForm from "components/Pages/LoginForm";
 import RegisterForm from "components/Pages/RegisterForm";
 import CategoryPosts from "components/Pages/Secondary/CategoryPosts";
 import Post from "components/Pages/Secondary/Post";
+import Dashboard from "components/Pages/Admin/Dashboard";
+import Manage from "components/Pages/Admin/Manage";
+import VerifyMail from "components/Pages/Secondary/VeryMail";
 
 const Routes: FC<{}> = () => {
 	let location = useLocation();
@@ -75,32 +78,18 @@ const Routes: FC<{}> = () => {
 				{/* Admin routes */}
 				<Route path='/admin'>
 					<Switch>
-						<AdminAuthenticatedRoute exact path='/admin/users'>
-							<></>
+						<AdminAuthenticatedRoute exact path='/admin/dashboard'>
+							<TopContainer sidebar={<Sidebar />} page={<Dashboard />} />
 						</AdminAuthenticatedRoute>
-						<AdminAuthenticatedRoute exact path='/admin/user/create'>
-							<></>
-						</AdminAuthenticatedRoute>
-						<AdminAuthenticatedRoute exact path='/admin/user/:username'>
-							<></>
-						</AdminAuthenticatedRoute>
-						<AdminAuthenticatedRoute exact path='/admin/user/:username/edit'>
-							<></>
-						</AdminAuthenticatedRoute>
-
-						<AdminAuthenticatedRoute exact path='/admin/statuses'>
-							<></>
-						</AdminAuthenticatedRoute>
-
-						<AdminAuthenticatedRoute path='*'>
-							<></>
+						<AdminAuthenticatedRoute exact path='/admin/manage'>
+							<TopContainer sidebar={<Sidebar />} page={<Manage />} />
 						</AdminAuthenticatedRoute>
 					</Switch>
 				</Route>
 
 				{/* Public routes */}
-				<Route path='/verify_email'>
-					<></>
+				<Route exact path='/verify_email'>
+					<VerifyMail />
 				</Route>
 
 				{/* No match */}

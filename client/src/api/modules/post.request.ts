@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosResponse } from "axios";
-import { ApiResult, ApiListDataResult, Search, SingleDataResponse } from "api/types/api";
+import { ApiListDataResult, Search, SingleDataResponse, ApiMessageResult } from "api/types/api";
 import { Post, PostCreate, PostUpdate, SearchResult } from "api/types/post";
 
 class PostRequest {
@@ -13,8 +13,12 @@ class PostRequest {
 		return this.instance.get(`/post/${id}`);
 	}
 
-	async ProfilePosts(userId: number): Promise<SingleDataResponse<Post>> {
-		return this.instance.get(`profil/${userId}/post`);
+	async profilPosts(userId: number, options: Search): Promise<ApiListDataResult<Post>> {
+		return this.instance.get(`profil/${userId}/posts`, { params: options });
+	}
+
+	async profilComments(userId: number, options: Search): Promise<ApiListDataResult<Comment>> {
+		return this.instance.get(`profil/${userId}/comments`, { params: options });
 	}
 
 	async feed(options: Search): Promise<ApiListDataResult<Post>> {
@@ -25,23 +29,27 @@ class PostRequest {
 		return this.instance.post("/posts/search", search);
 	}
 
-	async createSingleImage(post: PostCreate): Promise<ApiResult> {
+	async create(post: PostCreate): Promise<ApiMessageResult> {
+		return this.instance.post("/posts", post);
+	}
+
+	async createSingleImage(post: PostCreate): Promise<ApiMessageResult> {
 		return this.instance.post("/posts/image", post);
 	}
 
-	async createVideo(post: PostCreate): Promise<ApiResult> {
+	async createVideo(post: PostCreate): Promise<ApiMessageResult> {
 		return this.instance.post("/posts/video", post);
 	}
 
-	async createMultipleImage(post: PostCreate): Promise<ApiResult> {
+	async createMultipleImage(post: PostCreate): Promise<ApiMessageResult> {
 		return this.instance.post("/posts/multipleImage", post);
 	}
 
-	async update(post: PostUpdate): Promise<ApiResult> {
+	async update(post: PostUpdate): Promise<ApiMessageResult> {
 		return this.instance.put(`/post/${post.id}`, post);
 	}
 
-	async delete(id: number): Promise<ApiResult> {
+	async delete(id: number): Promise<ApiMessageResult> {
 		return this.instance.delete(`/post/${id}`);
 	}
 }

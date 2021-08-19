@@ -26,20 +26,14 @@ const Alert: FC<{}> = () => {
 
 		return title;
 	};
-	// Effects
-	useEffect(() => {
-		let event = setTimeout(() => {
-			setAlert({ ...alert, shouldDisplay: false });
-		}, 5000);
-		return () => {
-			clearTimeout(event);
-		};
-	});
 
 	return alert.shouldDisplay ? (
 		<MUIAlert
 			className={`${styles.alert} ${alert.shouldDisplay ? styles.alertShow : styles.alertHidden}`}
 			severity={alert.variant}
+			onClose={() => {
+				setAlert({ ...alert, shouldDisplay: false });
+			}}
 		>
 			<AlertTitle>{displayTitle()}</AlertTitle>
 			{alert.message}

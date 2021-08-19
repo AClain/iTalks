@@ -16,6 +16,7 @@ var react_router_dom_1 = require("react-router-dom");
 var api_request_1 = require("api/api.request");
 var lodash_1 = require("lodash");
 var FormControl_1 = require("components/Elements/Form/FormControl/FormControl");
+var ResetLink_1 = require("components/Elements/Typograhpy/Link/ResetLink");
 var Messages = function () {
     var styles = Messages_styles_1.useStyles();
     // React router
@@ -52,21 +53,19 @@ var Messages = function () {
             .all()
             .then(function (res) {
             setUsers(res.data.items);
-            if (lodash_1["default"].findIndex(res.data.items, { id: parseInt(id) }) === -1) {
-                history.push("/messages");
-            }
         })["catch"](function (err) {
             console.error(err);
         })["finally"](function () {
             setFetchingUsers(false);
         });
-    }, [id, history]);
-    return (React.createElement(Flex_1["default"], { className: styles.container, direction: Flex_d_1.FlexDirectionEnum.Horizontal, width: '100%' },
+    }, [id]);
+    return (React.createElement(Flex_1["default"], { className: styles.container, direction: Flex_d_1.FlexDirectionEnum.Horizontal, width: '100%', height: '100%' },
         React.createElement(Flex_1["default"], { className: styles.userListContainer, direction: Flex_d_1.FlexDirectionEnum.Vertical },
-            React.createElement(core_1.ListItem, { button: true, key: 'RemySharp' },
-                React.createElement(core_1.ListItemIcon, null,
-                    React.createElement(Avatar_1["default"], { username: auth_1["default"].getUsername(), link: auth_1["default"].getAvatarLink() })),
-                React.createElement(core_1.ListItemText, null, auth_1["default"].getUsername())),
+            React.createElement(ResetLink_1["default"], { to: '/messages', style: { width: "100%" } },
+                React.createElement(core_1.ListItem, { button: true },
+                    React.createElement(core_1.ListItemIcon, null,
+                        React.createElement(Avatar_1["default"], { username: auth_1["default"].getUsername(), link: auth_1["default"].getAvatarLink() })),
+                    React.createElement(core_1.ListItemText, null, auth_1["default"].getUsername()))),
             React.createElement(core_1.Divider, null),
             React.createElement(FormControl_1["default"], { label: 'Rechercher un utilisateur', type: 'text', identifier: 'search', startIcon: React.createElement(hi_1.HiOutlineSearch, null), onKeyUp: lodash_1["default"].debounce(handleSearch, 250), fullWidth: true }),
             React.createElement(core_1.Divider, null),

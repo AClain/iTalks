@@ -1,7 +1,7 @@
 import Echo from "laravel-echo";
 
-class EventProvider {
-	defaultEchoEvent() {
+class Event {
+	getConnection() {
 		const EchoEvent = new Echo({
 			broadcaster: "pusher",
 			key: process.env.REACT_APP_MIX_PUSHER_APP_KEY,
@@ -15,4 +15,4 @@ class EventProvider {
 	}
 }
 
-export default new EventProvider();
+export default new Event();

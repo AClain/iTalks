@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, ReactElement } from "react";
 
 import { Typography } from "@material-ui/core";
 import { Post as PostType } from "api/types/post";
@@ -16,15 +16,19 @@ import CategoryBadge from "components/Elements/Badge/CategoryBadge/CategoryBadge
 import BullDivider from "components/Elements/Layout/BullDivider/BullDivider";
 
 export interface PostProps {
-	post: PostType;
+	post?: PostType;
 }
 
-const PostShort: FC<PostProps> = ({ post }) => {
+const PostShort: FC<PostProps> = ({ post }): ReactElement<any, any> | null => {
 	const styles = useStyles();
 
 	const shortenContent = (content: string) => {
 		return content.substring(0, 150) + "...";
 	};
+
+	if (!post) {
+		return null;
+	}
 
 	return (
 		<Flex className={styles.container} direction={FlexDirectionEnum.Horizontal} justify={FlexJustifyEnum.SpaceBetween}>
@@ -48,7 +52,7 @@ const PostShort: FC<PostProps> = ({ post }) => {
 					direction={FlexDirectionEnum.Horizontal}
 				>
 					<Flex align={FlexAlignEnum.Center} direction={FlexDirectionEnum.Horizontal}>
-						<ResetLink to={`/user/${post.user.id}`}>
+						<ResetLink to={`/profile/${post.user.id}`}>
 							<Typography className={styles.user}>{post.user.username}</Typography>
 						</ResetLink>
 						<BullDivider />

@@ -10,7 +10,7 @@ declare type UserProfil = {
 	role: string;
 	avatar: string;
 	status: string;
-	following?: boolean
+	following?: boolean;
 	badges: Badge[];
 };
 
@@ -52,3 +52,5 @@ declare type UserShort = {
 };
 
 export { UserProfil, User, UserLogin, UserCreate, UserUpdate, UserShort };
+
+// DataTable

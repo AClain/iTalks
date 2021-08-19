@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 exports.__esModule = true;
 // React
 var react_1 = require("react");
@@ -18,23 +29,27 @@ var FormControl_1 = require("components/Elements/Form/FormControl/FormControl");
 var Title_1 = require("components/Elements/Typograhpy/Title/Title");
 var Button_1 = require("components/Elements/Buttons/Button/Button");
 var ResetLink_1 = require("components/Elements/Typograhpy/Link/ResetLink");
+var react_router_dom_1 = require("react-router-dom");
+var AlertContext_1 = require("providers/AlertContext");
 var RegisterForm = function () {
     var styles = RegisterForm_styles_1.useStyles();
+    var _a = react_1.useContext(AlertContext_1.AlertContext), alert = _a.alert, setAlert = _a.setAlert;
+    var history = react_router_dom_1.useHistory();
     // Hook form
-    var _a = react_hook_form_1.useForm(), register = _a.register, handleSubmit = _a.handleSubmit;
+    var _b = react_hook_form_1.useForm(), register = _b.register, handleSubmit = _b.handleSubmit;
     // States
-    var _b = react_1.useState(false), showPassword = _b[0], setShowPassword = _b[1];
-    var _c = react_1.useState({}), errors = _c[0], setErrors = _c[1];
-    var _d = react_1.useState(false), loading = _d[0], setLoading = _d[1];
+    var _c = react_1.useState(false), showPassword = _c[0], setShowPassword = _c[1];
+    var _d = react_1.useState({}), errors = _d[0], setErrors = _d[1];
+    var _e = react_1.useState(false), loading = _e[0], setLoading = _e[1];
     // Custom methods
     var onSubmit = function (data) {
-        console.log(data);
         setLoading(true);
         api_request_1.api.user
             .register(data)
             .then(function (res) {
+            setAlert(__assign(__assign({}, alert), { message: res.data.message, variant: AlertContext_1.AlertContextVariantEnum.Info, shouldDisplay: true }));
             if (res.status === 201) {
-                document.location.href = "/";
+                history.push("/login");
             }
         })["catch"](function (err) {
             var _a, _b;

@@ -1,5 +1,5 @@
 // React
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 // Api interface
 import { api } from "api/api.request";
 // Types
@@ -18,6 +18,8 @@ import FormControl from "components/Elements/Form/FormControl/FormControl";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import Button from "components/Elements/Buttons/Button/Button";
 import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
+import { useHistory } from "react-router-dom";
+import { AlertContext, AlertContextVariantEnum } from "providers/AlertContext";
 
 interface RegisterError {
 	username?: string;
@@ -28,6 +30,8 @@ interface RegisterError {
 
 const RegisterForm: FC<{}> = () => {
 	const styles = useStyles();
+	const { alert, setAlert } = useContext(AlertContext);
+	let history = useHistory();
 	// Hook form
 	const { register, handleSubmit } = useForm();
 	// States
@@ -40,8 +44,9 @@ const RegisterForm: FC<{}> = () => {
 		api.user
 			.register(data)
 			.then((res) => {
+				setAlert({ ...alert, message: res.data.message, variant: AlertContextVariantEnum.Info, shouldDisplay: true });
 				if (res.status === 201) {
-					document.location.href = "/";
+					history.push("/login");
 				}
 			})
 			.catch((err: AxiosError) => {

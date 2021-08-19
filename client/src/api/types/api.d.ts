@@ -8,9 +8,11 @@ type Error = {
 	[x: string]: any;
 };
 
-type ServiceResponse = {
-	[x: string]: any;
+type MessageResponse = {
+	message: string;
 };
+
+type ServiceResponse<T> = T;
 
 type ListDataResponse<T> = {
 	count: number;
@@ -22,12 +24,20 @@ type Search = {
 	page: number;
 	limit: number;
 	search?: string;
-	startDate?: Date | null;
-	endDate?: Date | null;
 };
 
-type ApiResult = AxiosResponse<ServiceResponse>;
+type ApiResult<T> = AxiosResponse<ServiceResponse<T>>;
+type ApiMessageResult = AxiosResponse<MessageResponse>;
 type ApiArrayDataResult<T> = AxiosResponse<T[]>;
 type ApiListDataResult<T> = AxiosResponse<ListDataResponse<T>>;
 
-export { SingleDataResponse, ApiResult, ApiArrayDataResult, ApiListDataResult, Search, ListDataResponse };
+export {
+	ServiceResponse,
+	SingleDataResponse,
+	ApiResult,
+	ApiMessageResult,
+	ApiArrayDataResult,
+	ApiListDataResult,
+	Search,
+	ListDataResponse,
+};

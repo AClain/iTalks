@@ -1,11 +1,13 @@
 import { Box } from "@material-ui/core";
 import { api } from "api/api.request";
-import { Search } from "api/types/api";
+import { ApiListDataResult, Search } from "api/types/api";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
-import PostList from "components/Modules/PostList/PostList";
+import PostShort from "components/Submodules/PostShort/PostShort";
 import { FC, useEffect, useState } from "react";
 import { useRouteMatch } from "react-router-dom";
+import List from "components/Modules/List/List";
+import { Post } from "api/types/post";
 
 interface MatchParams {
 	name: string;
@@ -16,9 +18,9 @@ const CategoryPosts: FC<{}> = () => {
 
 	const [reload, setReload] = useState(false);
 
-	const fetchCategoryPosts = (options: Search) => {
+	async function fetchCategoryPosts(options: Search): Promise<ApiListDataResult<Post>> {
 		return api.category.get(match!.params.name, options);
-	};
+	}
 
 	useEffect(() => {
 		setReload(!reload);
@@ -32,7 +34,7 @@ const CategoryPosts: FC<{}> = () => {
 					<Title style={{ marginBottom: "25px" }} semantic={TitleVariantEnum.H3}>
 						Catégorie: {match.params.name}
 					</Title>
-					<PostList fetchPosts={fetchCategoryPosts} reload={reload} />
+					<List reload={reload} fetchItems={fetchCategoryPosts} itemComponent={<PostShort />} itemProp='post' />
 				</Box>
 			)}
 		</>

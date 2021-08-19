@@ -37,7 +37,7 @@ class CreateRolesTable extends Migration
             ],
             [
                 'id' => 3,
-                'name' => 'moderateur', 'status_id' => 1,
+                'name' => 'moderator', 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],

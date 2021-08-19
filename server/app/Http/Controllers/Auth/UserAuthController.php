@@ -51,7 +51,7 @@ class UserAuthController extends Controller
         }
 
 
-        $role = Role::where('name', 'utilisateur')->first();
+        $role = Role::where('name', 'user')->first();
         $status = Status::where('name', 'actif')->first();
 
         $user = new User();
@@ -63,7 +63,6 @@ class UserAuthController extends Controller
 
         if ($user->save()) {
             LogController::log("L'utilisateur " . $user->username . " vient de s'inscrire sur le site.");
-            $token = TokenController::generateToken($user, null);
             $emailVerifyToken = TokenController::generateEmailVerifyToken($user);
             $user->update(['email_token' => $emailVerifyToken->toString()]);
 
@@ -78,7 +77,7 @@ class UserAuthController extends Controller
 
             return response()->json([
                 'message' => 'Inscription effectuée avec succès! Un mail vous a été envoyé pour confirmer votre adresse mail.',
-            ], 201)->cookie('token', $token->toString(), null, null, null, null, false);
+            ], 201);
         }
 
         return response()->json([
@@ -126,7 +125,7 @@ class UserAuthController extends Controller
 
         $user = User::where(request('type'), request('identifier'))->first();
 
-        if ($user->email_verified === false) {
+        if (!$user->email_verified) {
             return response()->json([
                 'errors' => ['identifier' => "Votre tentative de connexion a été refusée, merci de confirmer votre email."]
             ], 400);

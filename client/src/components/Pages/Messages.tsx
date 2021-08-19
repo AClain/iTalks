@@ -16,6 +16,7 @@ import { api } from "api/api.request";
 import _ from "lodash";
 import FormControl from "components/Elements/Form/FormControl/FormControl";
 import { Search } from "api/types/api";
+import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
 
 type MessageParams = {
 	id: string;
@@ -63,9 +64,6 @@ const Messages: FC<{}> = () => {
 			.all()
 			.then((res) => {
 				setUsers(res.data.items);
-				if (_.findIndex(res.data.items, { id: parseInt(id) }) === -1) {
-					history.push("/messages");
-				}
 			})
 			.catch((err) => {
 				console.error(err);
@@ -73,17 +71,19 @@ const Messages: FC<{}> = () => {
 			.finally(() => {
 				setFetchingUsers(false);
 			});
-	}, [id, history]);
+	}, [id]);
 
 	return (
-		<Flex className={styles.container} direction={FlexDirectionEnum.Horizontal} width='100%'>
+		<Flex className={styles.container} direction={FlexDirectionEnum.Horizontal} width='100%' height='100%'>
 			<Flex className={styles.userListContainer} direction={FlexDirectionEnum.Vertical}>
-				<ListItem button key='RemySharp'>
-					<ListItemIcon>
-						<Avatar username={auth.getUsername()} link={auth.getAvatarLink()} />
-					</ListItemIcon>
-					<ListItemText>{auth.getUsername()}</ListItemText>
-				</ListItem>
+				<ResetLink to='/messages' style={{ width: "100%" }}>
+					<ListItem button>
+						<ListItemIcon>
+							<Avatar username={auth.getUsername()} link={auth.getAvatarLink()} />
+						</ListItemIcon>
+						<ListItemText>{auth.getUsername()}</ListItemText>
+					</ListItem>
+				</ResetLink>
 
 				<Divider />
 

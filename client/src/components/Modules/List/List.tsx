@@ -1,29 +1,30 @@
-import { FC, useState, useEffect, ChangeEvent, useRef } from "react";
+import { FC, useState, useEffect, ChangeEvent, useRef, cloneElement } from "react";
 import { Box, Typography } from "@material-ui/core";
-import { Post as PostType } from "api/types/post";
-import PostShort from "components/Submodules/PostShort/PostShort";
-import { useStyles } from "./PostList.styles";
+import { useStyles } from "./List.styles";
 import { AxiosError, AxiosResponse } from "axios";
 import Paginate from "components/Submodules/Paginate/Paginate";
 import Loading from "components/Elements/Animations/Loading/Loading";
-import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
+import { FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
 import Flex from "components/Elements/Layout/Flex/Flex";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 
 interface PostListProps {
-	fetchPosts: Function;
+	fetchItems: Function;
 	reload?: boolean;
+	customNoItemsElement?: any;
+	itemComponent: any;
+	itemProp: string;
 }
 
-const PostList: FC<PostListProps> = ({ fetchPosts, reload }) => {
+const List: FC<PostListProps> = ({ fetchItems, reload, customNoItemsElement, itemComponent, itemProp }) => {
 	// Styles
 	const styles = useStyles();
 	// Refs
 	const topRef = useRef<HTMLDivElement>(null);
 	// States
 	const [loading, setLoading] = useState(true);
-	const [posts, setPosts] = useState<PostType[]>([]);
+	const [items, setItems] = useState<any[]>([]);
 	const [total, setTotal] = useState(0);
 	const [options, setOptions] = useState<{ page: number; limit: number }>({
 		page: 1,
@@ -40,10 +41,10 @@ const PostList: FC<PostListProps> = ({ fetchPosts, reload }) => {
 	useEffect(() => {
 		setLoading(true);
 
-		fetchPosts(options)
+		fetchItems(options)
 			.then((res: AxiosResponse) => {
 				console.log(res);
-				setPosts(res.data.items);
+				setItems(res.data.items);
 				setTotal(res.data.total);
 			})
 			.catch((err: AxiosError) => console.error(err))
@@ -52,34 +53,31 @@ const PostList: FC<PostListProps> = ({ fetchPosts, reload }) => {
 			});
 
 		return () => {};
-	}, [fetchPosts, options, reload]);
+	}, [options, reload]);
 
 	return (
 		<Box className={styles.list}>
 			<div ref={topRef} />
-			<Paginate page={options.page} limit={options.limit} total={total} action={changePage} />
+			<Paginate options={options} total={total} action={changePage} />
 			{loading ? (
 				<Flex direction={FlexDirectionEnum.Horizontal} justify={FlexJustifyEnum.Center}>
 					<Loading radius={15} />
 				</Flex>
 			) : (
 				<>
-					{posts.length > 0 ? (
+					{items.length > 0 ? (
 						<>
-							{posts.map((p, k) => (
-								<PostShort post={p} key={k} />
-							))}
-							<Paginate page={options.page} limit={options.limit} total={total} action={changePage} />
+							{items.map((i, k) => cloneElement(itemComponent, { [itemProp]: i, key: k }))}
+							<Paginate options={options} total={total} action={changePage} />
 						</>
 					) : (
-						<Flex
-							direction={FlexDirectionEnum.Vertical}
-							justify={FlexJustifyEnum.Center}
-							align={FlexAlignEnum.Center}
-							height='100%'
-						>
-							<Title semantic={TitleVariantEnum.H6}>Aucun post récent.</Title>
-							<Typography>Commencez à suivre un utilisateur ou une catégorie.</Typography>
+						<Flex direction={FlexDirectionEnum.Vertical} centered height='100%'>
+							{customNoItemsElement ?? (
+								<>
+									<Title semantic={TitleVariantEnum.H6}>Aucun post récent.</Title>
+									<Typography>Commencez à suivre un utilisateur ou une catégorie.</Typography>
+								</>
+							)}
 						</Flex>
 					)}
 				</>
@@ -88,4 +86,4 @@ const PostList: FC<PostListProps> = ({ fetchPosts, reload }) => {
 	);
 };
 
-export default PostList;
+export default List;

@@ -21,6 +21,7 @@ import { useStyles } from "./Sidebar.styles";
 import ResetLink from "components/Elements/Typograhpy/Link/ResetLink";
 import Flex from "components/Elements/Layout/Flex/Flex";
 import { FlexDirectionEnum } from "components/Elements/Layout/Flex/Flex.d";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 const Sidebar: FC<{}> = () => {
 	const styles = useStyles();
@@ -51,7 +52,12 @@ const Sidebar: FC<{}> = () => {
 			<Divider light style={{ width: "55%", background: "var(--text)", margin: "10px 0px" }} />
 			{auth.isAdmin() && (
 				<>
-					<Icon icon={<HiOutlineShieldExclamation />} />
+					<Link to='/admin/dashboard'>
+						<Icon icon={<AiOutlineDashboard />} active={currentPath.includes("dashboard")} />
+					</Link>
+					<Link to='/admin/manage'>
+						<Icon icon={<HiOutlineShieldExclamation />} active={currentPath.includes("manage")} />
+					</Link>
 				</>
 			)}
 		</Flex>
@@ -59,3 +65,7 @@ const Sidebar: FC<{}> = () => {
 };
 
 export default Sidebar;
+
+/**
+ * AiOutlineDashboard
+ */

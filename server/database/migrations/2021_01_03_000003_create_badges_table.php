@@ -73,7 +73,7 @@ class CreateBadgesTable extends Migration
             [
                 'id' => 6,
                 'name' => 'Intérêt',
-                'description' => 'Suit une ou plusieurs catégories.',
+                'description' => 'A commencé à suivre un utilisateur ou une catégorie.',
                 'resource_id' => 105,
                 'status_id' => 1,
                 'created_at' => now(),

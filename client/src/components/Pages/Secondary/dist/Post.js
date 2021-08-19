@@ -19,7 +19,6 @@ var Post = function () {
         api_request_1.api.post
             .get(parseInt(match.params.id))
             .then(function (res) {
-            console.log(res);
             setPost(res.data);
         })["catch"](function (err) {
             console.error(err);
@@ -31,7 +30,7 @@ var Post = function () {
     return (React.createElement(core_1.Box, null, loading ? (React.createElement(Flex_1["default"], { direction: Flex_d_1.FlexDirectionEnum.Horizontal },
         React.createElement(Loading_1["default"], null))) : (post && (React.createElement(Flex_1["default"], { direction: Flex_d_1.FlexDirectionEnum.Vertical },
         React.createElement(Title_1["default"], { semantic: Title_d_1.TitleVariantEnum.H3 }, post.title),
-        React.createElement(core_1.Typography, { style: { margin: "150px 0px" } }, post.text),
+        React.createElement(core_1.Typography, { component: 'pre', style: { margin: "150px 0px" } }, post.text),
         React.createElement(Title_1["default"], { semantic: Title_d_1.TitleVariantEnum.H5 },
             "Commentaires (",
             post.comment_count,

@@ -1,7 +1,7 @@
 import { ListDataResponse } from "./api";
 import { Category } from "./category";
 import { Resource } from "./resource";
-import { User, UserShort } from "./user";
+import { UserShort } from "./user";
 
 declare type Post = {
 	id: number;
@@ -35,7 +35,7 @@ declare type PostUpdate = {
 
 declare type SearchResult = {
 	posts: ListDataResponse<Post>;
-	users: ListDataResponse<User>;
+	users: ListDataResponse<UserShort>;
 	categories: ListDataResponse<Category>;
 };
 

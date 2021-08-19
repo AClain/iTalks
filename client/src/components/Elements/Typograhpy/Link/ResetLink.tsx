@@ -7,14 +7,15 @@ declare interface ResetLinkProp {
 	children: JSX.Element[] | JSX.Element | string;
 	className?: string;
 	color?: string;
+	target?: string;
 	[x: string]: any;
 }
 
-const ResetLink: FC<ResetLinkProp> = ({ to, children, className, color, ...rest }) => {
+const ResetLink: FC<ResetLinkProp> = ({ to, children, className, color, target, ...rest }) => {
 	const styles = useStyles({ color });
 
 	return (
-		<Link className={`${styles.link} ${className}`} to={to} {...rest}>
+		<Link target={target} className={`${styles.link} ${className}`} to={to} {...rest}>
 			{children}
 		</Link>
 	);

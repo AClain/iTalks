@@ -15,6 +15,7 @@ interface CategorySearchResultsProps {
 	dataCategories: {
 		categories: CategoryType[];
 		total: number;
+		count: number;
 	};
 }
 
@@ -23,11 +24,16 @@ const CategorySearchResults: FC<CategorySearchResultsProps> = ({ dataCategories 
 
 	return (
 		<Box className={styles.container}>
-			<HiOutlineTag fontSize='50px' />
-			<Title semantic={TitleVariantEnum.H5}>{dataCategories.total + " catégorie(s) trouvée(s)"}</Title>
+			<IconWithText
+				size='35px'
+				start
+				icon={<HiOutlineTag fontSize={50} />}
+				label={dataCategories.categories.length > 0 ? "Catégories - Meilleurs résultats" : "Aucun résultat"}
+			/>
+
 			{dataCategories.total > 0 &&
 				dataCategories.categories.map((c, k) => (
-					<ResetLink key={k} to={"/category/" + c.id}>
+					<ResetLink key={k} to={"/category/" + c.name}>
 						<Flex
 							className={styles.categoryContainer}
 							key={k}

@@ -66,70 +66,70 @@ class CreateResourcesTable extends Migration
             ],
             [
                 'id' => 100,
-                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_verified.svg',
-                'name' => 'badge_verified.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_verified.png',
+                'name' => 'badge_verified.png',
                 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'id' => 101,
-                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_alarm.svg',
-                'name' => 'badge_alarm.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_alarm.png',
+                'name' => 'badge_alarm.png',
                 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'id' => 102,
-                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_bug_tracker.svg',
-                'name' => 'badge_bug_tracker.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_bug_tracker.png',
+                'name' => 'badge_bug_tracker.png',
                 'status_id' => 1
             ],
             [
                 'id' => 103,
-                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_two_auth.svg',
-                'name' => 'badge_two_auth.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_two_auth.png',
+                'name' => 'badge_two_auth.png',
                 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'id' => 104,
-                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_chat.svg',
-                'name' => 'badge_chat.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_chat.png',
+                'name' => 'badge_chat.png',
                 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'id' => 105,
-                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_follows.svg',
-                'name' => 'badge_follows.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_follows.png',
+                'name' => 'badge_follows.png',
                 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'id' => 106,
-                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_one_year.svg',
-                'name' => 'badge_one_year.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_one_year.png',
+                'name' => 'badge_one_year.png',
                 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'id' => 107,
-                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_two_years.svg',
-                'name' => 'badge_two_years.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_two_years.png',
+                'name' => 'badge_two_years.png',
                 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()
             ],
             [
                 'id' => 108,
-                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_three_years.svg',
-                'name' => 'badge_three_years.svg',
+                'link' => config('app.url') . ":" . config('app.port') . '/api/image/badge/badge_three_years.png',
+                'name' => 'badge_three_years.png',
                 'status_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now()

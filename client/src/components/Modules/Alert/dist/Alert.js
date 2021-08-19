@@ -35,16 +35,9 @@ var Alert = function () {
         }
         return title;
     };
-    // Effects
-    react_1.useEffect(function () {
-        var event = setTimeout(function () {
+    return alert.shouldDisplay ? (React.createElement(lab_1.Alert, { className: styles.alert + " " + (alert.shouldDisplay ? styles.alertShow : styles.alertHidden), severity: alert.variant, onClose: function () {
             setAlert(__assign(__assign({}, alert), { shouldDisplay: false }));
-        }, 5000);
-        return function () {
-            clearTimeout(event);
-        };
-    });
-    return alert.shouldDisplay ? (React.createElement(lab_1.Alert, { className: styles.alert + " " + (alert.shouldDisplay ? styles.alertShow : styles.alertHidden), severity: alert.variant },
+        } },
         React.createElement(lab_1.AlertTitle, null, displayTitle()),
         alert.message)) : null;
 };

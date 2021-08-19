@@ -75,10 +75,11 @@ class UserController extends Controller
         }
     }
 
-    public function list(Request $request)
+    public function all(Request $request)
     {
         $search = new SearchController($request, User::query());
-        $search->addWhere('username', 'LIKE', '%' . $search->getSearch() . '%');
+
+        $search->addWhere('username', 'LIKE', $search->getSearch() . '%');
 
         return response()->json($search->getResults(), 201);
     }
@@ -247,7 +248,7 @@ class UserController extends Controller
         ], 500);
     }
 
-    public function deleteAvatarOuter(string $username)
+    public function deleteAvatarOuter(Request $request, string $username)
     {
         $user = User::where('username', $username)->first();
         $user_avatar_resource = Resource::find($user->resource_id);

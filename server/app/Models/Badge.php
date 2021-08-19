@@ -12,7 +12,7 @@ class Badge extends Model
     protected $table = 'badges';
     protected $fillable = ['name', 'description', 'status_id', 'resource_id'];
     protected $appends = ['status', 'resource'];
-    protected $hidden = ['status_id', 'resource_id', 'pivot', 'created_at', 'updated_at'];
+    protected $hidden = ['status_id', 'resource_id', 'pivot', 'updated_at'];
 
     // Relationship methods
     public function image()

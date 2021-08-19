@@ -80,7 +80,6 @@ var CommentSection = function (_a) {
         api_request_1.api.comment
             .all(postId, options)
             .then(function (res) {
-            console.log(res);
             setComments(res.data.items);
             setTotal(res.data.total);
         })["catch"](function (err) {
@@ -89,7 +88,7 @@ var CommentSection = function (_a) {
             setLoading(false);
         });
         return function () { };
-    }, []);
+    }, [options, postId]);
     return (React.createElement(core_1.Box, null,
         React.createElement("form", { className: styles.form, noValidate: true, autoComplete: 'off', onSubmit: handleSubmit(send) },
             React.createElement(core_1.FormControl, { className: styles.messageFormControl, variant: 'outlined' },
@@ -99,6 +98,6 @@ var CommentSection = function (_a) {
         React.createElement("div", { ref: topRef }),
         loading ? (React.createElement(Loading_1["default"], null)) : (React.createElement(core_1.Box, null,
             comments.map(function (c, k) { return (React.createElement(Comment_1["default"], { comment: c, key: k })); }),
-            React.createElement(Paginate_1["default"], { page: options.page, limit: options.limit, total: total, action: changePage })))));
+            React.createElement(Paginate_1["default"], { options: options, total: total, action: changePage })))));
 };
 exports["default"] = CommentSection;

@@ -19,13 +19,13 @@ class CategoryController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Request $request)
+    public function all(Request $request)
     {
         $search = new SearchController($request, Category::query());
 
-        $category = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
+        $search->addWhere('name', 'LIKE', $search->getSearch() . '%');
 
-        return response()->json( $category->getResults(), 201);
+        return response()->json($search->getResults(), 200);
     }
 
     /**

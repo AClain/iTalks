@@ -8,8 +8,6 @@ import Paginate from "components/Submodules/Paginate/Paginate";
 import { useForm } from "react-hook-form";
 import { BiSend } from "react-icons/bi";
 import { useStyles } from "components/Modules/CommentSection/CommentSection.styles";
-import Title from "components/Elements/Typograhpy/Title/Title";
-import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
 
 interface CommentSectionProps {
 	postId: number;
@@ -68,7 +66,6 @@ const CommentSection: FC<CommentSectionProps> = ({ postId, ...rest }) => {
 		api.comment
 			.all(postId, options)
 			.then((res) => {
-				console.log(res);
 				setComments(res.data.items);
 				setTotal(res.data.total);
 			})
@@ -80,7 +77,7 @@ const CommentSection: FC<CommentSectionProps> = ({ postId, ...rest }) => {
 			});
 
 		return () => {};
-	}, []);
+	}, [options, postId]);
 
 	return (
 		<Box>
@@ -112,7 +109,7 @@ const CommentSection: FC<CommentSectionProps> = ({ postId, ...rest }) => {
 					{comments.map((c, k) => (
 						<Comment comment={c} key={k} />
 					))}
-					<Paginate page={options.page} limit={options.limit} total={total} action={changePage} />
+					<Paginate options={options} total={total} action={changePage} />
 				</Box>
 			)}
 		</Box>

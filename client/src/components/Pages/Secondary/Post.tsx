@@ -26,7 +26,6 @@ const Post: FC<{}> = () => {
 		api.post
 			.get(parseInt(match!.params.id))
 			.then((res) => {
-				console.log(res);
 				setPost(res.data);
 			})
 			.catch((err) => {
@@ -49,7 +48,9 @@ const Post: FC<{}> = () => {
 				post && (
 					<Flex direction={FlexDirectionEnum.Vertical}>
 						<Title semantic={TitleVariantEnum.H3}>{post.title}</Title>
-						<Typography style={{ margin: "150px 0px" }}>{post.text}</Typography>
+						<Typography component='pre' style={{ margin: "150px 0px" }}>
+							{post.text}
+						</Typography>
 
 						<Title semantic={TitleVariantEnum.H5}>Commentaires ({post.comment_count})</Title>
 

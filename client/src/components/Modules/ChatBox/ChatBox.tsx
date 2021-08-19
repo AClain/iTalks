@@ -1,4 +1,4 @@
-import { FC, useState, useContext, useEffect, memo } from "react";
+import { FC, useState, useEffect, memo } from "react";
 import { Divider, FormControl, OutlinedInput, InputAdornment, IconButton, Typography } from "@material-ui/core";
 import { Message as MessageType } from "api/types/message";
 import { FlexAlignEnum, FlexDirectionEnum, FlexJustifyEnum } from "components/Elements/Layout/Flex/Flex.d";
@@ -9,10 +9,10 @@ import { useStyles } from "./ChatBox.styles";
 import MessageList from "../MessageList/MessageList";
 import Title from "components/Elements/Typograhpy/Title/Title";
 import { TitleVariantEnum } from "components/Elements/Typograhpy/Title/Title.d";
-import { EventContext } from "providers/EventContext";
 import auth from "api/auth";
 import { api } from "api/api.request";
 import Loading from "components/Elements/Animations/Loading/Loading";
+import Echo from "laravel-echo";
 
 export interface ChatBoxProps {
 	fetchingUsers: boolean;
@@ -20,7 +20,6 @@ export interface ChatBoxProps {
 }
 
 const ChatBox: FC<ChatBoxProps> = memo(({ fetchingUsers, recipientId }) => {
-	const context: any = useContext(EventContext);
 	const styles = useStyles();
 	// Hook form
 	const { register, handleSubmit, getValues, reset } = useForm();
@@ -70,11 +69,20 @@ const ChatBox: FC<ChatBoxProps> = memo(({ fetchingUsers, recipientId }) => {
 
 			const eventChannel = "Sender_" + auth.getUserId() + "_Receiver_" + recipientId;
 
-			context.Echo.channel(eventChannel).listen("RealTimeMessage", (e: any) => {
+			const EchoEvent = new Echo({
+				broadcaster: "pusher",
+				key: process.env.REACT_APP_MIX_PUSHER_APP_KEY,
+				cluster: process.env.REACT_APP_MIX_PUSHER_APP_CLUSTER,
+				forceTLS: false,
+				wsHost: window.location.hostname,
+				wsPort: 6001,
+			});
+
+			EchoEvent.channel(eventChannel).listen("RealTimeMessage", (e: any) => {
 				setMessages((arr) => [...arr, JSON.parse(e.message)]);
 			});
 		}
-	}, [fetchingUsers, recipientId, context]);
+	}, [fetchingUsers, recipientId]);
 
 	return (
 		<Flex

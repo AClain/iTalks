@@ -24,13 +24,13 @@ class BadgeController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Request $request)
+    public function all(Request $request)
     {
         $search = new SearchController($request, Badge::query());
 
-        $Badge = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
+        $search->addWhere('name', 'LIKE', $search->getSearch() . '%');
 
-        return response()->json($Badge->getResults(), 201);
+        return response()->json($search->getResults(), 201);
     }
 
     /**

@@ -22,13 +22,13 @@ class RoleController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(Request $request)
+    public function all(Request $request)
     {
         $search = new SearchController($request, Role::query());
 
-        $role = $search->addWhere('name', 'LIKE', '%' . $search->getSearch() . '%');
+        $search->addWhere('name', 'LIKE',  $search->getSearch() . '%');
 
-        return response()->json( $role->getResults(), 201);
+        return response()->json($search->getResults(), 201);
     }
 
     /**

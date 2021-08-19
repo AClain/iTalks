@@ -1,11 +1,14 @@
 import { Box } from "@material-ui/core";
 import { api } from "api/api.request";
-import { Search } from "api/types/api";
+import { ApiListDataResult, Search } from "api/types/api";
 import CategoryList from "components/Modules/CategoryList/CategoryList";
-import PostList from "components/Modules/PostList/PostList";
+import PostShort from "components/Submodules/PostShort/PostShort";
 import CenteredTabs from "components/Submodules/Tabs/CenteredTabs/CenteredTabs";
 import { FC, useState, useEffect } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import List from "components/Modules/List/List";
+import { Post } from "api/types/post";
+import PostForm from "components/Modules/PostForm/PostForm";
 
 const Home: FC<{}> = () => {
 	// React router
@@ -47,9 +50,9 @@ const Home: FC<{}> = () => {
 
 		return 2;
 	};
-	const fetchFeed = (options: Search) => {
+	async function fetchFeed(options: Search): Promise<ApiListDataResult<Post>> {
 		return api.post.feed(options);
-	};
+	}
 	// Effects
 	useEffect(() => {
 		setCurrentTab(getCurrentActiveTab(currentPath));
@@ -61,7 +64,11 @@ const Home: FC<{}> = () => {
 			<CenteredTabs
 				currentTab={currentTab}
 				tabHeaders={tabHeaders}
-				tabPanels={[<PostList fetchPosts={fetchFeed} />, <CategoryList />, "Publier"]}
+				tabPanels={[
+					<List fetchItems={fetchFeed} itemComponent={<PostShort />} itemProp='post' />,
+					<CategoryList />,
+					<PostForm />,
+				]}
 				handleChange={handleChange}
 			></CenteredTabs>
 		</Box>
